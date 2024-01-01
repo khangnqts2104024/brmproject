@@ -43,7 +43,7 @@ public class CustomerController {
         return "adminTemplate/adminLayout";
     }
     @GetMapping("/employee/test1")
-    public String testsads(Model model)
+    public String testsadscs(Model model)
     {
 //        model.addAttribute("customer",new CustomerDTO());
 
