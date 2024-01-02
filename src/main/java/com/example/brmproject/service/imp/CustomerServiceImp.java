@@ -1,6 +1,8 @@
 package com.example.brmproject.service.imp;
 
+import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.dto.CustomerDTO;
+import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.entities.CustomerEntity;
 import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.CustomerEntityRepository;
@@ -41,6 +43,16 @@ public class CustomerServiceImp implements CustomerService {
         return list;
     }
 
+    @Override
+    public CustomerDTO updateDebit(Integer customerId ,Double newDebit) {
+        CustomerEntity customer=customerRepository.findById(customerId).orElseThrow(()->new ResourceNotFoundException("customer","id", String.valueOf(customerId)));
+        if(customer!=null)
+        {
+            customer.setDebit(newDebit);
+        }
+
+        return mapToDTO(customer);
+    }
 
 
     //map to dto

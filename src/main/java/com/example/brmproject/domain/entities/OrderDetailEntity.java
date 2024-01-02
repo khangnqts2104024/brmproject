@@ -34,7 +34,7 @@ public class OrderDetailEntity {
 
     @Basic
     @Column(name = "is_rating",nullable = false, columnDefinition = "TINYINT(1)", length = 1)
-    private boolean isRating;
+    private boolean rated;
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private BookEntity bookByBookId;
