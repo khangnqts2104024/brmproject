@@ -38,32 +38,17 @@ public class BookEntity {
     @Basic
     @Column(name = "bookshelf_id", nullable = true, insertable = false, updatable = false)
     private Integer bookshelfId;
-    @Basic
-    @Column(name = "category_id", nullable = true, insertable = false, updatable = false)
-    private Integer categoryId;
     @ManyToOne
     @JoinColumn(name = "bookshelf_id", referencedColumnName = "id")
     private BookshelfCaseEntity bookshelfCaseByBookshelfId;
     @OneToMany(mappedBy = "bookByBookId")
     private Collection<BookDetailEntity> bookDetailsById;
     @OneToMany(mappedBy = "bookByBookId")
-    private Collection<CategoryBookEntity> categoryBooksById;
-    @OneToMany(mappedBy = "bookByBookId")
     private Collection<OrderDetailEntity> orderDetailsById;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
-        return id == that.id && Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(preview, that.preview) && Objects.equals(pricePerDay, that.pricePerDay) && Objects.equals(photo, that.photo) && Objects.equals(bookshelfId, that.bookshelfId) && Objects.equals(categoryId, that.categoryId);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, author, preview, pricePerDay, photo, bookshelfId, categoryId);
-    }
+
 
     public BookshelfCaseEntity getBookshelfCaseByBookshelfId() {
         return bookshelfCaseByBookshelfId;
@@ -81,13 +66,7 @@ public class BookEntity {
         this.bookDetailsById = bookDetailsById;
     }
 
-    public Collection<CategoryBookEntity> getCategoryBooksById() {
-        return categoryBooksById;
-    }
 
-    public void setCategoryBooksById(Collection<CategoryBookEntity> categoryBooksById) {
-        this.categoryBooksById = categoryBooksById;
-    }
 
     public Collection<OrderDetailEntity> getOrderDetailsById() {
         return orderDetailsById;
