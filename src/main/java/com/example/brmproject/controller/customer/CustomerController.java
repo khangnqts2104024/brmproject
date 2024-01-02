@@ -1,4 +1,4 @@
-package com.example.brmproject.controller;
+package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.domain.dto.CustomerDTO;
 import com.example.brmproject.service.CustomerService;
@@ -60,8 +60,8 @@ public class CustomerController {
     @GetMapping("/customers")
     public String showAll(Model model)
     {
-        List<CustomerDTO> list=service.findAll();
-        model.addAttribute("customers",list);
-        return "testView";
+//        List<CustomerDTO> list=service.findAll();
+//        model.addAttribute("customers",list);
+        return "adminTemplate/test";
     }
 }

@@ -24,8 +24,15 @@ public class OrderDetailDTO {
     private String review;
     private Integer rating;
 
-    private boolean isRating;
+    private boolean rated;
     private BookDTO bookByBookId;
     private OrdersDTO ordersByOrderId;
 
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
+    }
 }
