@@ -11,5 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MySession {
-   private List<Integer> session;
+   private List<Integer> bookIdList;
+   private List<BookDetailDTO> bookDetailList;
 }

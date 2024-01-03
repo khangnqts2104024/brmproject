@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrdersDTO createOrder(OrdersDTO order,List<Integer> bookIdList);
+    OrdersDTO createOrder(List<Integer> bookIdList,OrdersDTO ordersDTO);
     List<OrdersDTO> findAll();
 
     OrdersDTO updateOrder(OrdersDTO ordersDTO);

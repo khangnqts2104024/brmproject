@@ -31,22 +31,20 @@ public class BookDetailServiceImp implements BookDetailService {
         this.modelMapper = modelMapper;
     }
 
+
     @Override
     public void updateStatus(BookDetailDTO bookDetailDTO,String status) {
 
-        bookDetailDTO.setStatus(status);
+            bookDetailDTO.setStatus(status);
             bookDetailRepo.save(mapToEntity(bookDetailDTO));
     }
-
     @Override
     public void updateStatusByBookId(Integer bookId, String status) {
 
        BookDetailEntity bookDetail= bookDetailRepo.findByBookId(bookId).stream().collect(Collectors.toList()).stream().findAny().get();
-               bookDetail.setStatus(status);
+       bookDetail.setStatus(status);
        bookDetailRepo.save(bookDetail);
-
     }
-
     //count available to check
     @Override
     public BookDTO countAvailable(Integer bookId) {
@@ -56,8 +54,13 @@ public class BookDetailServiceImp implements BookDetailService {
         BookDTO bookDTO= mapBookToDTO(book);
         bookDTO.setAvalableBook(availableBook);
         return bookDTO;
+    }
+    @Override
+    public void addBookDetails(Integer bookId,Integer numberBD) {
 
     }
+
+
 
 
 

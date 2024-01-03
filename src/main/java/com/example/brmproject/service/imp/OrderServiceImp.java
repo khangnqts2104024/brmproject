@@ -50,7 +50,7 @@ public class OrderServiceImp implements OrderService {
 
 //create order with orderdetail, check debit....
     @Override
-    public OrdersDTO createOrder(OrdersDTO ordersDTO, List<Integer> bookIdList) {
+    public OrdersDTO createOrder( List<Integer> bookIdList,OrdersDTO ordersDTO) {
 
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime bookingDateTime = LocalDateTime.now();
@@ -64,14 +64,15 @@ public class OrderServiceImp implements OrderService {
         CustomerEntity customer=customerRepostory.findById(ordersDTO.getCustomerId()).get();
         double debit= customer.getDebit();
 
-        if(debit>=ordersDTO.getTotalAmount())
+        if(debit-ordersDTO.getTotalAmount()>=10)
         {
             OrdersEntity order= orderRepository.save(mapToEntity(ordersDTO));
             OrdersEntity newOrder= orderRepository.findById(order.getId()).orElseThrow(()->new ResourceNotFoundException("Order","Id",String.valueOf(order.getId())));
 
             createOrderDetail(bookIdList,newOrder.getId());
-            //add all list/
 
+            //add all list/
+/// chuyen bd
             customer.setDebit(debit - ordersDTO.getTotalAmount());
             customerRepostory.save(customer);
 
@@ -150,10 +151,10 @@ public class OrderServiceImp implements OrderService {
 
         for (Integer bookId:bookIdList) {
             if(bookId!=null){
-            OrderDetailDTO orderDetail= new OrderDetailDTO();
-            orderDetail.setBookId(bookId);
-            orderDetail.setOrderId(orderId);
-            ODRepository.save(mapODToEntity(orderDetail));
+          OrderDetailEntity od=new OrderDetailEntity();
+          od.setOrderId(orderId);
+          od.setBookId(bookId);
+          ODRepository.save(od);
 
           }
         }
