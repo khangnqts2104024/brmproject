@@ -44,6 +44,13 @@ dependencies {
 
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-parameters"
+    options.compilerArgs << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint:unchecked"
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

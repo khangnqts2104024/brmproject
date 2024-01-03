@@ -35,6 +35,8 @@ public class BookDTO {
 
     //show availableBook.
     private Long avalableBook;
+
+    private Integer numberOfImport;
 //    private BookshelfCaseDTO bookshelfCaseByBookshelfId;
 
 

@@ -13,5 +13,8 @@ public interface BookDetailService {
 
     BookDTO countAvailable(Integer bookId);
 
+    void addBookDetails(Integer bookId,Integer numberBD);
+
+
 
 }
