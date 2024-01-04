@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -37,12 +35,12 @@ public class CustomerEntity {
     @Column(name = "debit", nullable = true, precision = 2)
     private Double debit;
     @Basic
-    @Column(name = "user_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "user_id", nullable = true)
     private Integer userId;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id",insertable = false, updatable = false)
     private UserEntity userByUserId;
-    @OneToMany(mappedBy = "customerByCustomerId")
+    @OneToMany(mappedBy = "customerByCustomerId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<OrdersEntity> ordersById;
 
 

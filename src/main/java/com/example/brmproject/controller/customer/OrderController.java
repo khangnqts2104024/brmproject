@@ -1,10 +1,11 @@
 package com.example.brmproject.controller.customer;
-import com.example.brmproject.domain.dto.*;
+
+import com.example.brmproject.domain.dto.BookDTO;
+import com.example.brmproject.domain.dto.MySession;
+import com.example.brmproject.domain.dto.OrdersDTO;
 import com.example.brmproject.service.BookDetailService;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderService;
-import com.example.brmproject.ultilities.SD.BookDetailStatus;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,9 @@ public class OrderController {
 
     @ModelAttribute("session")
     public MySession addSessionToModel() {
-        return new MySession(new ArrayList<>(),new ArrayList<>());
+        return new MySession(new ArrayList<>());
     }
+
     @GetMapping("/addItem/{bookId}")
     public String addItemToOrder(@ModelAttribute("session")MySession session, Model model, @PathVariable String bookId) {
         //check dublicate
@@ -53,16 +55,16 @@ public class OrderController {
             model.addAttribute("error","Sorry! This book is not available now!");
         }
         else {
-            BookDetailDTO bookDetailDTO = bookDTO.getBookDetailsById().stream()
-                    .filter(bd -> bd.getStatus().equals(BookDetailStatus.AVAILABLE.toString())).findFirst().orElse(null);
-            if (bookDetailDTO != null) {
-                bdService.updateStatus(bookDetailDTO, BookDetailStatus.BOOKING.toString());
-                //add bd to session
-                session.getBookDetailList().add(bookDetailDTO);
+//            BookDetailDTO bookDetailDTO = bookDTO.getBookDetailsById().stream()
+//                    .filter(bd -> bd.getStatus().equals(BookDetailStatus.AVAILABLE.toString())).findFirst().orElse(null);
+//            if (bookDetailDTO != null) {
+//                bdService.updateStatus(bookDetailDTO, BookDetailStatus.BOOKING.toString());
+//                //add bd to session
+//                session.getBookDetailList().add(bookDetailDTO);
 
                 session.getBookIdList().add(Integer.parseInt(bookId));
             }
-        }
+
         //check available
         return "redirect:/customers/books/showAll";
     }
@@ -70,10 +72,10 @@ public class OrderController {
     public String removeBook(@ModelAttribute("session")MySession session,@PathVariable Integer id)
     {
         //find bd in session have bookid=id.
-        BookDetailDTO bookDetailDTO= session.getBookDetailList().stream().filter(bookdt->bookdt.getBookId().equals(id)).findFirst().get();
-        bdService.updateStatus(bookDetailDTO, BookDetailStatus.AVAILABLE.toString());
-
-        session.getBookDetailList().remove(bookDetailDTO);
+//        BookDetailDTO bookDetailDTO= session.getBookDetailList().stream().filter(bookdt->bookdt.getBookId().equals(id)).findFirst().get();
+//        bdService.updateStatus(bookDetailDTO, BookDetailStatus.AVAILABLE.toString());
+//
+//        session.getBookDetailList().remove(bookDetailDTO);
         session.getBookIdList().remove(Integer.valueOf(id));
         return "redirect:/customers/showCart";
     }
@@ -81,13 +83,13 @@ public class OrderController {
     public String removeAllBook(@ModelAttribute("session")MySession session)
     {
         //change book detail status
-        for (BookDetailDTO bd:session.getBookDetailList())
-        {
-            bdService.updateStatus(bd, BookDetailStatus.AVAILABLE.toString());
-
-        }
-        //clear all session
-        session.getBookDetailList().clear();
+//        for (BookDetailDTO bd:session.getBookDetailList())
+//        {
+//            bdService.updateStatus(bd, BookDetailStatus.AVAILABLE.toString());
+//
+//        }
+//        //clear all session
+//        session.getBookDetailList().clear();
         session.getBookIdList().clear();
 
         return "redirect:/customers/books/showAll";
@@ -110,27 +112,42 @@ public class OrderController {
             model.addAttribute("error","You have to choose book first!");
             return "redirect:/customers/books/showAll";
         }
+        //check stock
+        for (Integer bookId: session.getBookIdList())
+        {
+            BookDTO availableBook=bdService.countAvailable(bookId);
+            if(availableBook==null || availableBook.getAvalableBook()<=0)
+            {
+                session.getBookIdList().remove(Integer.valueOf(bookId));
+                model.addAttribute("error",availableBook.getTitle()+" not available anymore!");
+                return "redirect:/customers/books/showAll";
+            }
+        }
         OrdersDTO myOrderDTO=new OrdersDTO();
         myOrderDTO.setRentDayAmount(rentDays);
         //gang cung test
         myOrderDTO.setCustomerId(1);
-
 //null
       OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
         //update bookdetail status.
-        if(dto!=null) {
+        if(dto!=null)
+        {
             model.addAttribute("success", "booking success!");
-           //change bookdetail status to Booked
-            for (BookDetailDTO bd:session.getBookDetailList())
-            {
-                bdService.updateStatus(bd, BookDetailStatus.BOOKED.toString());
 
-            }
-            session.getBookDetailList().clear();
+            //check book detail
+
+           //change bookdetail status to Booked
+//            for (BookDetailDTO bd:session.getBookDetailList())
+//            {
+//                bdService.updateStatus(bd, BookDetailStatus.BOOKED.toString());
+//            }
+//            session.getBookDetailList().clear();
             session.getBookIdList().clear();
         }
         return "redirect:/customers/books/showAll";
     }
+
+    //staff
 
 
 

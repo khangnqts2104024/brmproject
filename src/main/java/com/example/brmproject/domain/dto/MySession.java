@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 public class MySession {
    private List<Integer> bookIdList;
-   private List<BookDetailDTO> bookDetailList;
+//   private List<BookDetailDTO> bookDetailList;
 }

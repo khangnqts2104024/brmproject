@@ -1,6 +1,7 @@
 package com.example.brmproject.service.imp;
 
-import com.example.brmproject.domain.dto.*;
+import com.example.brmproject.domain.dto.BookDTO;
+import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.entities.BookDetailEntity;
 import com.example.brmproject.domain.entities.BookEntity;
 import com.example.brmproject.exception.ResourceNotFoundException;
@@ -12,8 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +36,13 @@ public class BookDetailServiceImp implements BookDetailService {
 
             bookDetailDTO.setStatus(status);
             bookDetailRepo.save(mapToEntity(bookDetailDTO));
+    }
+    @Override
+    public void updateStatusByid(Integer bookDetailId,String status)
+    {
+        BookDetailEntity bookDetail=bookDetailRepo.findById(bookDetailId).get();
+        bookDetail.setStatus(status);
+        bookDetailRepo.save(bookDetail);
     }
     @Override
     public void updateStatusByBookId(Integer bookId, String status) {
