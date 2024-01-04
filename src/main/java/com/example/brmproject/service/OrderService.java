@@ -1,6 +1,5 @@
 package com.example.brmproject.service;
 
-import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.dto.OrdersDTO;
 
 import java.util.List;
@@ -9,6 +8,7 @@ public interface OrderService {
 
     OrdersDTO createOrder(List<Integer> bookIdList,OrdersDTO ordersDTO);
     List<OrdersDTO> findAll();
+    List<OrdersDTO> findByStatus(String status);
 
     OrdersDTO updateOrder(OrdersDTO ordersDTO);
 
@@ -16,8 +16,10 @@ public interface OrderService {
 
 
 
+    void markAsLostOrder(OrdersDTO orderDTO);
+
     void rentOrder(Integer orderId);
-    void completedOrder(Integer orderId);
+    OrdersDTO completedOrder(Integer orderId);
 
 
 

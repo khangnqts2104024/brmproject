@@ -15,11 +15,6 @@ public class BrmprojectApplication {
 
     }
 
-    //config passwork encoder.
-
-
-
-    //
     public static void main(String[] args) {
         SpringApplication.run(BrmprojectApplication.class, args);
     }

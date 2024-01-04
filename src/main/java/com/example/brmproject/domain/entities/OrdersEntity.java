@@ -36,18 +36,18 @@ public class OrdersEntity {
     @Column(name = "total_amount", nullable = true, precision = 2)
     private Double totalAmount;
     @Basic
-    @Column(name = "employee_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "employee_id", nullable = true)
     private Integer employeeId;
     @Basic
-    @Column(name = "customer_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "customer_id", nullable = true)
     private Integer customerId;
-    @OneToMany(mappedBy = "ordersByOrderId")
+    @OneToMany(mappedBy = "ordersByOrderId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<OrderDetailEntity> orderDetailsById;
-    @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", insertable = false, updatable = false)
     private StaffEntity staffByEmployeeId;
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
     private CustomerEntity customerByCustomerId;
 
     @Override
