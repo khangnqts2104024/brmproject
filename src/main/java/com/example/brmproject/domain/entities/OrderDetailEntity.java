@@ -29,6 +29,9 @@ public class OrderDetailEntity {
     @Basic
     @Column(name = "rating", nullable = true)
     private Integer rating;
+    @Basic
+    @Column(name = "validReview",nullable = false, length = 10, columnDefinition = "varchar(10) default 'PENDING'")
+    private String validReview;
 
     @Basic
     @Column(name = "book_detail_id", nullable = true)

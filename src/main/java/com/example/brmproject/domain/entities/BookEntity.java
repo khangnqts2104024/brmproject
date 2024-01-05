@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -37,12 +38,12 @@ public class BookEntity {
     @Basic
     @Column(name = "bookshelf_id", nullable = true, insertable = false, updatable = false)
     private Integer bookshelfId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "bookshelf_id", referencedColumnName = "id")
     private BookshelfCaseEntity bookshelfCaseByBookshelfId;
-    @OneToMany(mappedBy = "bookByBookId",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "bookByBookId")
     private Collection<BookDetailEntity> bookDetailsById;
-    @OneToMany(mappedBy = "bookByBookId",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "bookByBookId")
     private Collection<OrderDetailEntity> orderDetailsById;
 
 

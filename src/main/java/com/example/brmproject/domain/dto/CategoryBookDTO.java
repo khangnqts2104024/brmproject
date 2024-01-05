@@ -19,7 +19,11 @@ public class CategoryBookDTO {
     private int id;
     private Integer categoryId;
     private Integer bookId;
-//    private CategoryDTO categoryByBookId;
-//    private BookDTO bookByBookId;
 
+    public CategoryBookDTO(Integer categoryId, Integer bookId) {
+        this.categoryId = categoryId;
+        this.bookId = bookId;
+    }
+    private CategoryDTO categoryByBookId;
+    private BookDTO bookByBookId;
 }

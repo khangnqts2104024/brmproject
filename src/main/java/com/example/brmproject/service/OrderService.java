@@ -11,9 +11,8 @@ public interface OrderService {
     List<OrdersDTO> findByStatus(String status);
 
     OrdersDTO updateOrder(OrdersDTO ordersDTO);
-
     OrdersDTO findById(Integer id);
-
+    List<OrdersDTO> getAllOrdersOfUser(int userId);
 
 
     void markAsLostOrder(OrdersDTO orderDTO);
