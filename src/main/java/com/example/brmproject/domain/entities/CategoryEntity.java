@@ -16,16 +16,20 @@ import java.util.Objects;
 @Setter
 @Table(name = "category", schema = "brmproject", catalog = "")
 public class CategoryEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private int id;
+
     @Basic
     @Column(name = "name", nullable = true, length = 100)
     private String name;
+
     @Basic
     @Column(name = "description", nullable = true, length = 225)
     private String description;
+
     @OneToMany(mappedBy = "categoryByBookId")
     private Collection<CategoryBookEntity> categoryBooksById;
 

@@ -19,15 +19,19 @@ public class CategoryBookEntity {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
+
     @Basic
     @Column(name = "category_id", nullable = true, insertable = false, updatable = false)
     private Integer categoryId;
+
     @Basic
     @Column(name = "book_id", nullable = true,insertable = false, updatable = false)
     private Integer bookId;
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryEntity categoryByBookId;
+
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private BookEntity bookByBookId;

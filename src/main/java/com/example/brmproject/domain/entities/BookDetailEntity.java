@@ -15,19 +15,24 @@ import java.util.Objects;
 @Entity
 @Table(name = "book_detail", schema = "brmproject")
 public class BookDetailEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private int id;
+
     @Basic
     @Column(name = "book_id", nullable = true, insertable = false, updatable = false)
     private Integer bookId;
+
     @Basic
     @Column(name = "status", nullable = true, length = 45)
     private String status;
+
     @Basic
     @Column(name = "import_date", nullable = true, length = 45)
     private String importDate;
+
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private BookEntity bookByBookId;

@@ -20,18 +20,23 @@ public class BookshelfCaseEntity {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
+
     @Basic
     @Column(name = "bookshelf_code", nullable = false, length = 10)
     private String bookshelfCode;
+
     @Basic
     @Column(name = "case_number", nullable = true)
     private Integer caseNumber;
+
     @Basic
     @Column(name = "capacity", nullable = true)
     private Integer capacity;
+
     @Basic
     @Column(name = "available_blank", nullable = true)
     private Integer availableBlank;
+
     @OneToMany(mappedBy = "bookshelfCaseByBookshelfId")
     private Collection<BookEntity> booksById;
 
@@ -45,4 +50,11 @@ public class BookshelfCaseEntity {
     public void setBooksById(Collection<BookEntity> booksById) {
         this.booksById = booksById;
     }
+
+    /*public void addBookEntity(BookEntity bookEntity) {
+        this.booksById.add(bookEntity);
+        bookEntity.setBookshelfCaseByBookshelfId(this);
+    }*/
+
+
 }

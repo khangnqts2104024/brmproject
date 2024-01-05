@@ -13,55 +13,59 @@ import java.util.List;
 
 @Controller
 public class CustomerController {
+
     private final CustomerService service;
+
     @Autowired
     public CustomerController(CustomerService service) {
         this.service = service;
     }
 
 
-
     @GetMapping("/customers/new")
-    public String registMember(Model model)
-    {
-        model.addAttribute("customer",new CustomerDTO());
+    public String registMember(Model model) {
+        model.addAttribute("customer", new CustomerDTO());
 
         return "testForm";
     }
+
     @GetMapping("/employee")
-    public String test(Model model)
-    {
+    public String test(Model model) {
 //        model.addAttribute("customer",new CustomerDTO());
 
         return "adminTemplate/employees/create";
     }
+
     @GetMapping("/employee/test")
+<<<<<<< Updated upstream
     public String testsa(Model model)
     {
+=======
+    public String testsaaa(Model model) {
+>>>>>>> Stashed changes
 //        model.addAttribute("customer",new CustomerDTO());
 
         return "adminTemplate/adminLayout";
     }
+
     @GetMapping("/employee/test1")
-    public String testsads(Model model)
-    {
+    public String testsads(Model model) {
 //        model.addAttribute("customer",new CustomerDTO());
 
         return "adminTemplate/employees/index";
     }
 
     @PostMapping("/customers/new")
-    public String create(@ModelAttribute CustomerDTO customerDTO)
-    {
+    public String create(@ModelAttribute CustomerDTO customerDTO) {
 
         service.createCustomer(customerDTO);
         return "redirect:/customers";
     }
+
     @GetMapping("/customers")
-    public String showAll(Model model)
-    {
-        List<CustomerDTO> list=service.findAll();
-        model.addAttribute("customers",list);
+    public String showAll(Model model) {
+        List<CustomerDTO> list = service.findAll();
+        model.addAttribute("customers", list);
         return "testView";
     }
 }
