@@ -44,11 +44,12 @@
                    </div>
                 </div>
               </div>
-              <div class="mt-6">
-                <form th:action="@{/customers/createOrder}" method="post">
-                  <div class="col-md-3">
+              <div class="mt-6  offset-1">
+                <form th:action="@{/customers/createOrder}" th:object="${orderForm}" method="post">
+                  <div class="col-md-3 offset-2">
                     <label class="small mb-1">Number of rent Day</label>
-                    <input name="rentDays" type="number"  class="form-control" required>
+                    <input th:field="*{rentDays}" type="text"  class="form-control" required>
+                    <p class="error-text" th:if="${#fields.hasErrors('rentDays')}" th:errors="*{rentDays}">Name Error</p>
                   </div>
                 <br>
                   <hr>

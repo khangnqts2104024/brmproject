@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Employee Management</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -26,7 +27,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <table
+                    <table id="myTable"
                             class="display table table-striped table-bordered dt-responsive nowrap dtr-inline collapsed "
                             style="position: relative;width: 100%;" aria-describedby="example-info">
 
@@ -79,9 +80,9 @@
     <!-- Page specific script -->
     <script>
 
-        $(document).ready(function () {
-            $('table.display').DataTable();
-        });
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
         //format
 
         const elements=document.querySelectorAll('[data-money]');
