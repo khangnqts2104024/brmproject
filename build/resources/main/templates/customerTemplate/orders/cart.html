@@ -23,13 +23,10 @@
       <div class="row justify-content-center mb-3">
         <div class="col-md-12">
           <div class="card shadow-0 border rounded-3">
-
               <div th:each="book : ${books}">
                 <div class="card-body">
                   <div class="row g-0">
                     <div class="col-xl-3 col-md-4 d-flex justify-content-center">
-                      <a th:href="@{/customers/removeBook/{id}(id=${book.getId()})}" class="btn btn-danger">X</a>
-
                       <div class="bg-image hover-zoom ripple rounded ripple-surface me-md-3 mb-3 mb-md-0">
                         <img th:src="${book.getPhoto()}" class="w-100" alt="Image Description" />
                       </div>
@@ -41,23 +38,24 @@
                     <div class="col-xl-3 col-md-3 col-sm-5">
                       <div class="d-flex flex-row align-items-center mb-1">
                         <h4 th:text="${book.getPricePerDay()}+'/day'" class="mb-1 me-1"></h4>
+                        <a th:href="@{/customers/removeBook/{id}(id=${book.getId()})}" class="btn btn-danger mb-1 me-1">X</a>
                       </div>
                     </div>
                    </div>
                 </div>
               </div>
-              <div class="mt-6">
-                <form th:action="@{/customers/createOrder}" method="post">
-                  <div class="col-md-3">
+              <div class="mt-6  offset-1">
+                <form th:action="@{/customers/createOrder}" th:object="${orderForm}" method="post">
+                  <div class="col-md-3 offset-2">
                     <label class="small mb-1">Number of rent Day</label>
-                    <input name="rentDays" type="number"  class="form-control" required>
+                    <input th:field="*{rentDays}" type="text"  class="form-control" required>
+                    <h1 th:if="${#fields.hasErrors('rentDays')}" th:errors="*{rentDays}">Name Error</h1>
                   </div>
                 <br>
                   <hr>
                   <a th:href="@{/customers/removeAllBook}" class="btn btn-danger shadow-0" type="button">Cancel Booking</a>
                   <button class="btn btn-primary shadow-0" type="submit" >Confirm Booking</button>
                 </form>
-
               </div>
           </div>
         </div>

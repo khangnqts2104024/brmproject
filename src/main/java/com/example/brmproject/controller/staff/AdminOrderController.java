@@ -79,8 +79,6 @@ public class AdminOrderController {
     @GetMapping("/show-by-status/{status}")
     public String showByStatus(Model model,@PathVariable String status,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
-
-
         try {
             setStatus(model);
             showAlert(model,alertMessage,alertError);
@@ -104,7 +102,7 @@ public class AdminOrderController {
             model.addAttribute("order",order);
 
             return "adminTemplate/order/order-detail";
-            }catch ( Exception e) {
+            }catch (Exception e) {
                  model.addAttribute("message",e.getMessage());
                  return "/error";
              }
