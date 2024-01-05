@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Objects;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,10 +18,10 @@ public class OrderDetailEntity {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "book_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "book_id", nullable = true)
     private Integer bookId;
     @Basic
-    @Column(name = "order_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "order_id", nullable = true)
     private Integer orderId;
     @Basic
     @Column(name = "review", nullable = true, length = 225)
@@ -31,15 +29,24 @@ public class OrderDetailEntity {
     @Basic
     @Column(name = "rating", nullable = true)
     private Integer rating;
+    @Basic
+    @Column(name = "validReview",nullable = false, length = 10, columnDefinition = "varchar(10) default 'PENDING'")
+    private String validReview;
 
+    @Basic
+    @Column(name = "book_detail_id", nullable = true)
+    private Integer bookDetailId;
     @Basic
     @Column(name = "is_rating",nullable = false, columnDefinition = "TINYINT(1)", length = 1)
     private boolean rated;
-    @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @Basic
+    @Column(name = "is_lost",nullable = false, columnDefinition = "TINYINT(1)", length = 1)
+    private boolean lost;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", referencedColumnName = "id", insertable = false, updatable = false)
     private BookEntity bookByBookId;
-    @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
     private OrdersEntity ordersByOrderId;
 
 

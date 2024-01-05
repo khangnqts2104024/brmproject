@@ -32,9 +32,9 @@ public class StaffEntity {
     @Basic
     @Column(name = "user_id", nullable = true, insertable = false, updatable = false)
     private Integer userId;
-    @OneToMany(mappedBy = "staffByEmployeeId")
+    @OneToMany(mappedBy = "staffByEmployeeId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<OrdersEntity> ordersById;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userByUserId;
 

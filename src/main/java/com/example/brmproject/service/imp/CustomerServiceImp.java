@@ -1,8 +1,6 @@
 package com.example.brmproject.service.imp;
 
-import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.dto.CustomerDTO;
-import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.entities.CustomerEntity;
 import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.CustomerEntityRepository;
@@ -28,16 +26,16 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDto) {
         CustomerEntity customer= customerRepository.save(mapToEntity(customerDto));
-        CustomerEntity newCustomer= customerRepository
-                .findById(customer.getId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Customer","Id",String.valueOf(customer.getId())));
-       return mapToDTO(newCustomer);
+        CustomerEntity newCustomer= customerRepository.findById(customer.getId()).orElseThrow(()->new ResourceNotFoundException("Customer","Id",String.valueOf(customer.getId())));
+
+
+        return mapToDTO(newCustomer);
     }
 
     @Override
     public List<CustomerDTO> findAll() {
-        List<CustomerDTO> list = customerRepository.findAll().stream().map(customers->mapToDTO(customers)).collect(Collectors.toList());
+
+        List<CustomerDTO>list=customerRepository.findAll().stream().map(customers->mapToDTO(customers)).collect(Collectors.toList());
 
         return list;
     }

@@ -26,7 +26,7 @@ public class CategoryEntity {
     @Basic
     @Column(name = "description", nullable = true, length = 225)
     private String description;
-    @OneToMany(mappedBy = "categoryByBookId")
+    @OneToMany(mappedBy = "categoryByBookId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<CategoryBookEntity> categoryBooksById;
 
 

@@ -8,89 +8,60 @@ import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.BookEntityRepository;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.ultilities.SD.BookDetailStatus;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImp  implements BookService {
 
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private BookEntityRepository bookRepo;
+    ModelMapper modelMapper;
+    BookEntityRepository bookRepo;
 
-    @Override
-    public BookDTO addNewBook(BookDTO bookDTO) {
-        BookEntity newBook = bookRepo.save(mapToEntity(bookDTO));
-        return mapToDTO(newBook);
+    @Autowired
+    public BookServiceImp(ModelMapper modelMapper, BookEntityRepository bookRepo) {
+        this.modelMapper = modelMapper;
+        this.bookRepo = bookRepo;
     }
 
     @Override
-    public BookDTO findBookById(Integer bookId) {
-        Optional<BookEntity> bookEntity = bookRepo.findById(bookId);
-        if (bookEntity.isPresent()) {
-            return mapToDTO(bookEntity.get());
-        } else {
-            throw new ResourceNotFoundException("Book", "Id", String.valueOf(bookEntity));
+    public List<BookDTO> findAll() {
+
+        return bookRepo.findAll().stream().map(book -> countAvailable(book)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDTO> getListBookByBookId(List<Integer> bookIds) {
+            List<BookDTO> list= new ArrayList<>();
+        for (Integer bookId:bookIds)
+        {
+            BookDTO bookDTO= mapToDTO(bookRepo.findById(bookId).get());
+            list.add(bookDTO);
         }
+
+        return list;
     }
 
-    @Override
-    public List<BookDTO> findAvailableBook() {
-        return bookRepo.findAll()
-                .stream()
-                .map(book -> countAvailable(book))
-                .collect(Collectors.toList());
-    }
-
-    // Pagination
-    @Override
-    public Page<BookDTO> getAllBooks(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<BookEntity> bookPage = bookRepo.findAll(pageable);
-        return bookPage.map(this::mapToDTO);
-    }
-
-    @Override
-    public List<BookDTO> findAllBooks() {
-        return bookRepo.findAll()
-                .stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public void addQuantity(Integer number) {
-
-    }
 
     public BookDTO mapToDTO(BookEntity book) {
-        return modelMapper.map(book, BookDTO.class);
+        BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
+        return bookDTO;
+
     }
 
     public BookEntity mapToEntity(BookDTO bookDTO) {
-        return modelMapper.map(bookDTO, BookEntity.class);
+        BookEntity book = modelMapper.map(bookDTO, BookEntity.class);
+        return book;
     }
-
     public BookDTO countAvailable(BookEntity book) {
-        Long availableBook = book.getBookDetailsById()
-                .stream()
-                .filter(b ->
-                        b.getStatus()
-                                .equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE)))
-                .count();
+        Long availableBook= book.getBookDetailsById().stream().filter(b->b.getStatus().equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE))).count();
         //add count to book dto
         BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
-        bookDTO.setAvailableBook(availableBook);
+        bookDTO.setAvalableBook(availableBook);
         return bookDTO;
     }
 }
