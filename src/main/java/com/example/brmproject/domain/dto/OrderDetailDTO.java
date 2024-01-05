@@ -19,7 +19,7 @@ public class OrderDetailDTO {
     private Integer rating;
 
     private boolean rated;
-
+    private String validReview;
     private BookDTO bookByBookId;
     private OrdersDTO ordersByOrderId;
     private Integer bookDetailId;

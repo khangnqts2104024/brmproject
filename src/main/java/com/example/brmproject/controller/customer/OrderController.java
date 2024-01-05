@@ -1,9 +1,8 @@
 package com.example.brmproject.controller.customer;
 
-import com.example.brmproject.domain.dto.BookDTO;
-import com.example.brmproject.domain.dto.MySession;
-import com.example.brmproject.domain.dto.OrdersDTO;
+import com.example.brmproject.domain.dto.*;
 import com.example.brmproject.service.BookDetailService;
+import com.example.brmproject.service.OrderDetailService;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,16 @@ import java.util.List;
 public class OrderController {
 
      private OrderService service;
+     private OrderDetailService odService;
      private BookDetailService bdService;
      private BookService bookService;
     @Autowired
-    public OrderController(OrderService service, BookDetailService bdService, BookService bookService) {
+    public OrderController(OrderService service, BookDetailService bdService, OrderDetailService odService, BookService bookService) {
         this.service = service;
         this.bdService = bdService;
         this.bookService = bookService;
+        this.odService = odService;
     }
-
-
 
     @ModelAttribute("session")
     public MySession addSessionToModel() {
@@ -150,6 +149,24 @@ public class OrderController {
     //staff
 
 
+    @GetMapping("/orders")
+    public String orders(Model model) {
+        int userId = 1;
+        List<OrdersDTO> orderList = service.getAllOrdersOfUser(userId);
+        model.addAttribute("orders", orderList);
+        model.addAttribute("amount", orderList.size());
 
+        return "/customerTemplate/orders/orderList";
+    }
 
+    @GetMapping("/orders/{orderId}")
+    public String order(@PathVariable("orderId") int orderId, Model model) {
+        List<OrderDetailDTO> orderDetailList = odService.getOrdersDetail(orderId);
+        model.addAttribute("orderDetails", orderDetailList);
+
+        int order = orderDetailList.get(0).getOrderId();
+        model.addAttribute("orderId", order);
+
+        return "/customerTemplate/orders/orderDetail";
+    }
 }

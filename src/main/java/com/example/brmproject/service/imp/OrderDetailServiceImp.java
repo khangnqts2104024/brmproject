@@ -15,10 +15,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OrderDetailServiceImp implements OrderDetailService {
-
-
     private OrderDetailEntityRepository ODRepository;
     private BookDetailEntityRepository bdRepository;
     private CustomerEntityRepository cusRepo;
@@ -71,6 +72,11 @@ public class OrderDetailServiceImp implements OrderDetailService {
         return null;
     }
 
+    @Override
+    public List<OrderDetailDTO> getOrdersDetail(int orderId) {
+        List<OrderDetailEntity> orderDetailList = ODRepository.findByOrderId(orderId);
+        return orderDetailList.stream().map(order -> mapToDTO(order)).collect(Collectors.toList());
+    }
 
 
 

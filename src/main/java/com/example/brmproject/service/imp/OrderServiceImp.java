@@ -70,6 +70,12 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public List<OrdersDTO> getAllOrdersOfUser(int userId) {
+        List<OrdersEntity> ordersList = orderRepository.findAllByUserId(userId);
+
+        return ordersList.stream().map(order -> mapToDTO(order)).collect(Collectors.toList());
+    }
+    @Override
     public List<OrdersDTO> findAll() {
 
         List<OrdersDTO>list=orderRepository.findAll().stream().map(orders->mapToDTO(orders)).collect(Collectors.toList());
