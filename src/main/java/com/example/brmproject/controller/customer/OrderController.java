@@ -2,14 +2,18 @@ package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.domain.dto.BookDTO;
 import com.example.brmproject.domain.dto.MySession;
+import com.example.brmproject.domain.dto.OrderFormDTO;
 import com.example.brmproject.domain.dto.OrdersDTO;
 import com.example.brmproject.service.BookDetailService;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,49 +106,65 @@ public class OrderController {
         List<Integer> bookIds =session.getBookIdList();
         List<BookDTO> list= bookService.getListBookByBookId(bookIds);
         model.addAttribute("books",list);
+        model.addAttribute("orderForm",new OrderFormDTO());
         return "customerTemplate/orders/cart";
     }
     @PostMapping("/createOrder")
-    public String createOrder(@ModelAttribute("session")MySession session,@RequestParam Integer rentDays, Model model)
+    public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
     {
-        if(session.getBookIdList().isEmpty())
+    try{
+    if (bindingResult.hasErrors()) {
+
+        List<Integer> bookIds =session.getBookIdList();
+        List<BookDTO> list= bookService.getListBookByBookId(bookIds);
+        model.addAttribute("books",list);
+        model.addAttribute("orderForm",orderForm);
+        return "customerTemplate/orders/cart" ;
+    }
+    if(session.getBookIdList().isEmpty())
+    {
+        model.addAttribute("error","You have to choose book first!");
+        return "redirect:/customers/books/showAll";
+    }
+    //check stock
+    for (Integer bookId: session.getBookIdList())
+    {
+        BookDTO availableBook=bdService.countAvailable(bookId);
+        if(availableBook==null || availableBook.getAvalableBook()<=0)
         {
-            model.addAttribute("error","You have to choose book first!");
+            session.getBookIdList().remove(Integer.valueOf(bookId));
+            model.addAttribute("error",availableBook.getTitle()+" not available anymore!");
             return "redirect:/customers/books/showAll";
         }
-        //check stock
-        for (Integer bookId: session.getBookIdList())
-        {
-            BookDTO availableBook=bdService.countAvailable(bookId);
-            if(availableBook==null || availableBook.getAvalableBook()<=0)
-            {
-                session.getBookIdList().remove(Integer.valueOf(bookId));
-                model.addAttribute("error",availableBook.getTitle()+" not available anymore!");
-                return "redirect:/customers/books/showAll";
-            }
-        }
-        OrdersDTO myOrderDTO=new OrdersDTO();
-        myOrderDTO.setRentDayAmount(rentDays);
-        //gang cung test
-        myOrderDTO.setCustomerId(1);
+    }
+    OrdersDTO myOrderDTO=new OrdersDTO();
+    myOrderDTO.setRentDayAmount(orderForm.getRentDays());
+    //gang cung test
+    myOrderDTO.setCustomerId(1);
 //null
-      OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
-        //update bookdetail status.
-        if(dto!=null)
-        {
-            model.addAttribute("success", "booking success!");
+    OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
+    //update bookdetail status.
+    if(dto!=null)
+    {
+        model.addAttribute("success", "booking success!");
 
-            //check book detail
+        //check book detail
 
-           //change bookdetail status to Booked
+        //change bookdetail status to Booked
 //            for (BookDetailDTO bd:session.getBookDetailList())
 //            {
 //                bdService.updateStatus(bd, BookDetailStatus.BOOKED.toString());
 //            }
 //            session.getBookDetailList().clear();
-            session.getBookIdList().clear();
-        }
-        return "redirect:/customers/books/showAll";
+        session.getBookIdList().clear();
+    }
+    return "redirect:/customers/books/showAll";
+
+        }catch ( Exception e) {
+            model.addAttribute("message",e.getMessage());
+        return "/error";
+            }
+
     }
 
     //staff
