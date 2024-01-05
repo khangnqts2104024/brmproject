@@ -32,8 +32,4 @@ public class BookController {
         return "customerTemplate/showAllBook";
     }
 
-
-
-
-
 }
