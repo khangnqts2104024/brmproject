@@ -9,4 +9,7 @@ public interface CustomerService {
 
     CustomerDTO createCustomer(CustomerDTO customer);
     List<CustomerDTO> findAll();
+
+    CustomerDTO updateDebit(Integer customerId,Double newDebit);
+
 }
