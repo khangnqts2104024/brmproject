@@ -18,16 +18,16 @@ public class CategoryBookEntity {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "category_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "category_id", nullable = true)
     private Integer categoryId;
     @Basic
-    @Column(name = "book_id", nullable = true,insertable = false, updatable = false)
+    @Column(name = "book_id", nullable = true)
     private Integer bookId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id",insertable = false, updatable = false)
     private CategoryEntity categoryByBookId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "book_id", referencedColumnName = "id", insertable = false, updatable = false)
     private BookEntity bookByBookId;
 
 
