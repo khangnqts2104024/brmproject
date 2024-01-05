@@ -8,4 +8,6 @@ public interface BookService {
 
     List<BookDTO> findAll();
 
+    List<BookDTO> getListBookByBookId(List<Integer> bookIds);
+
 }

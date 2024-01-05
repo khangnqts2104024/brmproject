@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,18 @@ public class BookServiceImp  implements BookService {
         return bookRepo.findAll().stream().map(book -> countAvailable(book)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<BookDTO> getListBookByBookId(List<Integer> bookIds) {
+            List<BookDTO> list= new ArrayList<>();
+        for (Integer bookId:bookIds)
+        {
+            BookDTO bookDTO= mapToDTO(bookRepo.findById(bookId).get());
+            list.add(bookDTO);
+        }
+
+        return list;
+    }
+
 
     public BookDTO mapToDTO(BookEntity book) {
         BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
@@ -47,7 +60,6 @@ public class BookServiceImp  implements BookService {
     public BookEntity mapToEntity(BookDTO bookDTO) {
         BookEntity book = modelMapper.map(bookDTO, BookEntity.class);
         return book;
-
     }
     public BookDTO countAvailable(BookEntity book) {
         Long availableBook= book.getBookDetailsById().stream().filter(b->b.getStatus().equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE))).count();

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Objects;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,10 +23,10 @@ public class CategoryBookEntity {
     @Basic
     @Column(name = "book_id", nullable = true,insertable = false, updatable = false)
     private Integer bookId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryEntity categoryByBookId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private BookEntity bookByBookId;
 

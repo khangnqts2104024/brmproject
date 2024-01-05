@@ -1,11 +1,16 @@
 package com.example.brmproject.service.imp;
 
+import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.dto.OrderDetailDTO;
-import com.example.brmproject.domain.dto.OrdersDTO;
+import com.example.brmproject.domain.entities.BookDetailEntity;
+import com.example.brmproject.domain.entities.CustomerEntity;
 import com.example.brmproject.domain.entities.OrderDetailEntity;
-import com.example.brmproject.domain.entities.OrdersEntity;
+import com.example.brmproject.exception.ResourceNotFoundException;
+import com.example.brmproject.repositories.BookDetailEntityRepository;
+import com.example.brmproject.repositories.CustomerEntityRepository;
 import com.example.brmproject.repositories.OrderDetailEntityRepository;
 import com.example.brmproject.service.OrderDetailService;
+import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +20,19 @@ public class OrderDetailServiceImp implements OrderDetailService {
 
 
     private OrderDetailEntityRepository ODRepository;
+    private BookDetailEntityRepository bdRepository;
+    private CustomerEntityRepository cusRepo;
     private ModelMapper modelMapper;
     @Autowired
-    public OrderDetailServiceImp(OrderDetailEntityRepository ODRepository, ModelMapper modelMapper) {
+    public OrderDetailServiceImp(OrderDetailEntityRepository ODRepository, BookDetailEntityRepository bdRepository, CustomerEntityRepository cusRepo, ModelMapper modelMapper) {
         this.ODRepository = ODRepository;
+        this.bdRepository = bdRepository;
+        this.cusRepo = cusRepo;
         this.modelMapper = modelMapper;
     }
+
+
+
 
     @Override
     public OrderDetailDTO createOrderDetail(Integer bookId, Integer orderId) {
@@ -29,6 +41,37 @@ public class OrderDetailServiceImp implements OrderDetailService {
         orderDetailDTO.setOrderId(orderId);
         return null;
     }
+
+    @Override
+    public OrderDetailDTO markAsLost(Integer orderDetailId) {
+        OrderDetailEntity orderDetail=ODRepository.findById(orderDetailId).orElseThrow(()->new ResourceNotFoundException("Order Detail","id",String.valueOf(orderDetailId)));
+       OrderDetailDTO odDTO=mapToDTO(orderDetail);
+        BookDetailDTO bookDetail= odDTO.getBookByBookId()
+                .getBookDetailsById().stream()
+                .filter(bd->odDTO.getBookDetailId()==bd.getId()).findAny().orElse(null);
+        if(bookDetail!=null)
+        {
+            bookDetail.setStatus(BookDetailStatus.LOST.toString());
+            orderDetail.setLost(true);
+            ODRepository.save(orderDetail);
+            bdRepository.save(mapBDToEntity(bookDetail));
+            CustomerEntity customer =orderDetail.getOrdersByOrderId().getCustomerByCustomerId();
+            //get fine
+            Double fine= orderDetail.getBookByBookId().getPricePerDay()*20;
+            Double debit=customer.getDebit();
+            if(fine>=15)
+            {
+                fine=15.0;
+            }
+                debit-=fine;
+            customer.setDebit(debit);
+            cusRepo.save(customer);
+            return mapToDTO(orderDetail);
+        }
+        return null;
+    }
+
+
 
 
     public OrderDetailDTO mapToDTO(OrderDetailEntity orderDetail) {
@@ -40,6 +83,17 @@ public class OrderDetailServiceImp implements OrderDetailService {
     public OrderDetailEntity mapToEntity(OrderDetailDTO orderDetailDTO) {
         OrderDetailEntity orderDetail = modelMapper.map(orderDetailDTO, OrderDetailEntity.class);
         return orderDetail;
+
+    }
+    public BookDetailDTO mapBDToDTO(BookDetailEntity bookDetail) {
+        BookDetailDTO bookDetailDTO = modelMapper.map(bookDetail, BookDetailDTO.class);
+        return bookDetailDTO;
+
+    }
+
+    public BookDetailEntity mapBDToEntity(BookDetailDTO bookDetailDTO) {
+        BookDetailEntity bookDetail = modelMapper.map(bookDetailDTO, BookDetailEntity.class);
+        return bookDetail;
 
     }
 }

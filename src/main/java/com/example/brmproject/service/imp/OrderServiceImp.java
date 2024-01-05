@@ -3,23 +3,19 @@ package com.example.brmproject.service.imp;
 import com.example.brmproject.domain.dto.CustomerDTO;
 import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.dto.OrdersDTO;
-import com.example.brmproject.domain.entities.BookEntity;
-import com.example.brmproject.domain.entities.CustomerEntity;
-import com.example.brmproject.domain.entities.OrderDetailEntity;
-import com.example.brmproject.domain.entities.OrdersEntity;
+import com.example.brmproject.domain.entities.*;
 import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.*;
-import com.example.brmproject.service.OrderDetailService;
 import com.example.brmproject.service.OrderService;
+import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import com.example.brmproject.ultilities.SD.OrderStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,27 +26,22 @@ public class OrderServiceImp implements OrderService {
    private CustomerEntityRepository customerRepostory;
    private OrderDetailEntityRepository ODRepository;
    private BookEntityRepository bookRepository;
+   private BookDetailEntityRepository bookDetailRepository;
 
     private ModelMapper modelMapper;
-
     @Autowired
-    public OrderServiceImp(OrdersEntityRepository orderRepository, CustomerEntityRepository customerRepostory, OrderDetailEntityRepository ODRepository, BookEntityRepository bookRepository, ModelMapper modelMapper) {
+    public OrderServiceImp(OrdersEntityRepository orderRepository, CustomerEntityRepository customerRepostory, OrderDetailEntityRepository ODRepository, BookEntityRepository bookRepository, BookDetailEntityRepository bookDetailRepository, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
         this.customerRepostory = customerRepostory;
         this.ODRepository = ODRepository;
         this.bookRepository = bookRepository;
+        this.bookDetailRepository = bookDetailRepository;
         this.modelMapper = modelMapper;
     }
 
-
-
-
-
-
-
-//create order with orderdetail, check debit....
+    //create order with orderdetail, check debit....
     @Override
-    public OrdersDTO createOrder(OrdersDTO ordersDTO, List<Integer> bookIdList) {
+    public OrdersDTO createOrder( List<Integer> bookIdList,OrdersDTO ordersDTO) {
 
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime bookingDateTime = LocalDateTime.now();
@@ -63,21 +54,18 @@ public class OrderServiceImp implements OrderService {
         //get debit
         CustomerEntity customer=customerRepostory.findById(ordersDTO.getCustomerId()).get();
         double debit= customer.getDebit();
-
-        if(debit>=ordersDTO.getTotalAmount())
+        //check debit
+        if(debit-ordersDTO.getTotalAmount()>=20)
         {
             OrdersEntity order= orderRepository.save(mapToEntity(ordersDTO));
             OrdersEntity newOrder= orderRepository.findById(order.getId()).orElseThrow(()->new ResourceNotFoundException("Order","Id",String.valueOf(order.getId())));
 
             createOrderDetail(bookIdList,newOrder.getId());
+            changeBookDetailStatus(bookIdList);
             //add all list/
-
-            customer.setDebit(debit - ordersDTO.getTotalAmount());
-            customerRepostory.save(customer);
-
+/// chuyen bd
             return mapToDTO(newOrder);
         }
-
         return null;
     }
 
@@ -90,6 +78,12 @@ public class OrderServiceImp implements OrderService {
 
     }
 
+    @Override
+    public List<OrdersDTO> findByStatus(String status) {
+
+        List<OrdersDTO>list=orderRepository.findByorderStatus(status).stream().map(orders->mapToDTO(orders)).collect(Collectors.toList());
+        return list;
+    }
 
 
     @Override
@@ -110,38 +104,67 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public void markAsLostOrder(OrdersDTO orderDTO) {
+
+    }
+
+    @Override
     public void rentOrder(Integer orderId) {
 
         OrdersEntity order= orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Order","id",String.valueOf(orderId)));
-        OrdersDTO ordersDTO= mapToDTO(order);
+//        OrdersDTO ordersDTO= mapToDTO(order);
             DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime bookingDateTime = LocalDateTime.now();
             String formattedNow = bookingDateTime.format(formatter);
-        if(ordersDTO.getOrderStatus().equals(OrderStatus.BOOKING)) {
-            ordersDTO.setOrderStatus(OrderStatus.RENT);
-            ordersDTO.setRentDate(formattedNow);
-
-           orderRepository.save(mapToEntity(ordersDTO));
+            Double debit=order.getCustomerByCustomerId().getDebit();
+            //keep $20.
+        if(order.getOrderStatus().equals(OrderStatus.BOOKING.toString()) && (debit-order.getTotalAmount()>=20))
+        {
+            order.setOrderStatus(OrderStatus.RENT.toString());
+            order.setRentDate(formattedNow);
+           CustomerEntity customer=  order.getCustomerByCustomerId();
+           customer.setDebit(debit - order.getTotalAmount());
+            customerRepostory.save(customer);
+            orderRepository.save(order);
         }
 
     }
 
     @Override
-    public void completedOrder(Integer orderId) {
+    public OrdersDTO completedOrder(Integer orderId) {
 
             OrdersEntity order= orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Order","id",String.valueOf(orderId)));
             OrdersDTO ordersDTO= mapToDTO(order);
             DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime rentTime = LocalDateTime.now();
-            String formattedNow = rentTime.format(formatter);
-            if(ordersDTO.getOrderStatus().equals(OrderStatus.RENT)||ordersDTO.getOrderStatus().equals(OrderStatus.OVERDUE) )
+            LocalDateTime returnDay = LocalDateTime.now();
+            String formattedNow = returnDay.format(formatter);
+            if(ordersDTO.getOrderStatus().equals(OrderStatus.RENT) )
             {
-                ordersDTO.setOrderStatus(OrderStatus.RENT);
+                ordersDTO.setOrderStatus(OrderStatus.COMPLETED);
                 ordersDTO.setReturnDate(formattedNow);
-
                 orderRepository.save(mapToEntity(ordersDTO));
             }
+            else if(ordersDTO.getOrderStatus().equals(OrderStatus.OVERDUE))
+            {
+                ordersDTO.setOrderStatus(OrderStatus.COMPLETED);
+                ordersDTO.setReturnDate(formattedNow);
+                //get overdue day
+                LocalDateTime rentDay = LocalDateTime.parse(ordersDTO.getRentDate(), formatter);
+                long numberDueDay= rentDay.until(returnDay, ChronoUnit.DAYS)-ordersDTO.getRentDayAmount();
+             //subtract debit.
 
+                Double fine= (ordersDTO.getTotalAmount()/ordersDTO.getRentDayAmount())*numberDueDay * 2;
+                //update total amount
+                if(fine>=5)
+                {
+                    fine=5.0;
+                }
+                ordersDTO.setTotalAmount(ordersDTO.getTotalAmount()+fine);
+                orderRepository.save(mapToEntity(ordersDTO));
+            }
+            //update Book Detail Status
+                 updateBookDetailStatus(ordersDTO);
+        return ordersDTO;
     }
 
     //create orderDetail
@@ -150,13 +173,28 @@ public class OrderServiceImp implements OrderService {
 
         for (Integer bookId:bookIdList) {
             if(bookId!=null){
-            OrderDetailDTO orderDetail= new OrderDetailDTO();
-            orderDetail.setBookId(bookId);
-            orderDetail.setOrderId(orderId);
-            ODRepository.save(mapODToEntity(orderDetail));
+          OrderDetailEntity od=new OrderDetailEntity();
+          od.setOrderId(orderId);
+          od.setBookId(bookId);
+          ODRepository.save(od);
 
           }
         }
+
+    }
+
+    public void updateBookDetailStatus(OrdersDTO order)
+    {
+        for (OrderDetailDTO od: order.getOrderDetailsById())
+        {
+            if(!od.isLost())
+            {
+            BookDetailEntity bookDetail=bookDetailRepository.findById(od.getBookDetailId()).get();
+            bookDetail.setStatus(BookDetailStatus.AVAILABLE.toString());
+            bookDetailRepository.save(bookDetail);
+            }
+        }
+
 
     }
 
@@ -178,6 +216,21 @@ public class OrderServiceImp implements OrderService {
 
         }
         return totalAmount;
+    }
+
+
+    public void changeBookDetailStatus(List<Integer> bookIds)
+    {
+        for (Integer bookId:bookIds)
+        {
+            BookEntity book=bookRepository.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book","id",String.valueOf(bookId)));
+                if(book!=null)
+                {
+               BookDetailEntity bdEntity=  book.getBookDetailsById().stream().filter(bd->bd.getStatus().equals(BookDetailStatus.AVAILABLE.toString())).findFirst().get();
+                    bdEntity.setStatus(BookDetailStatus.BOOKED.toString());
+                    bookDetailRepository.save(bdEntity);
+                }
+        }
     }
 
 
@@ -204,6 +257,17 @@ public class OrderServiceImp implements OrderService {
     public OrderDetailEntity mapODToEntity(OrderDetailDTO ordersDDTO) {
         OrderDetailEntity orderDetail = modelMapper.map(ordersDDTO, OrderDetailEntity.class);
         return orderDetail;
+
+    }
+    public CustomerDTO mapCusToDTO(CustomerEntity customer) {
+        CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+        return customerDTO;
+
+    }
+
+    public CustomerEntity mapCusToEntity(CustomerDTO customerDTO) {
+        CustomerEntity customer = modelMapper.map(customerDTO, CustomerEntity.class);
+        return customer;
 
     }
 }
