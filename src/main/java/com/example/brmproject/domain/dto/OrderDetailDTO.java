@@ -1,11 +1,5 @@
 package com.example.brmproject.domain.dto;
 
-import com.example.brmproject.domain.entities.BookEntity;
-import com.example.brmproject.domain.entities.OrdersEntity;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +18,18 @@ public class OrderDetailDTO {
     private String review;
     private Integer rating;
 
-    private boolean isRating;
+    private boolean rated;
+    private String validReview;
     private BookDTO bookByBookId;
     private OrdersDTO ordersByOrderId;
+    private Integer bookDetailId;
+    private boolean lost;
 
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
+    }
 }

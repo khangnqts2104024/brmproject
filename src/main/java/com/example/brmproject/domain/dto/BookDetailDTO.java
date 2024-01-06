@@ -25,6 +25,4 @@ public class BookDetailDTO {
 
     private BookDTO bookByBookId;
 
-
-
 }

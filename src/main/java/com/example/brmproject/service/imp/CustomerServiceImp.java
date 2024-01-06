@@ -28,9 +28,8 @@ public class CustomerServiceImp implements CustomerService {
         CustomerEntity customer= customerRepository.save(mapToEntity(customerDto));
         CustomerEntity newCustomer= customerRepository.findById(customer.getId()).orElseThrow(()->new ResourceNotFoundException("Customer","Id",String.valueOf(customer.getId())));
 
-       return mapToDTO(newCustomer);
 
-
+        return mapToDTO(newCustomer);
     }
 
     @Override
@@ -41,6 +40,16 @@ public class CustomerServiceImp implements CustomerService {
         return list;
     }
 
+    @Override
+    public CustomerDTO updateDebit(Integer customerId ,Double newDebit) {
+        CustomerEntity customer=customerRepository.findById(customerId).orElseThrow(()->new ResourceNotFoundException("customer","id", String.valueOf(customerId)));
+        if(customer!=null)
+        {
+            customer.setDebit(newDebit);
+        }
+
+        return mapToDTO(customer);
+    }
 
 
     //map to dto

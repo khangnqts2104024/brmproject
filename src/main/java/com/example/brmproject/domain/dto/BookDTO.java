@@ -1,8 +1,5 @@
 package com.example.brmproject.domain.dto;
 
-import com.example.brmproject.domain.entities.BookDetailEntity;
-import com.example.brmproject.domain.entities.CategoryBookEntity;
-import com.example.brmproject.domain.entities.OrderDetailEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,13 +26,17 @@ public class BookDTO {
 
     private Integer bookshelfId;
 
-    private Integer categoryId;
 
-//    private BookshelfCaseDTO bookshelfCaseByBookshelfId;
+    private Collection<BookDetailDTO> bookDetailsById;
 
-//    private Collection<BookDetailDTO> bookDetailsById;
+    //show availableBook.
+    private Long avalableBook;
 
-//    private Collection<CategoryBookDTO> categoryBooksById;
+    private Integer numberOfImport;
+    private BookshelfCaseDTO bookshelfCaseByBookshelfId;
+
+
+
 
 //    private Collection<OrderDetailDTO> orderDetailsById;
 }
