@@ -23,7 +23,7 @@
 <section layout:fragment="content">
     <div class="user-info-container">
         <form method="post"
-              th:action="@{/admin/categories/update/{categoryId}(categoryId=${category.getId()})}"
+              th:action="@{/staff/categories/update/{categoryId}(categoryId=${category.getId()})}"
               th:object="${newCategory}">
             <div class="container">
                 <h3 class="mt-4 d-flex justify-content-center">Update category</h3>

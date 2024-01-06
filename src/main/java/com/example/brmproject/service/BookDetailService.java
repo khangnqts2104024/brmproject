@@ -6,14 +6,15 @@ import com.example.brmproject.domain.dto.BookDetailDTO;
 
 public interface BookDetailService {
 
-
     void updateStatus(BookDetailDTO bookDetailDTO,String status);
+
     void updateStatusByBookId(Integer bookId,String status);
-     void updateStatusByid(Integer bookDetailId,String status);
+
+    void updateStatusByid(Integer bookDetailId,String status);
 
     BookDTO countAvailable(Integer bookId);
 
-    void addBookDetails(Integer bookId,Integer numberBD);
+    BookDetailDTO addBookDetails(BookDetailDTO bookDetailDTO);
 
 
 

@@ -33,17 +33,17 @@ public class BookDetailServiceImp implements BookDetailService {
 
     @Override
     public void updateStatus(BookDetailDTO bookDetailDTO,String status) {
-
             bookDetailDTO.setStatus(status);
             bookDetailRepo.save(mapToEntity(bookDetailDTO));
     }
+
     @Override
-    public void updateStatusByid(Integer bookDetailId,String status)
-    {
+    public void updateStatusByid(Integer bookDetailId,String status) {
         BookDetailEntity bookDetail=bookDetailRepo.findById(bookDetailId).get();
         bookDetail.setStatus(status);
         bookDetailRepo.save(bookDetail);
     }
+
     @Override
     public void updateStatusByBookId(Integer bookId, String status) {
 
@@ -51,6 +51,7 @@ public class BookDetailServiceImp implements BookDetailService {
        bookDetail.setStatus(status);
        bookDetailRepo.save(bookDetail);
     }
+
     //count available to check
     @Override
     public BookDTO countAvailable(Integer bookId) {
@@ -58,39 +59,31 @@ public class BookDetailServiceImp implements BookDetailService {
         Long availableBook= book.getBookDetailsById().stream().filter(b->b.getStatus().equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE))).count();
        //add count to book dto
         BookDTO bookDTO= mapBookToDTO(book);
-        bookDTO.setAvalableBook(availableBook);
+        bookDTO.setAvailableBook(availableBook);
         return bookDTO;
     }
-    @Override
-    public void addBookDetails(Integer bookId,Integer numberBD) {
 
+    @Override
+    public BookDetailDTO addBookDetails(BookDetailDTO bookDetailDTO) {
+        BookDetailEntity bookDetailEntity = bookDetailRepo.save(mapToEntity(bookDetailDTO));
+        return mapToDTO(bookDetailEntity);
     }
 
-
-
-
-
-
     public BookDetailDTO mapToDTO(BookDetailEntity bookDetail) {
-        BookDetailDTO bookDetailDTO = modelMapper.map(bookDetail, BookDetailDTO.class);
-        return bookDetailDTO;
-
+        return modelMapper.map(bookDetail, BookDetailDTO.class);
     }
 
     public BookDetailEntity mapToEntity(BookDetailDTO ordersDTO) {
-        BookDetailEntity bookDetail = modelMapper.map(ordersDTO, BookDetailEntity.class);
-        return bookDetail;
+        return modelMapper.map(ordersDTO, BookDetailEntity.class);
 
     }
     public BookDTO mapBookToDTO(BookEntity book) {
-        BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
-        return bookDTO;
+        return modelMapper.map(book, BookDTO.class);
 
     }
 
     public BookEntity mapBookToEntity(BookDTO bookDTO) {
-        BookEntity book = modelMapper.map(bookDTO, BookEntity.class);
-        return book;
+        return modelMapper.map(bookDTO, BookEntity.class);
 
     }
 //    public BookAvailableDTO mapAvailableBookToDTO(BookEntity book) {

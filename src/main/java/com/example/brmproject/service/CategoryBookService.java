@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CategoryBookService {
 
-    public CategoryBookDTO add(CategoryBookDTO categoryBookDTO);
+    CategoryBookDTO add(CategoryBookDTO categoryBookDTO);
 
     Page<CategoryBookDTO> findBooksByCategoryId(int id, int page, int size);
 }
