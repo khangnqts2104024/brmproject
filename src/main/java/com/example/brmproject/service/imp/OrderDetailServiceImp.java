@@ -46,7 +46,7 @@ public class OrderDetailServiceImp implements OrderDetailService {
     @Override
     public OrderDetailDTO markAsLost(Integer orderDetailId) {
         OrderDetailEntity orderDetail=ODRepository.findById(orderDetailId).orElseThrow(()->new ResourceNotFoundException("Order Detail","id",String.valueOf(orderDetailId)));
-       OrderDetailDTO odDTO=mapToDTO(orderDetail);
+        OrderDetailDTO odDTO=mapToDTO(orderDetail);
         BookDetailDTO bookDetail= odDTO.getBookByBookId()
                 .getBookDetailsById().stream()
                 .filter(bd->odDTO.getBookDetailId()==bd.getId()).findAny().orElse(null);

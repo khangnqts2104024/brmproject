@@ -41,12 +41,12 @@ public class OrdersEntity {
     @Basic
     @Column(name = "customer_id", nullable = true)
     private Integer customerId;
-    @OneToMany(mappedBy = "ordersByOrderId",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "ordersByOrderId",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     private Collection<OrderDetailEntity> orderDetailsById;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "id", insertable = false, updatable = false)
     private StaffEntity staffByEmployeeId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
     private CustomerEntity customerByCustomerId;
 

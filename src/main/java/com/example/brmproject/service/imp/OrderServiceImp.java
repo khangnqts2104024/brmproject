@@ -1,5 +1,6 @@
 package com.example.brmproject.service.imp;
 
+import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.dto.CustomerDTO;
 import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.dto.OrdersDTO;
@@ -109,10 +110,6 @@ public class OrderServiceImp implements OrderService {
         return null;
     }
 
-    @Override
-    public void markAsLostOrder(OrdersDTO orderDTO) {
-
-    }
 
     @Override
     public void rentOrder(Integer orderId) {
@@ -171,6 +168,21 @@ public class OrderServiceImp implements OrderService {
             //update Book Detail Status
                  updateBookDetailStatus(ordersDTO);
         return ordersDTO;
+    }
+
+    @Override
+    public void updateCancelAuto() {
+
+    }
+
+    @Override
+    public void updateOverDueAuto() {
+
+    }
+
+    @Override
+    public void updateLostAuto() {
+
     }
 
     //create orderDetail
@@ -238,11 +250,13 @@ public class OrderServiceImp implements OrderService {
                 }
         }
     }
+    //order schedule
 
 
 
 
 
+///
     public OrdersDTO mapToDTO(OrdersEntity order) {
         OrdersDTO ordersDTO = modelMapper.map(order, OrdersDTO.class);
         return ordersDTO;
@@ -274,6 +288,20 @@ public class OrderServiceImp implements OrderService {
     public CustomerEntity mapCusToEntity(CustomerDTO customerDTO) {
         CustomerEntity customer = modelMapper.map(customerDTO, CustomerEntity.class);
         return customer;
+
+    }
+
+
+
+    public BookDetailDTO mapBookDetailToDTO(BookDetailEntity bookDetail) {
+        BookDetailDTO bookDetailDTO = modelMapper.map(bookDetail, BookDetailDTO.class);
+        return bookDetailDTO;
+
+    }
+
+    public BookDetailEntity mapBookDetailToEntity(BookDetailDTO bookDetailDTO) {
+        BookDetailEntity bookDetail = modelMapper.map(bookDetailDTO, BookDetailEntity.class);
+        return bookDetail;
 
     }
 }

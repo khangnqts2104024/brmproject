@@ -40,7 +40,7 @@ public class CustomerEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id",insertable = false, updatable = false)
     private UserEntity userByUserId;
-    @OneToMany(mappedBy = "customerByCustomerId",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "customerByCustomerId",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private Collection<OrdersEntity> ordersById;
 
 
