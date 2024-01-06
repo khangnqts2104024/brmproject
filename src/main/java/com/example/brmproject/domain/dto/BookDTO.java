@@ -26,7 +26,6 @@ public class BookDTO {
 
     private Integer bookshelfId;
 
-
     private Collection<BookDetailDTO> bookDetailsById;
 
     //show availableBook.

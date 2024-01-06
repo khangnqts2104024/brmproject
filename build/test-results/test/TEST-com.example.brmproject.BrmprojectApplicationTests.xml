@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.brmproject.BrmprojectApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-06T17:39:32" hostname="Air-cua-Nguyen" time="1.771">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.brmproject.BrmprojectApplicationTests" time="1.771"/>
+  <system-out><![CDATA[00:38:59.233 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.brmproject.BrmprojectApplicationTests]: BrmprojectApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:39:00.182 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.brmproject.BrmprojectApplication for test class com.example.brmproject.BrmprojectApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2024-01-07T00:39:03.291+07:00  INFO 5789 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Starting BrmprojectApplicationTests using Java 17.0.5 with PID 5789 (started by lance in /Users/lance/Documents/hackathonproject/brmproject/brmproject)
+2024-01-07T00:39:03.294+07:00  INFO 5789 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2024-01-07T00:39:07.742+07:00  INFO 5789 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-07T00:39:08.086+07:00  INFO 5789 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 315 ms. Found 12 JPA repository interfaces.
+2024-01-07T00:39:10.150+07:00  INFO 5789 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-07T00:39:10.461+07:00  INFO 5789 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-07T00:39:10.624+07:00  INFO 5789 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-07T00:39:12.356+07:00  INFO 5789 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-07T00:39:12.623+07:00  INFO 5789 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-07T00:39:13.292+07:00  INFO 5789 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7bda01da
+2024-01-07T00:39:13.298+07:00  INFO 5789 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-07T00:39:13.603+07:00  WARN 5789 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-01-07T00:39:22.479+07:00  INFO 5789 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-07T00:39:23.140+07:00  INFO 5789 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-07T00:39:25.610+07:00  INFO 5789 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-01-07T00:39:29.462+07:00  WARN 5789 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-07T00:39:32.522+07:00  INFO 5789 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Started BrmprojectApplicationTests in 31.171 seconds (process running for 40.984)
+2024-01-07T00:39:33.412+07:00 ERROR 5789 --- [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+org.modelmapper.MappingException: ModelMapper mapping errors:
+
+1) Error mapping com.example.brmproject.domain.entities.OrdersEntity to com.example.brmproject.domain.dto.OrdersDTO
+
+1 error
+	at org.modelmapper.internal.Errors.throwMappingExceptionIfErrorsExist(Errors.java:380) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:80) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.ModelMapper.mapInternal(ModelMapper.java:573) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.ModelMapper.map(ModelMapper.java:406) ~[modelmapper-2.3.0.jar:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.mapToDTO(OrderServiceImp.java:354) ~[main/:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.lambda$updateCancelAuto$8(OrderServiceImp.java:177) ~[main/:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[na:na]
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682) ~[na:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.updateCancelAuto(OrderServiceImp.java:177) ~[main/:na]
+	at com.example.brmproject.schedule.Schedule.updateCancelOrder(Schedule.java:21) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.2.jar:6.1.2]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.12.1.jar:1.12.1]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.2.jar:6.1.2]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: org.modelmapper.MappingException: ModelMapper mapping errors:
+
+1) Failed to get value from com.example.brmproject.domain.entities.CustomerEntity.getDebit()
+
+1 error
+	at org.modelmapper.internal.Errors.toMappingException(Errors.java:258) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.PropertyInfoImpl$MethodAccessor.getValue(PropertyInfoImpl.java:106) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.resolveSourceValue(MappingEngineImpl.java:196) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.propertyMap(MappingEngineImpl.java:170) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.typeMap(MappingEngineImpl.java:151) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:114) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:71) ~[modelmapper-2.3.0.jar:na]
+	... 28 common frames omitted
+Caused by: java.lang.reflect.InvocationTargetException: null
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.modelmapper.internal.PropertyInfoImpl$MethodAccessor.getValue(PropertyInfoImpl.java:101) ~[modelmapper-2.3.0.jar:na]
+	... 33 common frames omitted
+Caused by: org.hibernate.LazyInitializationException: could not initialize proxy [com.example.brmproject.domain.entities.CustomerEntity#1] - no Session
+	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:165) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:314) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor.intercept(ByteBuddyInterceptor.java:44) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.ProxyConfiguration$InterceptorDispatcher.intercept(ProxyConfiguration.java:102) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at com.example.brmproject.domain.entities.CustomerEntity$HibernateProxy$lVWTbv2t.getDebit(Unknown Source) ~[main/:na]
+	... 38 common frames omitted
+
+2024-01-07T00:39:33.573+07:00 ERROR 5789 --- [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+org.modelmapper.MappingException: ModelMapper mapping errors:
+
+1) Error mapping com.example.brmproject.domain.entities.OrdersEntity to com.example.brmproject.domain.dto.OrdersDTO
+
+1 error
+	at org.modelmapper.internal.Errors.throwMappingExceptionIfErrorsExist(Errors.java:380) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:80) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.ModelMapper.mapInternal(ModelMapper.java:573) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.ModelMapper.map(ModelMapper.java:406) ~[modelmapper-2.3.0.jar:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.mapToDTO(OrderServiceImp.java:354) ~[main/:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.lambda$updateLostAuto$9(OrderServiceImp.java:220) ~[main/:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:575) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluateToArrayNode(AbstractPipeline.java:260) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.toArray(ReferencePipeline.java:616) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.toArray(ReferencePipeline.java:622) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.toList(ReferencePipeline.java:627) ~[na:na]
+	at com.example.brmproject.service.imp.OrderServiceImp.updateLostAuto(OrderServiceImp.java:220) ~[main/:na]
+	at com.example.brmproject.schedule.Schedule.updateLostOrder(Schedule.java:34) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.2.jar:6.1.2]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.12.1.jar:1.12.1]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.2.jar:6.1.2]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: org.modelmapper.MappingException: ModelMapper mapping errors:
+
+1) Failed to get value from com.example.brmproject.domain.entities.CustomerEntity.getDebit()
+
+1 error
+	at org.modelmapper.internal.Errors.toMappingException(Errors.java:258) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.PropertyInfoImpl$MethodAccessor.getValue(PropertyInfoImpl.java:106) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.resolveSourceValue(MappingEngineImpl.java:196) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.propertyMap(MappingEngineImpl.java:170) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.typeMap(MappingEngineImpl.java:151) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:105) ~[modelmapper-2.3.0.jar:na]
+	at org.modelmapper.internal.MappingEngineImpl.map(MappingEngineImpl.java:71) ~[modelmapper-2.3.0.jar:na]
+	... 30 common frames omitted
+Caused by: java.lang.reflect.InvocationTargetException: null
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.modelmapper.internal.PropertyInfoImpl$MethodAccessor.getValue(PropertyInfoImpl.java:101) ~[modelmapper-2.3.0.jar:na]
+	... 35 common frames omitted
+Caused by: org.hibernate.LazyInitializationException: could not initialize proxy [com.example.brmproject.domain.entities.CustomerEntity#1] - no Session
+	at org.hibernate.proxy.AbstractLazyInitializer.initialize(AbstractLazyInitializer.java:165) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.AbstractLazyInitializer.getImplementation(AbstractLazyInitializer.java:314) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor.intercept(ByteBuddyInterceptor.java:44) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at org.hibernate.proxy.ProxyConfiguration$InterceptorDispatcher.intercept(ProxyConfiguration.java:102) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
+	at com.example.brmproject.domain.entities.CustomerEntity$HibernateProxy$lVWTbv2t.getDebit(Unknown Source) ~[main/:na]
+	... 40 common frames omitted
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

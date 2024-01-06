@@ -15,10 +15,13 @@ public interface OrderService {
     List<OrdersDTO> getAllOrdersOfUser(int userId);
 
 
-    void markAsLostOrder(OrdersDTO orderDTO);
-
     void rentOrder(Integer orderId);
     OrdersDTO completedOrder(Integer orderId);
+
+
+    void updateCancelAuto();
+    void updateOverDueAuto();
+    void updateLostAuto();
 
 
 
