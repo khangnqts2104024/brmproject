@@ -11,5 +11,4 @@ public interface CustomerService {
 
     CustomerDTO updateDebit(Integer customerId,Double newDebit);
 
-
 }

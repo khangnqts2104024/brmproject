@@ -118,7 +118,7 @@
                         </a>
                         <ul class="nav nav-treeview">
 <!--                            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}"}>-->
-                               <th:block>
+                           <th:block>
                                 <li class="nav-item">
                                     <a th:href="@{/staff/orders/show-all}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -146,12 +146,6 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a th:href="@{/staff/customers/getAll}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Customers</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a th:href="@{/staff/review}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Review Rating</p>
@@ -163,27 +157,12 @@
                                         <p>Shift Manage</p>
                                     </a>
                                 </li>
-                            </th:block>
-                            <th:block>
-<!--                            <th:block th:if="${#authorization.expression('hasRole(''SALE'')')}"}>-->
-                                <li class="nav-item">
-                                    <a th:href="@{/staff/customers/getAll}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Customers</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a th:href="@{/staff/orders/showall}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Order Management</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/staff/review-rating?page=1" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Review</p>
-                                    </a>
-                                </li>
+                               <li class="nav-item">
+                                   <a th:href="@{/staff/employees/getAll}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Employees</p>
+                                   </a>
+                               </li>
                             </th:block>
                         </ul>
                     </li>
