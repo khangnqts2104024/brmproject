@@ -16,16 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryBookServiceImp implements CategoryBookService {
 
     @Autowired
-    private  ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    private  CategoryBookEntityRepository categoryBookEntityRepository;
+    private CategoryBookEntityRepository categoryBookEntityRepository;
 
     @Override
     public CategoryBookDTO add(CategoryBookDTO categoryBookDTO) {
@@ -34,10 +34,24 @@ public class CategoryBookServiceImp implements CategoryBookService {
     }
 
     @Override
-    public Page<CategoryBookDTO> findBooksByCategoryId(int id, int page, int size){
+    public Page<CategoryBookDTO> findBooksByCategoryId(int id, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<CategoryBookEntity> categoryBookEntities = categoryBookEntityRepository.findByCategoryId(id, pageable);
         return categoryBookEntities.map(this::mapToDTO);
+    }
+
+    @Override
+    public List<CategoryBookDTO> findByCategoryId(Integer categoryId) {
+        List<CategoryBookEntity> categoryBookEntity = categoryBookEntityRepository.findByCategoryId(categoryId);
+        return categoryBookEntity
+                .stream()
+                .map(categoryBook -> mapToDTO(categoryBook))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateCategoryBook(Integer categoryBookId, Integer categoryId) {
+        categoryBookEntityRepository.updateCategoryBook(categoryBookId, categoryId);
     }
 
     public CategoryBookDTO mapToDTO(CategoryBookEntity categoryBookEntity) {

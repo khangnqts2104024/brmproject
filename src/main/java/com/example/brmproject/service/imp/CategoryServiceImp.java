@@ -28,8 +28,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public List<CategoryDTO> findAll() {
-        return categoryEntityRepository.
-                findAll().stream()
+        return categoryEntityRepository.findAll().stream()
                 .map(categoryEntity -> mapToDTO(categoryEntity)).collect(Collectors.toList());
     }
 
@@ -37,6 +36,13 @@ public class CategoryServiceImp implements CategoryService {
     public CategoryDTO findById(Integer id) {
         CategoryEntity categoryEntity = categoryEntityRepository.findById(id).orElse(null);
         return mapToDTO(categoryEntity);
+    }
+
+    @Override
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
+        CategoryEntity category = categoryEntityRepository.findById(categoryDTO.getId()).orElse(null);
+
+        return null;
     }
 
     public CategoryDTO mapToDTO(CategoryEntity categoryEntity) {

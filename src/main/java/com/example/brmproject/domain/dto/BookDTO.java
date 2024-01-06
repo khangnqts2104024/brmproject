@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,17 +27,20 @@ public class BookDTO {
 
     private Integer bookshelfId;
 
+    private List<Integer> categoriesId;
+
+    private Integer quantityBooks;
+
+    private double rating;
 
     private Collection<BookDetailDTO> bookDetailsById;
 
-    //show availableBook.
+    // show availableBook.
     private Long avalableBook;
 
     private Integer numberOfImport;
+
     private BookshelfCaseDTO bookshelfCaseByBookshelfId;
 
-
-
-
-//    private Collection<OrderDetailDTO> orderDetailsById;
+    // private Collection<OrderDetailDTO> orderDetailsById;
 }
