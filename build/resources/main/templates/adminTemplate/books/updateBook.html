@@ -20,13 +20,14 @@
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
 </head>
 <body>
-<section layout:fragment="content">
+<section layout:fragment="content" class="content-wrapper">
     <div class="user-info-container">
         <form method="post"
-              th:action="@{/admin/books/update/{bookId}(bookId=${book.getId()})}"
+              th:action="@{/staff/books/update/{bookId}(bookId=${book.getId()})}"
               th:object="${newBook}">
             <div class="container">
-                <h3 class="mt-4 d-flex justify-content-center" th:value="Update + ${book.getTitle()} +book"></h3>
+                <h3 class="mt-4 d-flex justify-content-center"
+                    th:text="Update + ' ' + ${book.getTitle()} + ' ' + book"></h3>
                 <div>
                     <div>
                         <div class="mb-3 pt-2">
@@ -85,7 +86,11 @@
                         <div></div>
                         <div class="mb-3">
                             <label for="categories" class="form-label">Category</label>
-                            <select name="categoriesId" class="form-select" data-placeholder="Choose category" id="categories" multiple>
+                            <select name="categoriesId"
+                                    class="multiple-checkboxes"
+                                    data-placeholder="Choose category"
+                                    id="categories"
+                                    multiple>
                                 <option th:each="category : ${categories}"
                                         th:value="${category.getId()}"
                                         th:text="${category.getName()}">
@@ -114,6 +119,7 @@
         });
     </script>
 </section>
+
 </body>
 
 </html>
