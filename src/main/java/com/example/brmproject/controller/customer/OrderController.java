@@ -9,7 +9,6 @@ import com.example.brmproject.service.OrderDetailService;
 import com.example.brmproject.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -94,7 +93,7 @@ public class OrderController {
         return "customerTemplate/orders/cart";
     }
     @PostMapping("/createOrder")
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+//    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
     {
     try{
