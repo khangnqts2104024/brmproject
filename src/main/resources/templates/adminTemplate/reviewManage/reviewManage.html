@@ -81,11 +81,11 @@
                 </li>
                 <li
                     th:class="${pageNumber == currentPage} ? 'page-item active' : 'page-item'"
-                    th:each="pageNumber : ${#numbers.sequence(1, amountOfReview)}"
+                    th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
                 >
                     <a class="page-link"
                        th:href="@{'/staff/review-rating?page=' + ${pageNumber}}">
-                        1
+                        <span th:text="${pageNumber}"></span>
                     </a>
                 </li>
                 <li class="page-item">

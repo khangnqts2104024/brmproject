@@ -3,10 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{customerTemplate/customerLayout}">
 >
+<head>
+    <style>
+        .return-btn {
+            width: 200px;
+        }
+    </style>
+</head>
 <body>
-<main layout:fragment="content" class="d-flex gap-3 py-5 container">
+<main layout:fragment="content" class="d-flex flex-column gap-3 py-5 container">
+    <a href="/customers/orders" class="btn btn-primary mb-3 return-btn">Back to your orders</a>
     <section class="container">
-        <h1 th:text="${'Books in order ' + orderId}" class="mb-5"></h1>
+        <h1 th:text="${'Books in order: #' + orderId}" class="mb-5"></h1>
         <ul class="list-group">
             <li class="row justify-content-center mb-3" th:each="order: ${orderDetails}">
                 <div class="col-md-12">
@@ -42,7 +50,7 @@
                                 </div>
                                 <div class="col-xl-3 col-md-3 col-sm-5 d-flex flex-column justify-content-center align-items-center">
                                     <div class="d-flex flex-row align-items-center mb-1">
-                                        <h4 class="mb-1 me-1" th:text="${'Price: ' + order.getBookByBookId().getPricePerDay()}">$34,50</h4>
+                                        <h4 class="mb-1 me-1" th:text="${'Price: $' + order.getBookByBookId().getPricePerDay()}">$34,50</h4>
                                     </div>
                                     <div class="mt-4">
                                         <a th:unless="${order.isRated()}"

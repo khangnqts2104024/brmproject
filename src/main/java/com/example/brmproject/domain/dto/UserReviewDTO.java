@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewRatingDTO {
-    private double avrRating = 0;
-    private List<UserReviewDTO> listReview = new ArrayList<>();
+public class UserReviewDTO {
+    private int id = 0;
+    private String username = "";
+    private String review = "";
+    private int rating = 0;
 }

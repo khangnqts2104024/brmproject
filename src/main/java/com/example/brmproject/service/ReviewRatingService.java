@@ -12,4 +12,6 @@ public interface ReviewRatingService {
     void updateValidReviewRating(int orderDetailId, OrderDetailDTO orderDetailDTO);
 
     ReviewRatingDTO getReviewRatingByBook(int bookId);
+
+    int countAllReviewRatingPending();
 }

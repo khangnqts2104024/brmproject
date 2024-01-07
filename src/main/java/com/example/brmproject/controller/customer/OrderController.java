@@ -23,13 +23,19 @@ import java.util.List;
 @RequestMapping("customers")
 public class OrderController {
 
-     private OrderService service;
-     private OrderDetailService odService;
-     private BookDetailService bdService;
-     private BookService bookService;
-     private AuthenticationHelper authenticationHelper;
+    private OrderService service;
+    private OrderDetailService odService;
+    private BookDetailService bdService;
+    private BookService bookService;
+    private AuthenticationHelper authenticationHelper;
+
     @Autowired
-    public OrderController(OrderService service, OrderDetailService odService, BookDetailService bdService, BookService bookService, AuthenticationHelper authenticationHelper) {
+    public OrderController(OrderService service,
+                           BookDetailService bdService,
+                           OrderDetailService odService,
+                           BookService bookService,
+                           AuthenticationHelper authenticationHelper
+    ) {
         this.service = service;
         this.odService = odService;
         this.bdService = bdService;
@@ -43,7 +49,7 @@ public class OrderController {
     }
 
     @GetMapping("/addItem/{bookId}")
-    public String addItemToOrder(@ModelAttribute("session")MySession session, Model model, @PathVariable String bookId,RedirectAttributes redirectAttributes) {
+    public String addItemToOrder(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
         if (session.getBookIdList().contains(Integer.parseInt(bookId))) {
@@ -64,17 +70,17 @@ public class OrderController {
         return "redirect:/customers/books/showAll";
 
     }
+
     @GetMapping("/removeBook/{id}")
-    public String removeBook(@ModelAttribute("session")MySession session,@PathVariable Integer id)
-    {
+    public String removeBook(@ModelAttribute("session") MySession session, @PathVariable Integer id) {
         //find bd in session have bookid=id.
 
         session.getBookIdList().remove(Integer.valueOf(id));
         return "redirect:/customers/showCart";
     }
+
     @GetMapping("/removeAllBook")
-    public String removeAllBook(@ModelAttribute("session")MySession session)
-    {
+    public String removeAllBook(@ModelAttribute("session") MySession session) {
         //change book detail status
 
         session.getBookIdList().clear();
@@ -84,14 +90,14 @@ public class OrderController {
 
 
     @GetMapping("/showCart")
-    public String showCart(@ModelAttribute("session")MySession session,Model model)
-    {
-        List<Integer> bookIds =session.getBookIdList();
-        List<BookDTO> list= bookService.getListBookByBookId(bookIds);
-        model.addAttribute("books",list);
-        model.addAttribute("orderForm",new OrderFormDTO());
+    public String showCart(@ModelAttribute("session") MySession session, Model model) {
+        List<Integer> bookIds = session.getBookIdList();
+        List<BookDTO> list = bookService.getListBookByBookId(bookIds);
+        model.addAttribute("books", list);
+        model.addAttribute("orderForm", new OrderFormDTO());
         return "customerTemplate/orders/cart";
     }
+
     @PostMapping("/createOrder")
 //    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
@@ -99,64 +105,61 @@ public class OrderController {
     try{
     if (bindingResult.hasErrors()) {
 
-        List<Integer> bookIds =session.getBookIdList();
-        List<BookDTO> list= bookService.getListBookByBookId(bookIds);
-        model.addAttribute("books",list);
-        model.addAttribute("orderForm",orderForm);
-        return "customerTemplate/orders/cart" ;
-    }
-    if(session.getBookIdList().isEmpty())
-    {
-        model.addAttribute("error","You have to choose book first!");
-        return "redirect:/customers/books/showAll";
-    }
-    //check stock
-        boolean flag=false;
-    for (Integer bookId: session.getBookIdList())
-    {
-        BookDTO availableBook=bdService.countAvailable(bookId);
-        if(availableBook==null || availableBook.getAvailableBook()<=0)
-        {
-            session.getBookIdList().remove(Integer.valueOf(bookId));
-           flag=true;
-        }
-    }
-    if(flag)
-    {
-        model.addAttribute("error","Some of your order book not available anymore!");
-        return "redirect:/customers/books/showAll";
-    }
+
+                List<Integer> bookIds = session.getBookIdList();
+                List<BookDTO> list = bookService.getListBookByBookId(bookIds);
+                model.addAttribute("books", list);
+                model.addAttribute("orderForm", orderForm);
+                return "customerTemplate/orders/cart";
+            }
+            if (session.getBookIdList().isEmpty()) {
+                model.addAttribute("error", "You have to choose book first!");
+                return "redirect:/customers/books/showAll";
+            }
+            //check stock
+            boolean flag = false;
+            for (Integer bookId : session.getBookIdList()) {
+                BookDTO availableBook = bdService.countAvailable(bookId);
+                if (availableBook == null || availableBook.getAvailableBook() <= 0) {
+                    session.getBookIdList().remove(Integer.valueOf(bookId));
+                    flag = true;
+                }
+            }
+            if (flag) {
+                model.addAttribute("error", "Some of your order book not available anymore!");
+                return "redirect:/customers/books/showAll";
+            }
 //
-    OrdersDTO myOrderDTO=new OrdersDTO();
-    myOrderDTO.setRentDayAmount(orderForm.getRentDays());
-    //gang cung test
-        Integer customerId= authenticationHelper.getUserIdFromAuthentication();
-        myOrderDTO.setCustomerId(customerId);
+            OrdersDTO myOrderDTO = new OrdersDTO();
+            myOrderDTO.setRentDayAmount(orderForm.getRentDays());
+            //gang cung test
+            Integer customerId = authenticationHelper.getUserIdFromAuthentication();
+            myOrderDTO.setCustomerId(customerId);
 
 //null
-    OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
-    //update bookdetail status.
-    if(dto!=null)
-    {
-        model.addAttribute("success", "booking success!");
+            OrdersDTO dto = service.createOrder(session.getBookIdList(), myOrderDTO);
+            //update bookdetail status.
+            if (dto != null) {
+                model.addAttribute("success", "booking success!");
 
-        session.getBookIdList().clear();
-    }
-    return "redirect:/customers/books/showAll";
-
-        }catch ( Exception e) {
-            model.addAttribute("message",e.getMessage());
-        return "/error";
+                session.getBookIdList().clear();
             }
+            return "redirect:/customers/books/showAll";
+
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            return "/error";
+        }
 
     }
 
     //staff
 
 
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/orders")
     public String orders(Model model) {
-        int userId = 1;
+        int userId = authenticationHelper.getUserIdFromAuthentication();
         List<OrdersDTO> orderList = service.getAllOrdersOfUser(userId);
         model.addAttribute("orders", orderList);
         model.addAttribute("amount", orderList.size());
@@ -164,9 +167,11 @@ public class OrderController {
         return "/customerTemplate/orders/orderList";
     }
 
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/orders/{orderId}")
     public String order(@PathVariable("orderId") int orderId, Model model) {
-        List<OrderDetailDTO> orderDetailList = odService.getOrdersDetail(orderId);
+        int userId = authenticationHelper.getUserIdFromAuthentication();
+        List<OrderDetailDTO> orderDetailList = odService.getOrdersDetail(orderId, userId);
         model.addAttribute("orderDetails", orderDetailList);
 
         int order = orderDetailList.get(0).getOrderId();

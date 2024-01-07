@@ -21,7 +21,13 @@ public class ReviewRatingStaffController {
     @GetMapping("/review-rating")
     public String getReviewRating(@RequestParam("page") int page, Model model) {
         List<OrderDetailDTO> listReview = reviewRatingServiceImp.getAllReviewRating(page);
-        int totalPages = (listReview.size() / 20) + (listReview.size() % 20);
+
+        int allReviewPending = reviewRatingServiceImp.countAllReviewRatingPending();
+        int totalPages = allReviewPending / 10;
+
+        if(allReviewPending % 10 > 0 ) {
+            totalPages += 1;
+        }
 
         model.addAttribute("listReview", listReview);
         model.addAttribute("amountOfReview", listReview.size());
