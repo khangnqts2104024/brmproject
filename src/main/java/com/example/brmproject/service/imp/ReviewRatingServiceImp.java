@@ -54,7 +54,7 @@ public class ReviewRatingServiceImp implements ReviewRatingService {
         int skip = (page - 1) * limit;
 
         List<OrderDetailEntity> listReview = orderDetailEntityRepository.
-                findByValidReviewStatus("PENDING", PageRequest.of(skip, 20));
+                findByValidReviewStatus("PENDING", PageRequest.of(skip, limit));
 
         System.out.println(listReview.size());
         return listReview.stream().map((review) -> mapToDTO(review)).toList();
@@ -65,6 +65,11 @@ public class ReviewRatingServiceImp implements ReviewRatingService {
         OrderDetailEntity orderDetailEntity = orderDetailEntityRepository.findById(orderDetailId).get();
         orderDetailEntity.setValidReview(orderDetailDTO.getValidReview());
         orderDetailEntityRepository.save(orderDetailEntity);
+    }
+
+    @Override
+    public int countAllReviewRatingPending() {
+        return orderDetailEntityRepository.countAllReviewRating();
     }
 
     @Override

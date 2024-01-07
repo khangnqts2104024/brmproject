@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.brmproject.BrmprojectApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-07T04:47:49" hostname="LAPTOP-9OTCNVLN" time="0.434">
+<testsuite name="com.example.brmproject.BrmprojectApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-07T04:51:44" hostname="LAPTOP-9OTCNVLN" time="0.381">
   <properties/>
-  <testcase name="contextLoads()" classname="com.example.brmproject.BrmprojectApplicationTests" time="0.434"/>
-  <system-out><![CDATA[11:47:44.135 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.brmproject.BrmprojectApplicationTests]: BrmprojectApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-11:47:44.225 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.brmproject.BrmprojectApplication for test class com.example.brmproject.BrmprojectApplicationTests
+  <testcase name="contextLoads()" classname="com.example.brmproject.BrmprojectApplicationTests" time="0.381"/>
+  <system-out><![CDATA[11:51:39.096 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.brmproject.BrmprojectApplicationTests]: BrmprojectApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:51:39.194 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.brmproject.BrmprojectApplication for test class com.example.brmproject.BrmprojectApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -13,24 +13,24 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.1)
 
-2024-01-07T11:47:44.597+07:00  INFO 23304 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Starting BrmprojectApplicationTests using Java 17.0.8 with PID 23304 (started by NgocLong in D:\workspace\Back-end\java\atcollabo\backup_git\brmproject)
-2024-01-07T11:47:44.599+07:00  INFO 23304 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : No active profile set, falling back to 1 default profile: "default"
-2024-01-07T11:47:45.476+07:00  INFO 23304 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-01-07T11:47:45.563+07:00  INFO 23304 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 11 JPA repository interfaces.
-2024-01-07T11:47:46.165+07:00  INFO 23304 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-01-07T11:47:46.220+07:00  INFO 23304 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
-2024-01-07T11:47:46.257+07:00  INFO 23304 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-01-07T11:47:46.487+07:00  INFO 23304 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-01-07T11:47:46.518+07:00  INFO 23304 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-01-07T11:47:46.761+07:00  INFO 23304 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7165bde6
-2024-01-07T11:47:46.763+07:00  INFO 23304 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-01-07T11:47:46.810+07:00  WARN 23304 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-01-07T11:47:47.752+07:00  INFO 23304 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-01-07T11:47:47.874+07:00  INFO 23304 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-01-07T11:47:48.519+07:00  INFO 23304 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-01-07T11:47:49.008+07:00  WARN 23304 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-01-07T11:47:49.326+07:00  INFO 23304 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@73430c86, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@184d73af, org.springframework.security.web.context.SecurityContextHolderFilter@4edd8b5b, org.springframework.security.web.header.HeaderWriterFilter@136dc575, org.springframework.web.filter.CorsFilter@7ef9c234, org.springframework.security.web.authentication.logout.LogoutFilter@7addc5e4, com.example.brmproject.security.jwt.AuthTokenFilter@b1fccca, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3c0403a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5ea206bc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@580581b4, org.springframework.security.web.access.ExceptionTranslationFilter@3aa2646f, org.springframework.security.web.access.intercept.AuthorizationFilter@52072c45]
-2024-01-07T11:47:49.799+07:00  INFO 23304 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Started BrmprojectApplicationTests in 5.411 seconds (process running for 6.376)
+2024-01-07T11:51:39.536+07:00  INFO 19016 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Starting BrmprojectApplicationTests using Java 17.0.8 with PID 19016 (started by NgocLong in D:\workspace\Back-end\java\atcollabo\backup_git\brmproject)
+2024-01-07T11:51:39.538+07:00  INFO 19016 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2024-01-07T11:51:40.388+07:00  INFO 19016 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-07T11:51:40.500+07:00  INFO 19016 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 101 ms. Found 11 JPA repository interfaces.
+2024-01-07T11:51:41.082+07:00  INFO 19016 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-07T11:51:41.134+07:00  INFO 19016 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-07T11:51:41.169+07:00  INFO 19016 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-07T11:51:41.399+07:00  INFO 19016 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-07T11:51:41.425+07:00  INFO 19016 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-07T11:51:41.695+07:00  INFO 19016 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@20fa5277
+2024-01-07T11:51:41.697+07:00  INFO 19016 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-07T11:51:41.744+07:00  WARN 19016 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-01-07T11:51:42.725+07:00  INFO 19016 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-07T11:51:42.853+07:00  INFO 19016 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-07T11:51:43.485+07:00  INFO 19016 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-01-07T11:51:43.958+07:00  WARN 19016 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-07T11:51:44.276+07:00  INFO 19016 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@370bd951, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c4da654, org.springframework.security.web.context.SecurityContextHolderFilter@492939b, org.springframework.security.web.header.HeaderWriterFilter@1eb21f22, org.springframework.web.filter.CorsFilter@664e8bb7, org.springframework.security.web.authentication.logout.LogoutFilter@2bfe51d5, com.example.brmproject.security.jwt.AuthTokenFilter@204bd52d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@e8acdfc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1e680c92, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@73859ca8, org.springframework.security.web.access.ExceptionTranslationFilter@5ca012a6, org.springframework.security.web.access.intercept.AuthorizationFilter@427b24c0]
+2024-01-07T11:51:44.711+07:00  INFO 19016 --- [    Test worker] c.e.b.BrmprojectApplicationTests         : Started BrmprojectApplicationTests in 5.362 seconds (process running for 6.315)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
