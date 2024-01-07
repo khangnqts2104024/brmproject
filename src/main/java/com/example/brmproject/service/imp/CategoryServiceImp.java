@@ -4,9 +4,11 @@ import com.example.brmproject.domain.dto.CategoryDTO;
 import com.example.brmproject.domain.entities.CategoryEntity;
 import com.example.brmproject.repositories.CategoryEntityRepository;
 import com.example.brmproject.service.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +30,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public List<CategoryDTO> findAll() {
-        return categoryEntityRepository.
-                findAll().stream()
+        return categoryEntityRepository.findAll().stream()
                 .map(categoryEntity -> mapToDTO(categoryEntity)).collect(Collectors.toList());
     }
 
@@ -37,6 +38,19 @@ public class CategoryServiceImp implements CategoryService {
     public CategoryDTO findById(Integer id) {
         CategoryEntity categoryEntity = categoryEntityRepository.findById(id).orElse(null);
         return mapToDTO(categoryEntity);
+    }
+
+    @Transactional
+    @Override
+    public void updateCategory(CategoryDTO categoryDTO) {
+        CategoryEntity existedCategory = categoryEntityRepository.findById(categoryDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryDTO.getId()));
+
+        existedCategory.setName(categoryDTO.getName());
+        existedCategory.setDescription(categoryDTO.getDescription());
+        CategoryEntity updateCategory = categoryEntityRepository.save(existedCategory);
+        mapToDTO(updateCategory);
+
     }
 
     public CategoryDTO mapToDTO(CategoryEntity categoryEntity) {

@@ -17,4 +17,7 @@ public interface OrderDetailEntityRepository extends JpaRepository<OrderDetailEn
     List<OrderDetailEntity>  findByValidReviewStatus(String validReview, Pageable pageable);
 
     List<OrderDetailEntity> findByBookId(int bookId);
+
+    @Query("SELECT COUNT(o) FROM OrderDetailEntity o WHERE o.validReview = 'PENDING' and o.rated = true")
+    int countAllReviewRating();
 }

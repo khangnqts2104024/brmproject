@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Repository
@@ -15,4 +15,6 @@ public interface OrdersEntityRepository extends JpaRepository<OrdersEntity, Inte
     List<OrdersEntity> findByorderStatus(String orderStatus);
     @Query("SELECT o FROM OrdersEntity o WHERE o.customerId = :userId")
     List<OrdersEntity> findAllByUserId(int userId);
+
+    Optional<OrdersEntity> findByIdAndCustomerId(int id, int customerId);
 }

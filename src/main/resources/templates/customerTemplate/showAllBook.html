@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customerTemplate/customerLayout}">
 <body>
+<section layout:fragment="content" >
 <div class="container">
   <div>
     <p th:text="${time}"></p>
@@ -29,5 +31,6 @@
     <a th:href="@{/customers/showCart}"> My Cart</a>
   </div>
 </div> <!-- /container -->
+</section>
 </body>
 </html>
