@@ -1,10 +1,7 @@
 package com.example.brmproject.controller.customer;
 
 
-import com.example.brmproject.domain.dto.BookDTO;
-import com.example.brmproject.domain.dto.CategoryBookDTO;
-import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.domain.dto.ReviewRatingDTO;
+import com.example.brmproject.domain.dto.*;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.CategoryBookService;
 import com.example.brmproject.service.CategoryService;
@@ -56,11 +53,11 @@ public class BookCustomersController {
         }
         for (BookDTO book: listBooks) {
             ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
-            Double bookRating = reviewRatingDTO.getRating();
+            Double bookRating = reviewRatingDTO.getAvrRating();
             if (Double.isNaN(bookRating)) {
                 book.setRating(0.0);
             } else {
-                book.setRating(reviewRatingDTO.getRating());
+                book.setRating(reviewRatingDTO.getAvrRating());
             }
         }
 
@@ -99,15 +96,20 @@ public class BookCustomersController {
         return "customerTemplate/books/showListBooksByCategoryID";
     }
 
-    @GetMapping("/books/detail")
-    public String getBookDetail() {
-        return "customerTemplate/books/bookDetail";
-    }
+
 
     @GetMapping("/books/detail/{bookId}")
     public String getBookDetail(@PathVariable Integer bookId,
                                 Model model) {
+
+        ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
         BookDTO bookDTO = bookService.findBookById(bookId);
+        double avrRating = reviewRatingDTO.getAvrRating();
+        bookDTO.setRating(avrRating);
+
+        List<UserReviewDTO> listUserReviews = reviewRatingDTO.getListReview();
+
+        model.addAttribute("listUserReviews", listUserReviews);
         model.addAttribute("book", bookDTO);
         return "customerTemplate/books/bookDetail";
     }
