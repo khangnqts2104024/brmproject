@@ -24,15 +24,6 @@ import java.util.List;
 
  }
 
- @GetMapping("/books/showAll")
- public String showAll(Model model, @ModelAttribute BookDTO book)
- {
- List<BookDTO> list=service.findAll();
- model.addAttribute("books",list);
- return "customerTemplate/showAllBook";
- }
-
-
     @GetMapping("/books/showAll")
     public String showAll(Model model, @ModelAttribute BookDTO book,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
