@@ -11,7 +11,7 @@
         <form th:action="@{/register}" th:object="${signupRequest}" method="post">
             <div class="textOtherInpWrapper">
                 <label for="inputEmail1" class="form-label">Email</label>
-                <input th:field="*{username}" type="email" class="textOtherInp" id="inputEmail1" aria-describedby="emailHelp" >
+                <input th:field="*{username}" type="text" class="textOtherInp" id="inputEmail1" aria-describedby="emailHelp" >
             </div>
             <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span>
             <div th:if="${errors}" class="error-message">
@@ -21,26 +21,26 @@
               
             <div class="mt-3 textOtherInpWrapper">
                 <label for="inputPassword" class="form-label">Password</label>
-                <input th:field="*{password}"  type="password" class="textOtherInp" id="inputPassword" required minlength="6" maxlength="20">
+                <input th:field="*{password}"  type="password" class="textOtherInp" id="inputPassword" >
             </div>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span>
 
 
             <div class="mt-3 textOtherInpWrapper">
                 <label for="inputName" class="form-label">Name</label>
-                <input th:field="*{name}" type="text" class="textOtherInp" id="inputName" required>
+                <input th:field="*{name}" type="text" class="textOtherInp" id="inputName" >
             </div>
 
 
             <div class="mt-3 textOtherInpWrapper">
                 <label for="inpAddress" class="form-label">Address</label>
-                <input th:field="*{address}" type="text" class="textOtherInp" id="inpAddress" required>
+                <input th:field="*{address}" type="text" class="textOtherInp" id="inpAddress" >
             </div>
 
 
             <div class="mt-3 textOtherInpWrapper">
                 <label for="inpPhone" class="form-label">Phone</label>
-                <input th:field="*{phone}" type="text" class="textOtherInp" id="inpPhone" required>
+                <input th:field="*{phone}" type="text" class="textOtherInp" id="inpPhone" >
             </div>            
             
             

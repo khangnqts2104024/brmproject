@@ -53,7 +53,7 @@ public class OrderController {
             model.addAttribute("error","Sorry! Maximum number of books to rend is 5!");
         }
         //check available
-        else if(bookDTO.getAvalableBook()<=0)
+        else if(bookDTO.getAvailableBook()<=0)
         {
             model.addAttribute("error","Sorry! This book is not available now!");
         }
@@ -129,7 +129,7 @@ public class OrderController {
     for (Integer bookId: session.getBookIdList())
     {
         BookDTO availableBook=bdService.countAvailable(bookId);
-        if(availableBook==null || availableBook.getAvalableBook()<=0)
+        if(availableBook==null || availableBook.getAvailableBook()<=0)
         {
             session.getBookIdList().remove(Integer.valueOf(bookId));
             model.addAttribute("error",availableBook.getTitle()+" not available anymore!");
@@ -139,7 +139,12 @@ public class OrderController {
     OrdersDTO myOrderDTO=new OrdersDTO();
     myOrderDTO.setRentDayAmount(orderForm.getRentDays());
     //gang cung test
+
+
     myOrderDTO.setCustomerId(1);
+
+
+
 //null
     OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
     //update bookdetail status.
