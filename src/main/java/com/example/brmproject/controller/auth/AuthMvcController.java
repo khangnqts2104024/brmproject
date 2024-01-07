@@ -11,6 +11,7 @@ import com.example.brmproject.repositories.UserEntityRepository;
 import com.example.brmproject.security.jwt.JwtUtils;
 import com.example.brmproject.service.imp.UserDetailsImpl;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -79,6 +80,11 @@ public class AuthMvcController {
     return "customerTemplate/login";
   }
 
+  @GetMapping("/forbidden")
+  public String forbidden(){
+    return "/forbidden";
+  }
+
   @PostMapping("/login")
     public String login( @Valid @ModelAttribute("loginRequest") LoginRequestDTO loginRequest,  BindingResult bindingResult, Model model){
         try {
@@ -100,13 +106,17 @@ public class AuthMvcController {
           .map(item -> item.getAuthority())
           .collect(Collectors.toList());
           int userId;
+          String url;
           if (roles.stream().anyMatch(role -> role.equalsIgnoreCase("STAFF") || role.equalsIgnoreCase("ADMIN"))) {
             StaffEntity staff = staffEntityRepository.findByUserId(userDetails.getId()).get();
             userId = staff.getId();
+            url = "redirect:/login";
+
             
           } else {
               CustomerEntity customer = customerEntityRepository.findByUserId(userDetails.getId()).get();
               userId = customer.getId();
+            url = "redirect:/login";
           }
   
           Cookie cookieJwt = createCookie("jwtToken", jwt);
@@ -114,8 +124,10 @@ public class AuthMvcController {
 
           response.addCookie(cookieJwt);
           response.addCookie(cookieInfo);
+
+
   
-            return "customerTemplate/login";
+            return url;
       } catch (AuthenticationException e) {       
           model.addAttribute("loginRequest", loginRequest);        
           model.addAttribute("errorAuthen", "Wrong username or password");
@@ -217,6 +229,23 @@ public class AuthMvcController {
     cookie.setMaxAge(86400000);
     cookie.setPath("/");
     return cookie;
+}
+
+@GetMapping("/staff/logout")
+  public String logout(HttpServletRequest request, HttpServletResponse response){
+  Cookie[] cookies = request.getCookies();
+
+  // Xóa tất cả các cookie trong danh sách
+  if (cookies != null) {
+    for (Cookie cookie : cookies) {
+      cookie.setValue("");
+      cookie.setPath("/");
+      cookie.setMaxAge(0);
+      response.addCookie(cookie);
+    }
+  }
+  return "redirect:/login";
+
 }
 
   
