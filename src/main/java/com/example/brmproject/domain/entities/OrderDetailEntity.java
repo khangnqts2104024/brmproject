@@ -30,8 +30,14 @@ public class OrderDetailEntity {
     @Column(name = "rating", nullable = true)
     private Integer rating;
     @Basic
-    @Column(name = "validReview",nullable = false, length = 10, columnDefinition = "varchar(10) default 'PENDING'")
+    @Column(name = "validReview",nullable = true, length = 10, columnDefinition = "varchar(10) default 'PENDING'")
     private String validReview;
+    @PrePersist
+    public void prePersist() {
+        if (validReview == null) {
+            validReview = "PENDING";
+        }
+    }
 
     @Basic
     @Column(name = "book_detail_id", nullable = true)
@@ -45,7 +51,7 @@ public class OrderDetailEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id", insertable = false, updatable = false)
     private BookEntity bookByBookId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
     private OrdersEntity ordersByOrderId;
 
