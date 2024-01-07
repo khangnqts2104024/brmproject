@@ -1,6 +1,6 @@
 package com.example.brmproject.domain.dto;
 
-import jakarta.validation.constraints.Max;
+import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -51,10 +51,37 @@ public class BookDTO {
 
     // show availableBook.
     private Long availableBook;
-
+    private Long existBook;
     private Integer numberOfImport;
+
+
 
     private BookshelfCaseDTO bookshelfCaseByBookshelfId;
 
     // private Collection<OrderDetailDTO> orderDetailsById;
+
+
+
+    public Long getAvailableBook() {
+        return countAvailable();
+    }
+
+    public Long getExistBook() {
+        return countExits();
+    }
+
+    // ... (rest of the class)
+
+    public Long countAvailable() {
+        return bookDetailsById.stream()
+                .filter(bd -> BookDetailStatus.AVAILABLE.toString().equals(bd.getStatus()))
+                .count();
+    }
+
+    public Long countExits() {
+        return bookDetailsById.stream()
+                .filter(bd -> !BookDetailStatus.LOST.toString().equals(bd.getStatus()))
+                .count();
+    }
+
 }
