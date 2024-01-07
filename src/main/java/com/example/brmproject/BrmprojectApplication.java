@@ -10,6 +10,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@SpringBootApplication
+@EnableScheduling
+public class BrmprojectApplication {
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.brmproject.domain.entities.ERole;
@@ -22,6 +29,7 @@ import com.example.brmproject.repositories.UserEntityRepository;
 
 @SpringBootApplication
 public class BrmprojectApplication implements CommandLineRunner{
+
 //confi modelMapper
     @Bean
     public ModelMapper modelMapper(){
