@@ -1,46 +1,38 @@
 package com.example.brmproject.controller.auth;
 
 
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import com.example.brmproject.domain.dto.LoginRequestDTO;
 import com.example.brmproject.domain.dto.SignupRequestDTO;
-import com.example.brmproject.domain.entities.CustomerEntity;
-import com.example.brmproject.domain.entities.ERole;
-import com.example.brmproject.domain.entities.RoleEntity;
-import com.example.brmproject.domain.entities.StaffEntity;
-import com.example.brmproject.domain.entities.UserEntity;
+import com.example.brmproject.domain.entities.*;
 import com.example.brmproject.repositories.CustomerEntityRepository;
 import com.example.brmproject.repositories.RoleEntityRepository;
 import com.example.brmproject.repositories.StaffEntityRepository;
 import com.example.brmproject.repositories.UserEntityRepository;
 import com.example.brmproject.security.jwt.JwtUtils;
 import com.example.brmproject.service.imp.UserDetailsImpl;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 

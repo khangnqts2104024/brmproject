@@ -1,10 +1,7 @@
 package com.example.brmproject.service.imp;
 
 import com.example.brmproject.domain.dto.BookDTO;
-import com.example.brmproject.domain.dto.OrdersDTO;
 import com.example.brmproject.domain.entities.BookEntity;
-import com.example.brmproject.domain.entities.OrdersEntity;
-import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.BookEntityRepository;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.ultilities.SD.BookDetailStatus;
@@ -61,7 +58,7 @@ public class BookServiceImp  implements BookService {
         Long availableBook= book.getBookDetailsById().stream().filter(b->b.getStatus().equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE))).count();
         //add count to book dto
         BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
-        bookDTO.setAvalableBook(availableBook);
+        bookDTO.setAvailableBook(availableBook);
         return bookDTO;
     }
 }

@@ -58,7 +58,7 @@ public class BookDetailServiceImp implements BookDetailService {
         Long availableBook= book.getBookDetailsById().stream().filter(b->b.getStatus().equalsIgnoreCase(String.valueOf(BookDetailStatus.AVAILABLE))).count();
        //add count to book dto
         BookDTO bookDTO= mapBookToDTO(book);
-        bookDTO.setAvalableBook(availableBook);
+        bookDTO.setAvailableBook(availableBook);
         return bookDTO;
     }
     @Override
