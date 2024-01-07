@@ -13,6 +13,7 @@ public class CategoryDTO {
     private int id;
 
     private String name;
+
     private String description;
 //    private Collection<CategoryBookDTO> categoryBooksById;
 

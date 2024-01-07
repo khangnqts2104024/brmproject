@@ -5,7 +5,6 @@ import com.example.brmproject.domain.dto.ReviewRatingDTO;
 import com.example.brmproject.domain.dto.UserReviewDTO;
 import com.example.brmproject.domain.entities.OrderDetailEntity;
 import com.example.brmproject.exception.orderDetail.OrderDetailNotFoundException;
-import com.example.brmproject.exception.reviewRating.ReviewRatingNotFoundException;
 import com.example.brmproject.repositories.OrderDetailEntityRepository;
 import com.example.brmproject.service.ReviewRatingService;
 import org.modelmapper.ModelMapper;
