@@ -20,7 +20,7 @@
         <td th:text="${book.getId()}"></td>
         <td th:text="${book.getTitle()}"></td>
         <td th:text="${book.getAuthor()}"></td>
-        <td th:text="${book.getAvalableBook()}"></td>
+        <td th:text="${book.getAvailableBook()}"></td>
         <td th:text="${book.getPricePerDay()}"></td>
         <td><a th:href="@{/customers/addItem/{bookId}(bookId=${book.getId()})}">Add</a></td>
       </tr>
