@@ -65,7 +65,6 @@ import java.util.Set;
 				roleRepository.save(new RoleEntity(ERole.ADMIN));
 			}
 
-
 			if (!userRepository.existsByUsername("admin@gmail.com")) {
 				UserEntity admin = new UserEntity("admin@gmail.com", encoder.encode("123123123"));
 				Set<RoleEntity> roles = new HashSet<>();

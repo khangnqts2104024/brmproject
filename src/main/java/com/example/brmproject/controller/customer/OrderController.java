@@ -7,6 +7,7 @@ import com.example.brmproject.service.BookDetailService;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderDetailService;
 import com.example.brmproject.service.OrderService;
+import com.example.brmproject.ultilities.StaticFunction;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -53,6 +55,7 @@ public class OrderController {
     public String addItemToOrder(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
+
         if (session.getBookIdList().contains(Integer.parseInt(bookId))) {
             redirectAttributes.addAttribute("alertError", "This book was added to your list!");
         }
@@ -65,12 +68,40 @@ public class OrderController {
             redirectAttributes.addAttribute("alertError", "Sorry! This book is not available now!");
         } else {
             session.getBookIdList().add(Integer.parseInt(bookId));
+            redirectAttributes.addAttribute("alertMessage", "Add book to cart success!!");
+
         }
 
         //check available
-        return "redirect:/customers/books/showAll";
-
+        return "redirect:/customers/books";
     }
+    //add in detail
+
+
+    @GetMapping("/addItemInDetail/{bookId}")
+    public String addItemToOrderInDetail(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
+        //check dublicate
+        BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
+
+        if (session.getBookIdList().contains(Integer.parseInt(bookId))) {
+
+            redirectAttributes.addAttribute("alertError", "Duplicate!This book has been added to your cart already !");
+        }
+        //check max orderdetail
+        else if (session.getBookIdList().size() > 5) {
+            redirectAttributes.addAttribute("alertError", "Sorry! Maximum number of books to rend is 5!");
+        }
+        //check available
+        else if (bookDTO.getAvailableBook() <= 0) {
+            redirectAttributes.addAttribute("alertError", "Sorry! This book is not available now!");
+        } else {
+            redirectAttributes.addAttribute("alertMessage", "Add book to cart success!");
+            session.getBookIdList().add(Integer.parseInt(bookId));
+        }
+        //check available
+        return "redirect:/customers/books/detail/{bookId}";
+    }
+
 
     @GetMapping("/removeBook/{id}")
     public String removeBook(@ModelAttribute("session") MySession session, @PathVariable Integer id) {
@@ -86,12 +117,16 @@ public class OrderController {
 
         session.getBookIdList().clear();
 
-        return "redirect:/customers/books/showAll";
+        return "redirect:/customers/books";
     }
 
 
     @GetMapping("/showCart")
-    public String showCart(@ModelAttribute("session") MySession session, Model model) {
+    public String showCart(@ModelAttribute("session") MySession session, Model model,@ModelAttribute("alertMessage") String alertMessage,
+                           @ModelAttribute("alertError") String alertError) {
+
+        StaticFunction.showAlert(model,alertMessage,alertError);
+
         List<Integer> bookIds = session.getBookIdList();
         List<BookDTO> list = bookService.getListBookByBookId(bookIds);
         model.addAttribute("books", list);
@@ -104,8 +139,8 @@ public class OrderController {
     public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
     {
     try{
-    if (bindingResult.hasErrors()) {
 
+    if (bindingResult.hasErrors()) {
 
                 List<Integer> bookIds = session.getBookIdList();
                 List<BookDTO> list = bookService.getListBookByBookId(bookIds);
@@ -114,12 +149,16 @@ public class OrderController {
                 return "customerTemplate/orders/cart";
             }
             if (session.getBookIdList().isEmpty()) {
-                model.addAttribute("error", "You have to choose book first!");
-                return "redirect:/customers/books/showAll";
+                redirectAttributes.addAttribute("alertError", "You have to choose book first!");
+                return "redirect:/customers/books";
             }
             //check stock
             boolean flag = false;
-            for (Integer bookId : session.getBookIdList()) {
+            List<Integer> bookIdList=new ArrayList<>(session.getBookIdList());
+            Iterator<Integer> iterator = bookIdList.iterator();
+            while (iterator.hasNext())
+            {
+                Integer bookId= iterator.next();
                 BookDTO availableBook = bdService.countAvailable(bookId);
                 if (availableBook == null || availableBook.getAvailableBook() <= 0) {
                     session.getBookIdList().remove(Integer.valueOf(bookId));
@@ -127,8 +166,8 @@ public class OrderController {
                 }
             }
             if (flag) {
-                model.addAttribute("error", "Some of your order book not available anymore!");
-                return "redirect:/customers/books/showAll";
+                redirectAttributes.addAttribute("alertError", "Some of your order book not available anymore!");
+                return "redirect:/customers/showCart";
             }
 //
             OrdersDTO myOrderDTO = new OrdersDTO();
@@ -141,11 +180,11 @@ public class OrderController {
             OrdersDTO dto = service.createOrder(session.getBookIdList(), myOrderDTO);
             //update bookdetail status.
             if (dto != null) {
-                model.addAttribute("success", "booking success!");
+                redirectAttributes.addAttribute("alertMessage", "booking success!");
 
                 session.getBookIdList().clear();
             }
-            return "redirect:/customers/books/showAll";
+            return "redirect:/customers/books";
 
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
