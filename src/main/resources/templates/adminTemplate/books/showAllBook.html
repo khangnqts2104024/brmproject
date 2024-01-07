@@ -21,7 +21,6 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Author</th>
-                    <th>Quantity</th>
                     <th>Price/day</th>
                     <th>Action</th>
                 </tr>
@@ -31,7 +30,6 @@
                     <td th:text="${stat.index + 1}"></td>
                     <td th:text="${book.getTitle()}"></td>
                     <td th:text="${book.getAuthor()}"></td>
-                    <td th:text="${book.getAvailableBook()}"></td>
                     <td th:text="${book.getPricePerDay()}"></td>
                     <td><a th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit quantity</a></td>
                 </tr>

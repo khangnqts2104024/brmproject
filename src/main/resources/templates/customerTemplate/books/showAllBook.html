@@ -237,11 +237,10 @@
                                             <div class="d-flex flex-row align-items-center mb-1">
                                                 <h4 class="mb-1 me-1" th:text="${book.getPricePerDay()}"></h4>
                                             </div>
-                                            <h6 class="text-success">Free shipping</h6>
+                                            <h6 class="text-success">Available stock: <p th:text="${book.getAvailableBook()}"></p></h6>
                                             <div class="mt-4">
-                                                <button class="btn btn-primary shadow-0" type="button">Buy this</button>
-                                                <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg px-1"></i></a>
-                                            </div>
+                                                <a th:href="@{/customers/addItem/{bookId}(bookId=${book.getId()})}" class="btn btn-primary shadow-0" type="button">Add to cart</a>
+                                              </div>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +264,7 @@
                             <a
                                th:class="${pageNumber == books.number + 1} ? 'active page-link' : 'page-link'"
                                th:href="@{/customers/books(page=${pageNumber})}"
-                               th:text=${pageNumber}>
+                               th:text="${pageNumber}">
                             </a>
                         </li>
 <!--                        "@{/admin/categories/update/{categoryId}(categoryId=${category.getId()})}"-->
