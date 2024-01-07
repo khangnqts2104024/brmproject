@@ -9,8 +9,8 @@
         <h1>Orders List</h1>
         <div class="list-group" th:if="${amount > 0}">
             <a th:each="order: ${orders}" th:href="${'orders/'+order.getId()}" class="list-group-item list-group-item-action" aria-current="true">
-                <span th:text="${'Order ' + order.getId()}"></span>
-                <p th:text="${order.getRentDate()}"></p>
+                <span th:text="${'Order #' + order.getId()}"></span>
+                <p class="fst-italic" th:text="${'Day order: ' + order.getRentDate()}"></p>
             </a>
         </div>
 
