@@ -56,11 +56,11 @@ public class BookCustomersController {
         }
         for (BookDTO book: listBooks) {
             ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
-            Double bookRating = reviewRatingDTO.getRating();
+            Double bookRating = reviewRatingDTO.getAvrRating();
             if (Double.isNaN(bookRating)) {
                 book.setRating(0.0);
             } else {
-                book.setRating(reviewRatingDTO.getRating());
+                book.setRating(reviewRatingDTO.getAvrRating());
             }
         }
 
