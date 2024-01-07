@@ -70,9 +70,9 @@ public class ReviewRatingServiceImp implements ReviewRatingService {
     public ReviewRatingDTO getReviewRatingByBook(int bookId) {
         List<OrderDetailEntity> listReview = orderDetailEntityRepository.findByBookId(bookId);
 
-        if(listReview.isEmpty()) {
-            throw new ReviewRatingNotFoundException("Review rating not found");
-        }
+//        if(listReview.isEmpty()) {
+//            throw new ReviewRatingNotFoundException("Review rating not found");
+//        }
 
         List<OrderDetailEntity> listFilter = listReview.stream().filter((review) -> review.getValidReview().equals("VALID")).toList();
 

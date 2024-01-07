@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +50,7 @@ public class CategoryBookServiceImp implements CategoryBookService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void updateCategoryBook(Integer categoryBookId, Integer categoryId) {
         categoryBookEntityRepository.updateCategoryBook(categoryBookId, categoryId);

@@ -103,4 +103,12 @@ public class BookCustomersController {
     public String getBookDetail() {
         return "customerTemplate/books/bookDetail";
     }
+
+    @GetMapping("/books/detail/{bookId}")
+    public String getBookDetail(@PathVariable Integer bookId,
+                                Model model) {
+        BookDTO bookDTO = bookService.findBookById(bookId);
+        model.addAttribute("book", bookDTO);
+        return "customerTemplate/books/bookDetail";
+    }
 }

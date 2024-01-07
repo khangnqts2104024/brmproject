@@ -29,22 +29,14 @@
                     <div>
                         <div class="mb-3 pt-2">
                             <label for="title" class="form-label">Title of the book</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="title"
-                                    name="title"
-                            />
+                            <input th:field="*{title}" type="text"  class="form-control" id="title">
+                            <p class="error-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Name Error</p>
                         </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="author" class="form-label">Author</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="author"
-                                    name="author"
-                            />
+                            <input th:field="*{author}" type="text"  class="form-control" id="author">
+                            <p class="error-text" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Name Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="quantityBooks" class="form-label">Quantity of book</label>
@@ -58,37 +50,30 @@
                         <div></div>
                         <div class="mb-3">
                             <label for="preview" class="form-label">Preview content</label>
-                            <textarea
-                                    class="form-control"
-                                    id="preview"
-                                    name="preview"
-                                    rows="3"
-                            ></textarea>
+                            <textarea th:field="*{preview}" type="text"  class="form-control" id="preview" rows="3"></textarea>
+                            <p class="error-text" th:if="${#fields.hasErrors('preview')}" th:errors="*{preview}">Name Error</p>
                         </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price/day</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="price"
-                                    name="pricePerDay"
-                            />
+                            <input th:field="*{pricePerDay}" type="text"  class="form-control" id="price">
+                            <p class="error-text" th:if="${#fields.hasErrors('pricePerDay')}" th:errors="*{pricePerDay}">Name Error</p>
                         </div>
                         <div></div>
                         <div class="mb-3">
-                            <label for="categories" class="form-label">Category</label>
-                            <select name="categoriesId" class="form-select" data-placeholder="Choose category" id="categories" multiple>
-                                <option th:each="category : ${categories}"
-                                        th:value="${category.getId()}"
-                                        th:text="${category.getName()}">
-                                </option>
-                            </select>
+                            <label class="form-label">Category</label>
+                                <div th:each="category : ${categories}" class="form-check">
+                                    <input name="categoriesId" class="form-check-input" type="checkbox"
+                                           th:value="${category.getId()}"
+                                           th:text="${category.getName()}">
+                                </div>
+                            <p  class="error-text" th:if="${#fields.hasErrors('categoriesId')}" th:errors="*{categoriesId}">Name Error</p>
                         </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="photo" class="form-label">Image</label>
-                            <input name="photo" class="form-control" type="text" id="photo">
+                            <input th:field="*{photo}" type="text"  class="form-control" id="photo">
+                            <p class="error-text" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}">Name Error</p>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Create book</button>

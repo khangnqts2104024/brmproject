@@ -268,7 +268,7 @@
                             <a
                                th:class="${pageNumber == categoryBooks.number + 1} ? 'active page-link' : 'page-link'"
                                th:href="@{/customers/books/categoryID/${categoryId}(page=${pageNumber})}"
-                               th:text=${pageNumber}>
+                               th:text="${pageNumber}">
                             </a>
                         </li>
 <!--                        "@{/admin/categories/update/{categoryId}(categoryId=${category.getId()})}"-->

@@ -4,9 +4,11 @@ import com.example.brmproject.domain.dto.CategoryDTO;
 import com.example.brmproject.domain.entities.CategoryEntity;
 import com.example.brmproject.repositories.CategoryEntityRepository;
 import com.example.brmproject.service.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +40,17 @@ public class CategoryServiceImp implements CategoryService {
         return mapToDTO(categoryEntity);
     }
 
+    @Transactional
     @Override
-    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
-        CategoryEntity category = categoryEntityRepository.findById(categoryDTO.getId()).orElse(null);
+    public void updateCategory(CategoryDTO categoryDTO) {
+        CategoryEntity existedCategory = categoryEntityRepository.findById(categoryDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryDTO.getId()));
 
-        return null;
+        existedCategory.setName(categoryDTO.getName());
+        existedCategory.setDescription(categoryDTO.getDescription());
+        CategoryEntity updateCategory = categoryEntityRepository.save(existedCategory);
+        mapToDTO(updateCategory);
+
     }
 
     public CategoryDTO mapToDTO(CategoryEntity categoryEntity) {

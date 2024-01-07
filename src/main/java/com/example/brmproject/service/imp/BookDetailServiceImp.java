@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,9 +68,19 @@ public class BookDetailServiceImp implements BookDetailService {
 
     }
 
+    @Override
+    public BookDetailDTO addBookDetails(BookDetailDTO bookDetailDTO) {
+        BookDetailEntity bookDetailEntity = bookDetailRepo.save(mapToEntity(bookDetailDTO));
+        return mapToDTO(bookDetailEntity);
+    }
 
-
-
+    @Override
+    public List<BookDetailDTO> getAllBooks(Integer bookId) {
+        List<BookDetailEntity> booksEntity = bookDetailRepo.findByBookId(bookId);
+        return booksEntity.stream()
+                .map(book -> mapToDTO(book))
+                .collect(Collectors.toList());
+    }
 
 
     public BookDetailDTO mapToDTO(BookDetailEntity bookDetail) {

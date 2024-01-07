@@ -12,5 +12,5 @@ public interface CategoryService {
 
     CategoryDTO findById(Integer id);
 
-    CategoryDTO updateCategory(CategoryDTO categoryDTO);
+    void updateCategory(CategoryDTO categoryDTO);
 }

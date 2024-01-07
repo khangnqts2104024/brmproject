@@ -207,8 +207,8 @@
                                     <div class="row g-0">
                                         <div class="col-xl-3 col-md-4 d-flex justify-content-center">
                                             <div class="bg-image hover-zoom ripple rounded ripple-surface me-md-3 mb-3 mb-md-0">
-                                                <img th:src="${book.getPhoto()}" class="w-100" />
-                                                <a href="#!">
+                                                    <img th:src="${book.getPhoto()}" class="w-100" />
+                                                <a th:href="@{/customers/books/detail/{bookId}(bookId=${book.getId()})}">
                                                     <div class="hover-overlay">
                                                         <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
                                                     </div>
@@ -216,7 +216,9 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-md-5 col-sm-7">
-                                            <h5 th:text="${book.getTitle()}" ></h5>
+                                            <a th:href="@{/customers/books/detail/{bookId}(bookId=${book.getId()})}">
+                                                <h5 th:text="${book.getTitle()}" ></h5>
+                                            </a>
                                             <div class="d-flex flex-row">
                                                 <div class="text-warning mb-1 me-2">
                                                     <th:block th:each="starNumber : ${#numbers.sequence(1, book.getRating(), 1)}">

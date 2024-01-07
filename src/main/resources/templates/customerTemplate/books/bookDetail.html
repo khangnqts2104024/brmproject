@@ -15,35 +15,18 @@
                 <div class="row gx-5">
                     <aside class="col-lg-6">
                         <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                            <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
-                                <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" />
-                            </a>
-                        </div>
-                        <div class="d-flex justify-content-center mb-3">
-                            <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp">
-                                <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp" />
-                            </a>
-                            <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp">
-                                <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" />
-                            </a>
-                            <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp">
-                                <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" />
-                            </a>
-                            <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp">
-                                <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" />
-                            </a>
-                            <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
-                                <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" />
-                            </a>
+                            <img style="max-width: 100%; max-height: 100vh; margin: auto;"
+                                 class="rounded-4 fit"
+                                 th:src="${book.getPhoto()}" />
                         </div>
                         <!-- thumbs-wrap.// -->
                         <!-- gallery-wrap .end// -->
                     </aside>
                     <main class="col-lg-6">
                         <div class="ps-lg-3">
-                            <h4 class="title text-dark">
-                                Quality Men's Hoodie for Winter, Men's Fashion <br />
-                                Casual Hoodie
+                            <h4 class="title text-dark"
+                                th:text="${book.getTitle()}">
+                                 <br />
                             </h4>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
@@ -52,49 +35,26 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fas fa-star-half-alt"></i>
-                                    <span class="ms-1">
-                4.5
-              </span>
+                                    <span class="ms-1" th:text="${book.getRating()}"></span>
                                 </div>
-                                <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                                <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i></span>
                                 <span class="text-success ms-2">In stock</span>
                             </div>
 
                             <div class="mb-3">
-                                <span class="h5">$75.00</span>
-                                <span class="text-muted">/per box</span>
+                                <span class="h5" th:text="${book.getPricePerDay()}"></span>
+                                <span class="text-muted">/per day</span>
                             </div>
 
-                            <p>
-                                Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
-                                men.
-                            </p>
 
                             <div class="row">
-                                <dt class="col-3">Type:</dt>
+                                <dt class="col-3">Categories:</dt>
                                 <dd class="col-9">Regular</dd>
-
-                                <dt class="col-3">Color</dt>
-                                <dd class="col-9">Brown</dd>
-
-                                <dt class="col-3">Material</dt>
-                                <dd class="col-9">Cotton, Jeans</dd>
-
-                                <dt class="col-3">Brand</dt>
-                                <dd class="col-9">Reebook</dd>
                             </div>
 
                             <hr />
 
                             <div class="row mb-4">
-                                <div class="col-md-4 col-6">
-                                    <label class="mb-2">Size</label>
-                                    <select class="form-select border border-secondary" style="height: 35px;">
-                                        <option>Small</option>
-                                        <option>Medium</option>
-                                        <option>Large</option>
-                                    </select>
-                                </div>
                                 <!-- col.// -->
                                 <div class="col-md-4 col-6 mb-3">
                                     <label class="mb-2 d-block">Quantity</label>
@@ -119,41 +79,53 @@
         </section>
         <!-- content -->
 
-        <section class="bg-light border-top py-4">
+        <section class="border-top py-4">
             <div class="container">
                 <div class="row gx-4">
-                    <div class="col-lg-8 mb-4">
-                        <div class="border rounded-2 px-3 py-2 bg-white">
+                    <div class="col-lg-12 mb-4">
+                        <div class="px-3 py-2 bg-white">
                             <!-- Pills navs -->
-                            <h3>Review</h3>
+                            <h3 class="d-flex justify-content-center pb-4">Customer reviews</h3>
                             <!-- Pills navs -->
 
                             <!-- Pills content -->
                             <div class="row d-flex justify-content-center">
-                                <div class="col-md-8 col-lg-6">
-                                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                                <div class="col-4">
+                                    <div class="card" >
                                         <div class="card-body p-4">
-                                            <div class="form-outline mb-4">
-                                                <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
-                                                <label class="form-label" for="addANote">+ Add a note</label>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h3 class="mb-0 ms-2">Overall</h3>
                                             </div>
-
+                                            <div class="text-warning mb-1 me-2">
+                                                <i class="far fa-star "></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                                <i class="far fa-star"></i>
+                                                <span class="ms-1" th:text="${book.getRating()}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card" >
+                                        <div class="card-body p-4">
                                             <div class="card mb-4">
                                                 <div class="card-body">
-                                                    <p>Type your note, and hit enter to add it</p>
-
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
-                                                                 height="25" />
-                                                            <p class="small mb-0 ms-2">Martha</p>
-                                                        </div>
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <p class="small text-muted mb-0">Upvote?</p>
-                                                            <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
-                                                            <p class="small text-muted mb-0">3</p>
-                                                        </div>
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <p class="mb-0 ms-2">Johny</p>
                                                     </div>
+                                                    <div class="text-warning mb-1 me-2">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                        <span class="ms-1" th:text="${book.getRating()}"></span>
+                                                    </div>
+                                                    <p>Type your note, and hit enter to add it</p>
                                                 </div>
                                             </div>
 
