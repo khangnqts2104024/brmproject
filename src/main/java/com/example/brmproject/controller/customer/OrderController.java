@@ -129,7 +129,7 @@ public class OrderController {
     for (Integer bookId: session.getBookIdList())
     {
         BookDTO availableBook=bdService.countAvailable(bookId);
-        if(availableBook==null || availableBook.getAvalableBook()<=0)
+        if(availableBook==null || availableBook.getAvailableBook()<=0)
         {
             session.getBookIdList().remove(Integer.valueOf(bookId));
             model.addAttribute("error",availableBook.getTitle()+" not available anymore!");
@@ -139,7 +139,12 @@ public class OrderController {
     OrdersDTO myOrderDTO=new OrdersDTO();
     myOrderDTO.setRentDayAmount(orderForm.getRentDays());
     //gang cung test
+
+
     myOrderDTO.setCustomerId(1);
+
+
+
 //null
     OrdersDTO dto= service.createOrder(session.getBookIdList(),myOrderDTO);
     //update bookdetail status.

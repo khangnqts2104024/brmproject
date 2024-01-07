@@ -29,7 +29,7 @@ public class BookDTO {
     private Collection<BookDetailDTO> bookDetailsById;
 
     //show availableBook.
-    private Long avalableBook;
+    private Long availableBook;
 
     private Integer numberOfImport;
     private BookshelfCaseDTO bookshelfCaseByBookshelfId;
