@@ -2,6 +2,7 @@ package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.domain.dto.BookDTO;
 import com.example.brmproject.service.BookService;
+import com.example.brmproject.ultilities.StaticFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +26,10 @@ public class BookController {
     }
 
     @GetMapping("/books/showAll")
-    public String showAll(Model model, @ModelAttribute BookDTO book)
+    public String showAll(Model model, @ModelAttribute BookDTO book,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
+        StaticFunction.showAlert(model,alertMessage,alertError);
+
         List<BookDTO> list=service.findAll();
         model.addAttribute("books",list);
         return "customerTemplate/showAllBook";

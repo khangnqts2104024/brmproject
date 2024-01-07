@@ -1,7 +1,6 @@
 package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.domain.entities.CategoryEntity;
 import com.example.brmproject.repositories.CategoryEntityRepository;
 import com.example.brmproject.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Controller
+
 public class CategoryController {
 
     @Autowired
