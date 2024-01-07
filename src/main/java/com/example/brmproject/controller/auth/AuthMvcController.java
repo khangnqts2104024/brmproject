@@ -86,7 +86,7 @@ public class AuthMvcController {
   }
 
   @PostMapping("/login")
-    public String login( @Valid @ModelAttribute("loginRequest") LoginRequestDTO loginRequest,  BindingResult bindingResult, Model model){
+    public String login( @Valid @ModelAttribute("loginRequest") LoginRequestDTO loginRequest, BindingResult bindingResult  , Model model ){
         try {
 
           if (bindingResult.hasErrors()) { 
