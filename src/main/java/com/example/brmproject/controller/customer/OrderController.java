@@ -53,7 +53,7 @@ public class OrderController {
             model.addAttribute("error","Sorry! Maximum number of books to rend is 5!");
         }
         //check available
-        else if(bookDTO.getAvalableBook()<=0)
+        else if(bookDTO.getAvailableBook()<=0)
         {
             model.addAttribute("error","Sorry! This book is not available now!");
         }
