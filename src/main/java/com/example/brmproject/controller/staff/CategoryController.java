@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-<<<<<<< HEAD:src/main/java/com/example/brmproject/controller/staff/CategoryController.java
 @RequestMapping("staff")
-=======
 
->>>>>>> develop:src/main/java/com/example/brmproject/controller/customer/CategoryController.java
 public class CategoryController {
 
     @Autowired
