@@ -49,9 +49,11 @@ public class OrderServiceImp implements OrderService {
         String formattedNow = bookingDateTime.format(formatter);
         ordersDTO.setOrderStatus(OrderStatus.BOOKING);
         ordersDTO.setBookingDate(formattedNow);
+        //check stock
+
+
         //total amount
         ordersDTO.setTotalAmount(countTotalAmount(bookIdList,ordersDTO.getRentDayAmount()));
-
         //get debit
         CustomerEntity customer=customerRepostory.findById(ordersDTO.getCustomerId()).get();
         double debit= customer.getDebit();
@@ -170,20 +172,7 @@ public class OrderServiceImp implements OrderService {
         return ordersDTO;
     }
 
-    @Override
-    public void updateCancelAuto() {
 
-    }
-
-    @Override
-    public void updateOverDueAuto() {
-
-    }
-
-    @Override
-    public void updateLostAuto() {
-
-    }
 
     //create orderDetail
     public void createOrderDetail(List<Integer> bookIdList,Integer orderId)
@@ -250,11 +239,7 @@ public class OrderServiceImp implements OrderService {
                 }
         }
     }
-    //order schedule
-
-
-
-
+    //CHECK STOCK
 
 ///
     public OrdersDTO mapToDTO(OrdersEntity order) {

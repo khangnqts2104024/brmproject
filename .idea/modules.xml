@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/brmproject.main.iml" filepath="$PROJECT_DIR$/.idea/modules/brmproject.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.brmproject.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.brmproject.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hackathonproject.brmproject.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hackathonproject.brmproject.main.iml" />
     </modules>
   </component>
 </project>
