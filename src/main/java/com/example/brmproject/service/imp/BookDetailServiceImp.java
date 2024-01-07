@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +66,43 @@ public class BookDetailServiceImp implements BookDetailService {
     public void addBookDetails(Integer bookId,Integer numberBD) {
 
 
+    }
+
+    @Override
+    public BookDetailDTO addBookDetails(BookDetailDTO bookDetailDTO) {
+        BookDetailEntity bookDetailEntity = bookDetailRepo.save(mapToEntity(bookDetailDTO));
+        return mapToDTO(bookDetailEntity);
+    }
+
+    @Override
+    public List<BookDetailDTO> countAllBooks(Integer bookId) {
+        List<BookDetailEntity> books = bookDetailRepo.findByBookId(bookId);
+        List<BookDetailDTO> bookDTOS = books.stream().map(book -> mapToDTO(book)).collect(Collectors.toList());
+        return bookDTOS;
+    }
+
+    @Override
+    public List<BookDetailDTO> findAllBookDetail(Integer bookId) {
+
+        List<BookDetailEntity> list = bookDetailRepo.findByBookId(bookId);
+
+        List<BookDetailDTO> bookDetailDTOList =  list.stream()
+                .map(book -> mapToDTO(book)).collect(Collectors.toList());
+
+//        List<BookDetailDTO> list1 = new ArrayList<>();
+//
+//        for (BookDetailEntity entity :list) {
+//            BookDetailDTO bookDetailDTO = new BookDetailDTO();
+//
+//            bookDetailDTO.setId(entity.getId());
+//            bookDetailDTO.setStatus(entity.getStatus());
+//            bookDetailDTO.setBookId(entity.getBookId());
+//            bookDetailDTO.setImportDate(entity.getImportDate());
+//
+//            list1.add(bookDetailDTO);
+//        }
+//        return list1;
+        return bookDetailDTOList;
     }
 
 

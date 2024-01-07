@@ -20,9 +20,11 @@
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
 </head>
 <body>
-<section layout:fragment="content">
+<section layout:fragment="content" class="content-wrapper">
+
+
     <div class="user-info-container">
-        <form method="post" th:action="@{/admin/categories/new}" th:object="${category}">
+        <form method="post" th:action="@{/staff/categories/new}" th:object="${category}">
             <div class="container">
                 <h3 class="mt-4 d-flex justify-content-center">Create new category</h3>
                 <div>

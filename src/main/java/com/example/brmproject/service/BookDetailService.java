@@ -3,6 +3,8 @@ package com.example.brmproject.service;
 import com.example.brmproject.domain.dto.BookDTO;
 import com.example.brmproject.domain.dto.BookDetailDTO;
 
+import java.util.List;
+
 
 public interface BookDetailService {
 
@@ -15,6 +17,10 @@ public interface BookDetailService {
 
     void addBookDetails(Integer bookId,Integer numberBD);
 
+    List<BookDetailDTO> countAllBooks(Integer bookId);
 
+    BookDetailDTO addBookDetails(BookDetailDTO bookDetailDTO);
+
+    List<BookDetailDTO> findAllBookDetail(Integer bookId);
 
 }
