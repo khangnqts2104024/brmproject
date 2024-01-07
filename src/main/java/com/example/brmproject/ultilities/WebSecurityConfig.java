@@ -1,5 +1,6 @@
 package com.example.brmproject.ultilities;
 
+import com.example.brmproject.security.jwt.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +21,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 
-
-
-
-
-
-
 @Configuration
 @EnableMethodSecurity(
     prePostEnabled = true)
@@ -35,6 +30,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private AuthEntryPointJwt unauthorizedHandler;
+
+
+  @Autowired
+  private CustomAccessDeniedHandler accessDeniedHandler;
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -69,7 +68,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {    
         http.csrf(csrf -> csrf.disable())
-            .exceptionHandling(exp -> exp.authenticationEntryPoint(unauthorizedHandler))
+            .exceptionHandling(exp -> exp.authenticationEntryPoint(unauthorizedHandler).accessDeniedHandler(accessDeniedHandler))
             .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/staff/**").hasAnyAuthority("STAFF", "ADMIN")
@@ -79,6 +78,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
         return http.build();
     }
+
+
 
 
 }
