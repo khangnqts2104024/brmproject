@@ -19,9 +19,7 @@ public interface OrderService {
     OrdersDTO completedOrder(Integer orderId);
 
 
-    void updateCancelAuto();
-    void updateOverDueAuto();
-    void updateLostAuto();
+
 
 
 

@@ -2,7 +2,6 @@ package com.example.brmproject.controller.staff;
 
 import com.example.brmproject.domain.dto.CategoryBookDTO;
 import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.domain.entities.CategoryEntity;
 import com.example.brmproject.repositories.CategoryEntityRepository;
 import com.example.brmproject.service.CategoryBookService;
 import com.example.brmproject.service.CategoryService;
@@ -11,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Controller
+<<<<<<< HEAD:src/main/java/com/example/brmproject/controller/staff/CategoryController.java
 @RequestMapping("staff")
+=======
+
+>>>>>>> develop:src/main/java/com/example/brmproject/controller/customer/CategoryController.java
 public class CategoryController {
 
     @Autowired
