@@ -32,9 +32,7 @@ import java.util.List;
  return "customerTemplate/showAllBook";
  }
 
-<<<<<<< HEAD
- }
-=======
+
     @GetMapping("/books/showAll")
     public String showAll(Model model, @ModelAttribute BookDTO book,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
@@ -46,4 +44,4 @@ import java.util.List;
     }
 
 }
->>>>>>> develop
+
