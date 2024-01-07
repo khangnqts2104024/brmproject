@@ -1,6 +1,7 @@
 package com.example.brmproject.controller.customer;
 
 
+import com.example.brmproject.controller.auth.AuthenticationHelper;
 import com.example.brmproject.domain.dto.*;
 import com.example.brmproject.service.BookDetailService;
 import com.example.brmproject.service.OrderDetailService;
@@ -8,6 +9,7 @@ import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +28,19 @@ public class OrderController {
      private OrderDetailService odService;
      private BookDetailService bdService;
      private BookService bookService;
+     private AuthenticationHelper authenticationHelper;
     @Autowired
-    public OrderController(OrderService service, BookDetailService bdService, OrderDetailService odService, BookService bookService) {
+    public OrderController(OrderService service,
+                           BookDetailService bdService,
+                           OrderDetailService odService,
+                           BookService bookService,
+                           AuthenticationHelper authenticationHelper
+    ) {
         this.service = service;
         this.bdService = bdService;
         this.bookService = bookService;
         this.odService = odService;
+        this.authenticationHelper = authenticationHelper;
     }
 
     @ModelAttribute("session")
@@ -174,9 +183,10 @@ public class OrderController {
     //staff
 
 
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/orders")
     public String orders(Model model) {
-        int userId = 1;
+        int userId = authenticationHelper.getUserIdFromAuthentication();
         List<OrdersDTO> orderList = service.getAllOrdersOfUser(userId);
         model.addAttribute("orders", orderList);
         model.addAttribute("amount", orderList.size());
@@ -184,9 +194,11 @@ public class OrderController {
         return "/customerTemplate/orders/orderList";
     }
 
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/orders/{orderId}")
     public String order(@PathVariable("orderId") int orderId, Model model) {
-        List<OrderDetailDTO> orderDetailList = odService.getOrdersDetail(orderId);
+        int userId = authenticationHelper.getUserIdFromAuthentication();
+        List<OrderDetailDTO> orderDetailList = odService.getOrdersDetail(orderId, userId);
         model.addAttribute("orderDetails", orderDetailList);
 
         int order = orderDetailList.get(0).getOrderId();

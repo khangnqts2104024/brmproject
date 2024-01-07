@@ -2,6 +2,7 @@ package com.example.brmproject.service.imp;
 
 import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.domain.dto.ReviewRatingDTO;
+import com.example.brmproject.domain.dto.UserReviewDTO;
 import com.example.brmproject.domain.entities.OrderDetailEntity;
 import com.example.brmproject.exception.orderDetail.OrderDetailNotFoundException;
 import com.example.brmproject.exception.reviewRating.ReviewRatingNotFoundException;
@@ -71,18 +72,34 @@ public class ReviewRatingServiceImp implements ReviewRatingService {
         List<OrderDetailEntity> listReview = orderDetailEntityRepository.findByBookId(bookId);
 
         if(listReview.isEmpty()) {
-            throw new ReviewRatingNotFoundException("Review rating not found");
+            return new ReviewRatingDTO();
         }
 
         List<OrderDetailEntity> listFilter = listReview.stream().filter((review) -> review.getValidReview().equals("VALID")).toList();
 
+        if(listFilter.isEmpty()) {
+            return new ReviewRatingDTO();
+        }
+
         double avrRating = 0;
-        List<String> listReviewString = listFilter.stream().map((review) -> review.getReview()).toList();
         avrRating = listFilter.stream().reduce(0.0, (acc, review) -> acc + review.getRating(), (acc1, acc2) -> acc1 + acc2);
 
+        List<UserReviewDTO> listReviewString = listFilter.stream().map((review) -> {
+            UserReviewDTO userReviewDTO = new UserReviewDTO();
+            String userName = review.getOrdersByOrderId().getCustomerByCustomerId().getName();
+            int userId = review.getOrdersByOrderId().getCustomerId();
+
+            userReviewDTO.setUsername(userName);
+            userReviewDTO.setId(userId);
+            userReviewDTO.setReview(review.getReview());
+            userReviewDTO.setRating(review.getRating());
+
+            return userReviewDTO;
+        }).toList();
+
         ReviewRatingDTO reviewRatingDTO = new ReviewRatingDTO();
-        reviewRatingDTO.setRating(avrRating / listFilter.size());
-        reviewRatingDTO.setReview(listReviewString);
+        reviewRatingDTO.setAvrRating(avrRating / listFilter.size());
+        reviewRatingDTO.setListReview(listReviewString);
 
         return reviewRatingDTO;
     }

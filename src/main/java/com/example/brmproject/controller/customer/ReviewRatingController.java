@@ -1,6 +1,7 @@
 package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.domain.dto.OrderDetailDTO;
+import com.example.brmproject.domain.dto.ReviewRatingDTO;
 import com.example.brmproject.service.imp.ReviewRatingServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,15 @@ public class ReviewRatingController {
         model.addAttribute("orderDetailId", orderDetailId);
         model.addAttribute("reviewObj", new OrderDetailDTO());
         model.addAttribute("orderId", orderId);
+        int bookId = 1;
+        ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
+
+        System.out.println(reviewRatingDTO.getAvrRating());
+        reviewRatingDTO.getListReview().forEach(review -> {
+            System.out.println(review.getReview());
+            System.out.println(review.getRating());
+            System.out.println(review.getUsername());
+        });
 
         return "/customerTemplate/review/reviewBook";
     }
