@@ -25,13 +25,13 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th>#Number</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Quantity</th>
                     <th>Price/day</th>
                     <th>Book Shelf</th>
-                    <th>Action</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,19 +41,19 @@
                     <td th:text="${book.getTitle()}" style="width: 300px;"></td>
                     <td th:text="${book.getAuthor()}"></td>
                     <td th:text="${book.getExistBook}"></td>
-                    <td th:text="${book.getPricePerDay()}"></td>
+                    <td th:text="${'$' + book.getPricePerDay()}"></td>
                     <td
                             th:text="${book.getBookshelfCaseByBookshelfId() != null ? book.getBookshelfCaseByBookshelfId().getBookshelfCode() : 'N/a'}">
                     </td>
                     <td>
-                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit</a>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-success" th:href="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}">Import</a>
-                    </td>
-                    <td>
+                        <a type="button" class="btn btn-primary mt-2" th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit</a>
+
+                        <a type="button" class="btn btn-success mt-2" th:href="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}">Import</a>
+
+                        <a th:href="@{/staff/books/showBookDetail/{bookId}(bookId=${book.getId()})}"
+                           class="btn btn-dark mt-2">Detail</a>
                         <a th:href="@{/staff/books/detail/{bookId}(bookId=${book.getId()})}"
-                           class="btn btn-dark">Change Bookshelf</a>
+                           class="btn btn-warning mt-2">Change Bookshelf</a>
                     </td>
                 </tr>
                 </tbody>
