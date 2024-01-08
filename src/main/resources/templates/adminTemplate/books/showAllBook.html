@@ -21,22 +21,41 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Author</th>
+                    <th>Quantity</th>
                     <th>Price/day</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="book, stat : ${books}">
-                    <td th:text="${stat.index + 1}"></td>
-                    <td th:text="${book.getTitle()}"></td>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.getId()}"></td>
+                    <td th:text="${book.getTitle()}" style="width: 300px;"></td>
                     <td th:text="${book.getAuthor()}"></td>
+                    <td th:text="${book.getExistBook}"></td>
                     <td th:text="${book.getPricePerDay()}"></td>
-                    <td><a th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit quantity</a></td>
+                    <td>
+                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit</a>&emsp;&emsp;
+                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}">Import</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
-            <a class="btn btn-primary d-flex justify-content-center" th:href="@{/staff/books/new}"> create </a>
+            <div class="d-flex justify-content-end pr-6">
+                <a class="btn btn-primary" th:href="@{/staff/books/new}"> create </a>
+            </div>
         </div>
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+            <ul  class="pagination">
+                <li th:each="pageNumber : ${pageNumbers}"  class="page-item">
+                    <a
+                            th:class="${pageNumber == books.number + 1} ? 'active page-link' : 'page-link'"
+                            th:href="@{/staff/books(page=${pageNumber})}"
+                            th:text="${pageNumber}">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
     </div> <!-- /container -->
 
 </section>

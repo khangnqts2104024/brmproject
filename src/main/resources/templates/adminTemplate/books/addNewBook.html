@@ -38,15 +38,6 @@
                             <input th:field="*{author}" type="text"  class="form-control" id="author">
                             <p class="error-text" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Name Error</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="quantityBooks" class="form-label">Quantity of book</label>
-                            <input
-                                    type="number"
-                                    class="form-control"
-                                    id="quantityBooks"
-                                    name="quantityBooks"
-                            />
-                        </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="preview" class="form-label">Preview content</label>
@@ -75,9 +66,15 @@
                             <input th:field="*{photo}" type="text"  class="form-control" id="photo">
                             <p class="error-text" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}">Name Error</p>
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Create book</button>
+                        <div>
+                            <div class="d-flex justify-content-start">
+                                <a  th:href="@{/staff/books}" type="button" class="btn btn-primary">Return</a>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Create book</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

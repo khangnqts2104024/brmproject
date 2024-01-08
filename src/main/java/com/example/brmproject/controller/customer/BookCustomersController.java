@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -52,14 +53,8 @@ public class BookCustomersController {
         }
         for (BookDTO book : listBooks) {
             ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
-            Double bookRating = reviewRatingDTO.getAvrRating();
-            if (Double.isNaN(bookRating)) {
-                book.setRating(0.0);
-            } else {
                 book.setRating(reviewRatingDTO.getAvrRating());
-            }
         }
-
         model.addAttribute("books", listBooks);
         model.addAttribute("categories", categoryList);
         return "customerTemplate/books/showAllBook";
@@ -80,12 +75,6 @@ public class BookCustomersController {
                 .stream()
                 .map(categoryBook -> categoryBook.getBookByBookId())
                 .collect(Collectors.toList());
-        //
-        // List<BookDTO> listBooks = listBooksId
-        // .stream()
-        // .map(bookId -> bookService.findBookById(bookId))
-        // .collect(Collectors.toList());
-
         List<CategoryDTO> categoryList = categoryService.findAll();
         int totalPages = categoryBooks.getTotalPages();
         if (totalPages > 0) {
@@ -94,6 +83,10 @@ public class BookCustomersController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        for (BookDTO book : listBooks) {
+            ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
+            book.setRating(reviewRatingDTO.getAvrRating());
+        }
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("categoryBooks", categoryBooks);
         model.addAttribute("books", listBooks);
@@ -101,23 +94,30 @@ public class BookCustomersController {
         return "customerTemplate/books/showListBooksByCategoryID";
     }
 
-    
-
-    public String getBookDetail(@PathVari
-
-                                Model model) {
+    @GetMapping("/books/detail/{bookId}")
+    public String getBookDetail(@PathVariable Integer bookId,
+                                Model model,
+                                @ModelAttribute("alertMessage") String alertMessage,
+                                @ModelAttribute("alertError") String alertError) {
+        StaticFunction.showAlert(model, alertMessage, alertError);
 
         ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
         BookDTO bookDTO = bookService.findBookById(bookId);
         double avrRating = reviewRatingDTO.getAvrRating();
         bookDTO.setRating(avrRating);
 
+
         List<UserReviewDTO> listUserReviews = reviewRatingDTO.getListReview();
 
-        model.addAttribute("listUserReviews", listUserReviews);
-    
-       
+        List<String> categories= categoryBookService.findByBookId(bookId)
+                .stream().map(categoryBook -> categoryBook.getCategoryByBookId().getName())
+                .collect(Collectors.toList());
 
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("listUserReviews", listUserReviews);
+        model.addAttribute("book", bookDTO);
         return "customerTemplate/books/bookDetail";
     }
+
 }

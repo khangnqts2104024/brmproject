@@ -64,12 +64,12 @@ public class BookServiceImp  implements BookService {
     }
 
 
+    // Pagination in staff book list
     @Override
-    public List<BookDTO> findAllBooks() {
-        return bookRepo.findAll()
-                .stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+    public Page<BookDTO> findAllBooks(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookEntity> bookPage= bookRepo.findAll(pageable);
+        return bookPage.map(this::mapToDTO);
     }
 
     @Override

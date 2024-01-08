@@ -16,7 +16,7 @@ public interface BookService {
 
     BookDTO findBookById(Integer bookId);
 
-    List<BookDTO> findAllBooks();
+    Page<BookDTO> findAllBooks(int page, int size) ;
 
     List<BookDTO> findAvailableBook();
 
