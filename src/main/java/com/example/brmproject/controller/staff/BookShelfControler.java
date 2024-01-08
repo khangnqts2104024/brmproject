@@ -5,6 +5,7 @@ import com.example.brmproject.service.BookShelfService;
 import com.example.brmproject.ultilities.StaticFunction;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,22 +23,23 @@ public class BookShelfControler {
     public BookShelfControler(BookShelfService bookShelfService) {
         this.bookShelfService = bookShelfService;
     }
-    @GetMapping("/bookshelf/search/{bookId}")
-    public String searchByBookId(Model model,@PathVariable Integer bookId)
+    @PostMapping("/bookshelf/search")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
+    public String searchByBookId(Model model,@RequestParam Integer bookId,RedirectAttributes redirectAttributes)
         {
             try {
                 BookshelfCaseDTO caseDTO = bookShelfService.searchByBookId(bookId);
                 model.addAttribute("case", caseDTO);
-
                 return "adminTemplate/bookShelf/bookshelf-detail";
             }catch (Exception e)
             {
-                model.addAttribute("error",e.getMessage());
-                return "/error";
+                redirectAttributes.addFlashAttribute("alertError",e.getMessage());
+                return "redirect:/staff/bookshelf/show-all";
             }
         }
 
     @GetMapping("/bookshelf/search-blank-case/{num}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String showBlank(Model model,@PathVariable Integer num)
     {
         List<BookshelfCaseDTO> list=bookShelfService.findBlankCase(num);
@@ -46,12 +48,14 @@ public class BookShelfControler {
 
     }
     @GetMapping("/bookshelf/create")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String create (Model model){
         BookshelfCaseDTO bookshelfCase=new BookshelfCaseDTO();
         model.addAttribute("bookshelf",bookshelfCase);
         return "adminTemplate/bookShelf/create";
     }
     @PostMapping("/bookshelf/create")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String create (Model model, @ModelAttribute("bookshelf") @Valid BookshelfCaseDTO bookshelfCase, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bookshelf", bookshelfCase);
@@ -59,14 +63,15 @@ public class BookShelfControler {
         }
 
         if(bookShelfService.create(bookshelfCase)) {
-            redirectAttributes.addAttribute("alertMessage","Create BookShelf success!");
+            redirectAttributes.addFlashAttribute("alertMessage","Create BookShelf success!");
         } else {
-            redirectAttributes.addAttribute("alertError","Opps ! Something wrong!");
+            redirectAttributes.addFlashAttribute("alertError","Opps ! Something wrong!");
         }
         return "redirect:/staff/bookshelf/show-all";
     }
 
     @GetMapping("/bookshelf/show-all")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String showAll (Model model,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
         StaticFunction.showAlert(model,alertMessage,alertError);
@@ -76,5 +81,10 @@ public class BookShelfControler {
         return "adminTemplate/bookShelf/showAllCase";
     }
 
-
+//home
+    @GetMapping("/dashboard")
+    public String home()
+    {
+        return "adminTemplate/home";
+    }
 }

@@ -5,6 +5,7 @@ import com.example.brmproject.service.*;
 import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -137,6 +138,7 @@ public class BookStaffController {
 
 //change bookshelf
     @GetMapping("/books/detail/{bookId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String showDetail(Model model,@PathVariable Integer bookId) {
             BookDTO bookDTO=bookService.findBookById(bookId);
             List<BookshelfCaseDTO> list=bookShelfService.findBlankCase(bookDTO.getExistBook());
@@ -147,6 +149,7 @@ public class BookStaffController {
     }
 
     @PostMapping("/books/change-case")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String changeCase(Model model,@ModelAttribute BookDTO bookDTO)
     {
         bookService.changeBookCase(bookDTO.getId(),bookDTO.getBookshelfId());

@@ -52,6 +52,7 @@ public class OrderController {
     }
 
     @GetMapping("/addItem/{bookId}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String addItemToOrder(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
@@ -79,6 +80,7 @@ public class OrderController {
 
 
     @GetMapping("/addItemInDetail/{bookId}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String addItemToOrderInDetail(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
@@ -104,6 +106,7 @@ public class OrderController {
 
 
     @GetMapping("/removeBook/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String removeBook(@ModelAttribute("session") MySession session, @PathVariable Integer id) {
         //find bd in session have bookid=id.
 
@@ -112,6 +115,7 @@ public class OrderController {
     }
 
     @GetMapping("/removeAllBook")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String removeAllBook(@ModelAttribute("session") MySession session) {
         //change book detail status
 
@@ -122,6 +126,7 @@ public class OrderController {
 
 
     @GetMapping("/showCart")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String showCart(@ModelAttribute("session") MySession session, Model model,@ModelAttribute("alertMessage") String alertMessage,
                            @ModelAttribute("alertError") String alertError) {
 
@@ -135,7 +140,7 @@ public class OrderController {
     }
 
     @PostMapping("/createOrder")
-//    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
     {
     try{
