@@ -1,12 +1,18 @@
 package com.example.brmproject.controller.auth;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-
-
+import com.example.brmproject.domain.dto.JwtResponseDTO;
+import com.example.brmproject.domain.dto.LoginRequestDTO;
+import com.example.brmproject.domain.dto.MessageResponseDTO;
+import com.example.brmproject.domain.dto.SignupRequestDTO;
+import com.example.brmproject.domain.entities.*;
+import com.example.brmproject.repositories.CustomerEntityRepository;
+import com.example.brmproject.repositories.RoleEntityRepository;
+import com.example.brmproject.repositories.StaffEntityRepository;
+import com.example.brmproject.repositories.UserEntityRepository;
+import com.example.brmproject.security.jwt.JwtUtils;
+import com.example.brmproject.service.imp.UserDetailsImpl;
+import jakarta.validation.Valid;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,34 +20,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.brmproject.domain.dto.JwtResponseDTO;
-import com.example.brmproject.domain.dto.LoginRequestDTO;
-import com.example.brmproject.domain.dto.SignupRequestDTO;
-
-import com.example.brmproject.domain.entities.CustomerEntity;
-import com.example.brmproject.domain.entities.ERole;
-import com.example.brmproject.domain.entities.RoleEntity;
-import com.example.brmproject.domain.entities.StaffEntity;
-import com.example.brmproject.domain.entities.UserEntity;
-import com.example.brmproject.repositories.CustomerEntityRepository;
-import com.example.brmproject.repositories.RoleEntityRepository;
-import com.example.brmproject.repositories.StaffEntityRepository;
-import com.example.brmproject.repositories.UserEntityRepository;
-import com.example.brmproject.security.jwt.JwtUtils;
-import com.example.brmproject.service.imp.UserDetailsImpl;
-import com.example.brmproject.domain.dto.MessageResponseDTO;
-import org.apache.commons.lang3.RandomStringUtils;
-
-
-
-
-import jakarta.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -67,6 +51,7 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+
 
 
   @PostMapping("/signin")
