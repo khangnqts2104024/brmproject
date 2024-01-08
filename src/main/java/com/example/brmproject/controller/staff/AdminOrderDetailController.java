@@ -3,6 +3,7 @@ package com.example.brmproject.controller.staff;
 import com.example.brmproject.domain.dto.OrderDetailDTO;
 import com.example.brmproject.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class AdminOrderDetailController {
 
 
     @GetMapping("/mark-lost/{orderDetailId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String lostOrderDetail(Model model, @PathVariable Integer orderDetailId)
     {
         OrderDetailDTO orderDetail=service.markAsLost(orderDetailId);

@@ -5,6 +5,7 @@ import com.example.brmproject.service.BookDetailService;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class AdminOrderController {
 
 
     @GetMapping("/rent-confirm-order/{orderId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String rentOrder(Model model, @PathVariable Integer orderId, RedirectAttributes redirectAttributes)
     {
 
@@ -49,6 +51,7 @@ public class AdminOrderController {
 
 
     @GetMapping("/return-confirm-order/{orderId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String returnOrder(Model model, @PathVariable Integer orderId,RedirectAttributes redirectAttributes)
     {
          try{
@@ -63,6 +66,7 @@ public class AdminOrderController {
     }
 
     @GetMapping("/show-all")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String showAll(Model model, @ModelAttribute("alertMessage") String alertMessage, @ModelAttribute("alertError") String alertError)
     {
         try {
@@ -78,6 +82,7 @@ public class AdminOrderController {
         }
     }
     @GetMapping("/show-by-status/{status}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String showByStatus(Model model,@PathVariable String status,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
         try {
@@ -93,6 +98,7 @@ public class AdminOrderController {
         }
     }
     @GetMapping("/order-detail/{orderId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String orderDetail(Model model,@PathVariable Integer orderId,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
     {
 
