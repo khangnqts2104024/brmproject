@@ -23,41 +23,32 @@
 <section layout:fragment="content" class="content-wrapper">
     <div class="user-info-container">
         <form method="post"
-              th:action="@{/staff/categories/update/{categoryId}(categoryId=${category.getId()})}"
-              th:object="${newCategory}">
+              th:action="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}"
+              th:object="${book}">
             <div class="container">
-                <h3 class="mt-4 d-flex justify-content-center">Update category</h3>
+                <h3 class="mt-4 d-flex justify-content-center">Import the quantity of books</h3>
                 <div>
                     <div>
-                        <div class="mb-3 pt-2">
-                            <label for="name" class="form-label">Category name</label>
+                        <div class="mb-3">
+                            <label for="quantityBooks" class="form-label">Quantity of book</label>
                             <input
-                                    th:value="${category.getName()}"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
-                                    id="name"
-                                    name="name"
+                                    id="quantityBooks"
+                                    name="quantityBooks"
+                                    required
                             />
                         </div>
                         <div></div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea
-                                    th:value="${category.getDescription()}"
-                                    class="form-control"
-                                    id="description"
-                                    name="description"
-                                    rows="3"
-                            ></textarea>
-                        </div>
                         <div>
                             <div class="d-flex justify-content-start">
-                                <a  th:href="@{/staff/categories}" type="button" class="btn btn-primary">Return</a>
+                                <a  th:href="@{/staff/books}" type="button" class="btn btn-primary">Return</a>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Update category</button>
+                                <button type="submit" class="btn btn-primary">Import</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -66,6 +57,11 @@
 </section>
 
 <section layout:fragment="optional">
+    <script>
+        $("select").select2({
+            theme: "bootstrap-5",
+        });
+    </script>
 </section>
 </body>
 
