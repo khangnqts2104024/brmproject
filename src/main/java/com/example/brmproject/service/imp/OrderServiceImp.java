@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,8 +67,8 @@ public class OrderServiceImp implements OrderService {
             OrdersEntity order= orderRepository.save(mapToEntity(ordersDTO));
             OrdersEntity newOrder= orderRepository.findById(order.getId()).orElseThrow(()->new ResourceNotFoundException("Order","Id",String.valueOf(order.getId())));
 
-            createOrderDetail(bookIdList,newOrder.getId());
-            changeBookDetailStatus(bookIdList);
+          List<OrderDetailEntity> orderDetails=  createOrderDetail(bookIdList,newOrder.getId());
+            changeBookDetailStatus(orderDetails);
             //add all list/
 /// chuyen bd
             return mapToDTO(newOrder);
@@ -120,7 +121,7 @@ public class OrderServiceImp implements OrderService {
     public void rentOrder(Integer orderId) {
 
         OrdersEntity order= orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Order","id",String.valueOf(orderId)));
-//        OrdersDTO ordersDTO= mapToDTO(order);
+        OrdersDTO ordersDTO= mapToDTO(order);
              int userId = authenticationHelper.getUserIdFromAuthentication();
              order.setEmployeeId(userId);
 
@@ -133,6 +134,7 @@ public class OrderServiceImp implements OrderService {
         {
             updateBookDetailRent(mapToDTO(order));
             order.setOrderStatus(OrderStatus.RENT.toString());
+            updateBookDetailRent(ordersDTO);
             order.setRentDate(formattedNow);
            CustomerEntity customer=  order.getCustomerByCustomerId();
            customer.setDebit(debit - order.getTotalAmount());
@@ -182,19 +184,20 @@ public class OrderServiceImp implements OrderService {
 
 
     //create orderDetail
-    public void createOrderDetail(List<Integer> bookIdList,Integer orderId)
+    public List<OrderDetailEntity> createOrderDetail(List<Integer> bookIdList,Integer orderId)
     {
-
+        List<OrderDetailEntity> books=new ArrayList<>();
         for (Integer bookId:bookIdList) {
             if(bookId!=null){
           OrderDetailEntity od=new OrderDetailEntity();
           od.setOrderId(orderId);
           od.setBookId(bookId);
           ODRepository.save(od);
+            books.add(od);
+              }
 
-          }
         }
-
+        return books;
     }
 
     public void updateBookDetailStatus(OrdersDTO order)
@@ -206,6 +209,18 @@ public class OrderServiceImp implements OrderService {
             BookDetailEntity bookDetail=bookDetailRepository.findById(od.getBookDetailId()).get();
             bookDetail.setStatus(BookDetailStatus.AVAILABLE.toString());
             bookDetailRepository.save(bookDetail);
+            }
+        }
+    }
+    public void updateBookDetailRent(OrdersDTO order)
+    {
+        for (OrderDetailDTO od: order.getOrderDetailsById())
+        {
+            if(!od.isLost())
+            {
+                BookDetailEntity bookDetail=bookDetailRepository.findById(od.getBookDetailId()).get();
+                bookDetail.setStatus(BookDetailStatus.RENT.toString());
+                bookDetailRepository.save(bookDetail);
             }
         }
 
@@ -233,15 +248,19 @@ public class OrderServiceImp implements OrderService {
     }
 
 
-    public void changeBookDetailStatus(List<Integer> bookIds)
+    public void changeBookDetailStatus(List<OrderDetailEntity> orderDetails)
     {
-        for (Integer bookId:bookIds)
+        for (OrderDetailEntity orderdetail:orderDetails)
         {
-            BookEntity book=bookRepository.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book","id",String.valueOf(bookId)));
+            BookEntity book=bookRepository.findById(orderdetail.getBookId()).orElseThrow(()->new ResourceNotFoundException("Book","id",String.valueOf(orderdetail.getBookId())));
                 if(book!=null)
                 {
-               BookDetailEntity bdEntity=  book.getBookDetailsById().stream().filter(bd->bd.getStatus().equals(BookDetailStatus.AVAILABLE.toString())).findFirst().get();
+                    //DOI STATUS
+                    BookDetailEntity bdEntity=  book.getBookDetailsById().stream().filter(bd->bd.getStatus().equals(BookDetailStatus.AVAILABLE.toString())).findFirst().get();
                     bdEntity.setStatus(BookDetailStatus.BOOKED.toString());
+                    //gan id cho bookdetail
+                    orderdetail.setBookDetailId(bdEntity.getId());
+                    ODRepository.save(orderdetail);
                     bookDetailRepository.save(bdEntity);
                 }
         }
