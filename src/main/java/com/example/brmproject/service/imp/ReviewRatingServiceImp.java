@@ -8,6 +8,7 @@ import com.example.brmproject.exception.orderDetail.OrderDetailNotFoundException
 import com.example.brmproject.repositories.OrderDetailEntityRepository;
 import com.example.brmproject.service.ReviewRatingService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class ReviewRatingServiceImp implements ReviewRatingService {
     private ModelMapper modelMapper;
 
     private OrderDetailEntityRepository orderDetailEntityRepository;
-
+@Autowired
     public ReviewRatingServiceImp(OrderDetailEntityRepository orderDetailEntityRepository, ModelMapper modelMapper) {
         this.orderDetailEntityRepository = orderDetailEntityRepository;
         this.modelMapper = modelMapper;

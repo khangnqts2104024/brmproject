@@ -52,6 +52,7 @@ public class BookDTO {
     // show availableBook.
     private Long availableBook;
     private Long existBook;
+
     private Integer numberOfImport;
 
 

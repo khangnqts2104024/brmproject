@@ -1,11 +1,7 @@
 package com.example.brmproject.service.imp;
 
-import com.example.brmproject.domain.dto.BookDTO;
 import com.example.brmproject.domain.dto.CategoryBookDTO;
-import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.domain.entities.BookEntity;
 import com.example.brmproject.domain.entities.CategoryBookEntity;
-import com.example.brmproject.repositories.BookEntityRepository;
 import com.example.brmproject.repositories.CategoryBookEntityRepository;
 import com.example.brmproject.service.CategoryBookService;
 import org.modelmapper.ModelMapper;
@@ -22,11 +18,13 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryBookServiceImp implements CategoryBookService {
 
-    @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
     private CategoryBookEntityRepository categoryBookEntityRepository;
+    @Autowired
+    public CategoryBookServiceImp(ModelMapper modelMapper, CategoryBookEntityRepository categoryBookEntityRepository) {
+        this.modelMapper = modelMapper;
+        this.categoryBookEntityRepository = categoryBookEntityRepository;
+    }
 
     @Override
     public CategoryBookDTO add(CategoryBookDTO categoryBookDTO) {

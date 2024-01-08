@@ -11,16 +11,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImp implements CategoryService {
 
-    @Autowired
+
     private CategoryEntityRepository categoryEntityRepository;
-    @Autowired
+
     private ModelMapper modelMapper;
+    @Autowired
+    public CategoryServiceImp(CategoryEntityRepository categoryEntityRepository, ModelMapper modelMapper) {
+        this.categoryEntityRepository = categoryEntityRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CategoryDTO addNewCategory(CategoryDTO categoryDTO) {

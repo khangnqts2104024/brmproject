@@ -35,7 +35,8 @@ public class AdminOrderController {
     {
 
 
-        try{  service.rentOrder(orderId);
+        try{
+            service.rentOrder(orderId);
 
             redirectAttributes.addFlashAttribute("alertMessage", "Congratulation!Confirm rend success!! ");
 

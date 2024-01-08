@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -45,6 +44,27 @@ public class BookEntity {
     private Collection<BookDetailEntity> bookDetailsById;
     @OneToMany(mappedBy = "bookByBookId")
     private Collection<OrderDetailEntity> orderDetailsById;
+    //
+
+    @Transient
+    private Integer newBookshelfId;  // Thuộc tính này có thể được sử dụng để thực hiện các thao tác trên dữ liệu mà không ảnh hưởng đến JPA
+
+    // getters và setters cho newBookshelfId
+    public Integer getNewBookshelfId() {
+        return newBookshelfId;
+    }
+
+    public void setNewBookshelfId(Integer newBookshelfId) {
+        this.newBookshelfId = newBookshelfId;
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        if (newBookshelfId != null) {
+            this.bookshelfId = newBookshelfId;
+        }
+    }
+    //
 
 
 

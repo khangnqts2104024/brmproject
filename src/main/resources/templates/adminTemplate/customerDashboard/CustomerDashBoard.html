@@ -31,6 +31,8 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Debit</th>
+                    <th>Action</th>
 <!--                    <th>Addresss</th>-->
                 </tr>
                 </thead>
@@ -40,6 +42,8 @@
                         <td th:text="${customer.name}"></td>
                         <td th:text="${customer.email}"></td>
                         <td th:text="${customer.phone}"></td>
+                        <td th:text="${customer.getDebit()}"></td>
+                        <td><a th:href="@{/staff/customer/add-debit/{customerId}(customerId=${customer.getId()})}" class="btn btn-primary">Detail</a></td>
 <!--                        <td th:text="${customer.address}"></td>-->
                     </tr>
                 </tbody>
