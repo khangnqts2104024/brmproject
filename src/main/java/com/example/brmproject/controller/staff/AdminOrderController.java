@@ -35,8 +35,6 @@ public class AdminOrderController {
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String rentOrder(Model model, @PathVariable Integer orderId, RedirectAttributes redirectAttributes)
     {
-
-
         try{
             service.rentOrder(orderId);
 
