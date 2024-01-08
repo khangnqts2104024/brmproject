@@ -154,7 +154,7 @@ public class OrderController {
                 return "customerTemplate/orders/cart";
             }
             if (session.getBookIdList().isEmpty()) {
-                redirectAttributes.addAttribute("alertError", "You have to choose book first!");
+                redirectAttributes.addFlashAttribute("alertError", "You have to choose book first!");
                 return "redirect:/customers/books";
             }
             //check stock
@@ -171,7 +171,7 @@ public class OrderController {
                 }
             }
             if (flag) {
-                redirectAttributes.addAttribute("alertError", "Some of your order book not available anymore!");
+                redirectAttributes.addFlashAttribute("alertError", "Some of your order book not available anymore!");
                 return "redirect:/customers/showCart";
             }
 //
@@ -185,11 +185,16 @@ public class OrderController {
             OrdersDTO dto = service.createOrder(session.getBookIdList(), myOrderDTO);
             //update bookdetail status.
             if (dto != null) {
-                redirectAttributes.addAttribute("alertMessage", "booking success!");
+                redirectAttributes.addFlashAttribute("alertMessage", "booking success!");
 
                 session.getBookIdList().clear();
+                return "redirect:/customers/books";
             }
-            return "redirect:/customers/books";
+            else{
+                redirectAttributes.addFlashAttribute("alertError", "Not enough money in your debit. Must > $20 !");
+                return "redirect:/customers/showCart";
+            }
+
 
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());

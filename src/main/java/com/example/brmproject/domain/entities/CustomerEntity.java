@@ -45,7 +45,6 @@ public class CustomerEntity {
 
 
 
-
     public UserEntity getUserByUserId() {
         return userByUserId;
     }

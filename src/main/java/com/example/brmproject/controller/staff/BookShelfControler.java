@@ -23,9 +23,9 @@ public class BookShelfControler {
     public BookShelfControler(BookShelfService bookShelfService) {
         this.bookShelfService = bookShelfService;
     }
-    @PostMapping("/bookshelf/search")
+    @GetMapping("/bookshelf/search/{bookId}")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
-    public String searchByBookId(Model model,@RequestParam Integer bookId,RedirectAttributes redirectAttributes)
+    public String searchByBookId(Model model,@PathVariable Integer bookId,RedirectAttributes redirectAttributes)
         {
             try {
                 BookshelfCaseDTO caseDTO = bookShelfService.searchByBookId(bookId);
@@ -38,9 +38,9 @@ public class BookShelfControler {
             }
         }
 
-    @GetMapping("/bookshelf/search-blank-case/{num}")
+    @PostMapping("/bookshelf/search-blank-case")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
-    public String showBlank(Model model,@PathVariable Integer num)
+    public String showBlank(Model model,@RequestParam Integer num)
     {
         List<BookshelfCaseDTO> list=bookShelfService.findBlankCase(num);
         model.addAttribute("bookShelfList",list);

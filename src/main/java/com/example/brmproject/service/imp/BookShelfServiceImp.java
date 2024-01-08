@@ -71,7 +71,7 @@ public class BookShelfServiceImp implements BookShelfService {
     @Override
     public List<BookshelfCaseDTO> findBlankCase(long numberOfBook) {
         List<BookshelfCaseDTO> listAll = bookShelfrepository.findAll().stream().map(bc->mapToDTO(bc)).collect(Collectors.toList());
-        List<BookshelfCaseDTO> list = listAll.stream().filter(bc->bc.getAvailableBlank()>numberOfBook).limit(15).collect(Collectors.toList());
+        List<BookshelfCaseDTO> list = listAll.stream().filter(bc->bc.getAvailableBlank()>numberOfBook).limit(10).collect(Collectors.toList());
         return list;
     }
 

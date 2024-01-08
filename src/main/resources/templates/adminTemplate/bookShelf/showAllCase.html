@@ -19,9 +19,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{/staff/bookshelf/search}" method="post">
+                    <form th:action="@{/staff/bookshelf/search-blank-case}" method="post">
                         <label for="searchQuery">Search:</label>
-                        <input type="text" id="searchQuery" name="bookId" placeholder="Enter your search query...">
+                        <input type="text" id="searchQuery" name="num" placeholder="Enter number of blank space.">
                         <input  class="btn-primary" type="submit" value="Search">
                     </form>
                     <br>
