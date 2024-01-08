@@ -266,22 +266,6 @@ public class OrderServiceImp implements OrderService {
         }
     }
 
-    //
-
-    public void updateBookDetailRent(OrdersDTO order)
-    {
-        for (OrderDetailDTO od: order.getOrderDetailsById())
-        {
-            if(!od.isLost())
-            {
-                BookDetailEntity bookDetail=bookDetailRepository.findById(od.getBookDetailId()).get();
-                bookDetail.setStatus(BookDetailStatus.RENT.toString());
-                bookDetailRepository.save(bookDetail);
-            }
-        }
-
-
-    }
 
     //CHECK STOCK
 
