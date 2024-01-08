@@ -46,10 +46,14 @@
                             th:text="${book.getBookshelfCaseByBookshelfId() != null ? book.getBookshelfCaseByBookshelfId().getBookshelfCode() : 'N/a'}">
                     </td>
                     <td>
-                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit</a>&emsp;&emsp;
-                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}">Import</a>&emsp;&emsp;
+                        <a type="button" class="btn btn-primary" th:href="@{/staff/books/update/{bookId}(bookId=${book.getId()})}">Edit</a>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-success" th:href="@{/staff/books/import-quantity/{bookId}(bookId=${book.getId()})}">Import</a>
+                    </td>
+                    <td>
                         <a th:href="@{/staff/books/detail/{bookId}(bookId=${book.getId()})}"
-                           class="btn btn-primary">Change Bookshelf</a>
+                           class="btn btn-dark">Change Bookshelf</a>
                     </td>
                 </tr>
                 </tbody>

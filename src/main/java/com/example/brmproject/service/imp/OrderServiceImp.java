@@ -131,6 +131,7 @@ public class OrderServiceImp implements OrderService {
             //keep $20.
         if(order.getOrderStatus().equals(OrderStatus.BOOKING.toString()) && (debit-order.getTotalAmount()>=20))
         {
+            updateBookDetailRent(mapToDTO(order));
             order.setOrderStatus(OrderStatus.RENT.toString());
             order.setRentDate(formattedNow);
            CustomerEntity customer=  order.getCustomerByCustomerId();
@@ -245,6 +246,24 @@ public class OrderServiceImp implements OrderService {
                 }
         }
     }
+
+    //
+
+    public void updateBookDetailRent(OrdersDTO order)
+    {
+        for (OrderDetailDTO od: order.getOrderDetailsById())
+        {
+            if(!od.isLost())
+            {
+                BookDetailEntity bookDetail=bookDetailRepository.findById(od.getBookDetailId()).get();
+                bookDetail.setStatus(BookDetailStatus.RENT.toString());
+                bookDetailRepository.save(bookDetail);
+            }
+        }
+
+
+    }
+
     //CHECK STOCK
 
 ///
