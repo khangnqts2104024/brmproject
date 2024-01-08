@@ -30,12 +30,18 @@
           <td th:text="${category.getId()}"></td>
           <td th:text="${category.getName()}"></td>
           <td>
-            <a th:href="@{/staff/categories/update/{categoryId}(categoryId=${category.getId()})}">Update category</a>
+            <a type="button"
+               class="btn btn-primary"
+               th:href="@{/staff/categories/update/{categoryId}(categoryId=${category.getId()})}">
+              Edit
+            </a>
           </td>
         </tr>
         </tbody>
       </table>
-      <a class="btn btn-primary d-flex justify-content-center" th:href="@{/staff/categories/new}">create</a>
+      <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" th:href="@{/staff/categories/new}">create</a>
+      </div>
     </div>
   </div> <!-- /container -->
 </section>

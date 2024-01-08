@@ -14,4 +14,6 @@ public interface CategoryBookService {
     Page<CategoryBookDTO> findBooksByCategoryId(int id, int page, int size);
 
     void updateCategoryBook(Integer categoryBookId, Integer categoryId);
+
+    List<CategoryBookDTO> findByBookId(Integer bookId);
 }

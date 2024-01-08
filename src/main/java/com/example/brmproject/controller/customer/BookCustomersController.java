@@ -1,10 +1,6 @@
 package com.example.brmproject.controller.customer;
 
-
-import com.example.brmproject.domain.dto.BookDTO;
-import com.example.brmproject.domain.dto.CategoryBookDTO;
-import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.domain.dto.ReviewRatingDTO;
+import com.example.brmproject.domain.dto.*;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.service.CategoryBookService;
 import com.example.brmproject.service.CategoryService;
@@ -16,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,13 +35,12 @@ public class BookCustomersController {
 
     @GetMapping("/books")
     public String getAllBooksCustomer(Model model,
-                                      @RequestParam(defaultValue = "1") int page,
-                                      @RequestParam(defaultValue = "4") int size,@ModelAttribute("alertMessage") String alertMessage,
-                                      @ModelAttribute("alertError") String alertError)
-    {
-        //alert
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "4") int size, @ModelAttribute("alertMessage") String alertMessage,
+            @ModelAttribute("alertError") String alertError) {
+        // alert
 
-        StaticFunction.showAlert(model,alertMessage,alertError);
+        StaticFunction.showAlert(model, alertMessage, alertError);
 
         Page<BookDTO> listBooks = bookService.getAllBooks(page - 1, size);
         List<CategoryDTO> categoryList = categoryService.findAll();
@@ -55,42 +51,30 @@ public class BookCustomersController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-        for (BookDTO book: listBooks) {
+        for (BookDTO book : listBooks) {
             ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
-            Double bookRating = reviewRatingDTO.getAvrRating();
-            if (Double.isNaN(bookRating)) {
-                book.setRating(0.0);
-            } else {
                 book.setRating(reviewRatingDTO.getAvrRating());
-            }
         }
-
-        model.addAttribute("books",listBooks);
+        model.addAttribute("books", listBooks);
         model.addAttribute("categories", categoryList);
         return "customerTemplate/books/showAllBook";
     }
 
     @GetMapping("/books/categoryId/{categoryId}")
     public String getBooksByCategoryId(@PathVariable Integer categoryId,
-                                       @RequestParam(defaultValue = "1") int page,
-                                       @RequestParam(defaultValue = "4") int size,
-                                       Model model,@ModelAttribute("alertMessage") String alertMessage,@ModelAttribute("alertError") String alertError)
-     {
-//alert
-         StaticFunction.showAlert(model,alertMessage,alertError);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "4") int size,
+            Model model, @ModelAttribute("alertMessage") String alertMessage,
+            @ModelAttribute("alertError") String alertError) {
+        // alert
+        StaticFunction.showAlert(model, alertMessage, alertError);
 
-         Page<CategoryBookDTO> categoryBooks = categoryBookService
+        Page<CategoryBookDTO> categoryBooks = categoryBookService
                 .findBooksByCategoryId(categoryId, page - 1, size);
         List<BookDTO> listBooks = categoryBooks
                 .stream()
                 .map(categoryBook -> categoryBook.getBookByBookId())
                 .collect(Collectors.toList());
-//
-//        List<BookDTO> listBooks = listBooksId
-//                .stream()
-//                .map(bookId -> bookService.findBookById(bookId))
-//                .collect(Collectors.toList());
-
         List<CategoryDTO> categoryList = categoryService.findAll();
         int totalPages = categoryBooks.getTotalPages();
         if (totalPages > 0) {
@@ -98,6 +82,10 @@ public class BookCustomersController {
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
+        }
+        for (BookDTO book : listBooks) {
+            ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(book.getId());
+            book.setRating(reviewRatingDTO.getAvrRating());
         }
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("categoryBooks", categoryBooks);
@@ -108,13 +96,28 @@ public class BookCustomersController {
 
     @GetMapping("/books/detail/{bookId}")
     public String getBookDetail(@PathVariable Integer bookId,
-                                Model model, @ModelAttribute("alertMessage") String alertMessage, @ModelAttribute("alertError") String alertError)
-     {
-//alert
-         StaticFunction.showAlert(model,alertMessage,alertError);
+                                Model model,
+                                @ModelAttribute("alertMessage") String alertMessage,
+                                @ModelAttribute("alertError") String alertError) {
+        StaticFunction.showAlert(model, alertMessage, alertError);
 
-         BookDTO bookDTO = bookService.findBookById(bookId);
+        ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
+        BookDTO bookDTO = bookService.findBookById(bookId);
+        double avrRating = reviewRatingDTO.getAvrRating();
+        bookDTO.setRating(avrRating);
+
+
+        List<UserReviewDTO> listUserReviews = reviewRatingDTO.getListReview();
+
+        List<String> categories= categoryBookService.findByBookId(bookId)
+                .stream().map(categoryBook -> categoryBook.getCategoryByBookId().getName())
+                .collect(Collectors.toList());
+
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("listUserReviews", listUserReviews);
         model.addAttribute("book", bookDTO);
         return "customerTemplate/books/bookDetail";
     }
+
 }

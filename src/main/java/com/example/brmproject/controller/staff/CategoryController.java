@@ -5,9 +5,11 @@ import com.example.brmproject.domain.dto.CategoryDTO;
 import com.example.brmproject.repositories.CategoryEntityRepository;
 import com.example.brmproject.service.CategoryBookService;
 import com.example.brmproject.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +35,13 @@ public class CategoryController {
     }
 
     @PostMapping("/categories/new")
-    public String addNewCategory(@ModelAttribute CategoryDTO categoryDTO) {
+    public String addNewCategory(@ModelAttribute("category") @Valid CategoryDTO categoryDTO,
+                                 BindingResult bindingResult,
+                                 Model model) {
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("category", categoryDTO);
+            return "adminTemplate/category/addNewCategory";
+        }
         CategoryDTO newCategory = categoryService.addNewCategory(categoryDTO);
         return "redirect:/staff/categories";
     }
