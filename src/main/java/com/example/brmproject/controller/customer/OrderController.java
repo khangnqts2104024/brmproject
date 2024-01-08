@@ -52,6 +52,7 @@ public class OrderController {
     }
 
     @GetMapping("/addItem/{bookId}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String addItemToOrder(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
@@ -79,6 +80,7 @@ public class OrderController {
 
 
     @GetMapping("/addItemInDetail/{bookId}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String addItemToOrderInDetail(@ModelAttribute("session") MySession session, Model model, @PathVariable String bookId, RedirectAttributes redirectAttributes) {
         //check dublicate
         BookDTO bookDTO = bdService.countAvailable(Integer.parseInt(bookId));
@@ -104,6 +106,7 @@ public class OrderController {
 
 
     @GetMapping("/removeBook/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String removeBook(@ModelAttribute("session") MySession session, @PathVariable Integer id) {
         //find bd in session have bookid=id.
 
@@ -112,6 +115,7 @@ public class OrderController {
     }
 
     @GetMapping("/removeAllBook")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String removeAllBook(@ModelAttribute("session") MySession session) {
         //change book detail status
 
@@ -122,6 +126,7 @@ public class OrderController {
 
 
     @GetMapping("/showCart")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String showCart(@ModelAttribute("session") MySession session, Model model,@ModelAttribute("alertMessage") String alertMessage,
                            @ModelAttribute("alertError") String alertError) {
 
@@ -135,7 +140,7 @@ public class OrderController {
     }
 
     @PostMapping("/createOrder")
-//    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public String createOrder(@ModelAttribute("orderForm") @Valid OrderFormDTO orderForm,BindingResult bindingResult,@ModelAttribute("session")MySession session , Model model, RedirectAttributes redirectAttributes)
     {
     try{
@@ -149,7 +154,7 @@ public class OrderController {
                 return "customerTemplate/orders/cart";
             }
             if (session.getBookIdList().isEmpty()) {
-                redirectAttributes.addAttribute("alertError", "You have to choose book first!");
+                redirectAttributes.addFlashAttribute("alertError", "You have to choose book first!");
                 return "redirect:/customers/books";
             }
             //check stock
@@ -166,7 +171,7 @@ public class OrderController {
                 }
             }
             if (flag) {
-                redirectAttributes.addAttribute("alertError", "Some of your order book not available anymore!");
+                redirectAttributes.addFlashAttribute("alertError", "Some of your order book not available anymore!");
                 return "redirect:/customers/showCart";
             }
 //
@@ -180,11 +185,16 @@ public class OrderController {
             OrdersDTO dto = service.createOrder(session.getBookIdList(), myOrderDTO);
             //update bookdetail status.
             if (dto != null) {
-                redirectAttributes.addAttribute("alertMessage", "booking success!");
+                redirectAttributes.addFlashAttribute("alertMessage", "booking success!");
 
                 session.getBookIdList().clear();
+                return "redirect:/customers/books";
             }
-            return "redirect:/customers/books";
+            else{
+                redirectAttributes.addFlashAttribute("alertError", "Not enough money in your debit. Must > $20 !");
+                return "redirect:/customers/showCart";
+            }
+
 
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());

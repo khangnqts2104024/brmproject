@@ -1,19 +1,17 @@
 package com.example.brmproject.service.imp;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
 import com.example.brmproject.domain.dto.StaffDTO;
 import com.example.brmproject.domain.entities.ERole;
 import com.example.brmproject.domain.entities.StaffEntity;
-
 import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.StaffEntityRepository;
-
 import com.example.brmproject.service.StaffService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StaffServiceImp implements StaffService{
@@ -21,7 +19,7 @@ public class StaffServiceImp implements StaffService{
     private ModelMapper modelMapper;
     //DI here ...add inteface
     private  StaffEntityRepository staffEntityRepository;
-
+    @Autowired
     public StaffServiceImp(ModelMapper modelMapper, StaffEntityRepository staffEntityRepository) {
         this.modelMapper = modelMapper;
         this.staffEntityRepository = staffEntityRepository;

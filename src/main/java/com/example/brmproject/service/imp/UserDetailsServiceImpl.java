@@ -20,11 +20,14 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-  @Autowired
-  UserEntityRepository userEntityRepository;
 
-  @Autowired
+  UserEntityRepository userEntityRepository;
   private JwtUtils jwtUtils;
+  @Autowired
+  public UserDetailsServiceImpl(UserEntityRepository userEntityRepository, JwtUtils jwtUtils) {
+    this.userEntityRepository = userEntityRepository;
+    this.jwtUtils = jwtUtils;
+  }
 
   @Override
   @Transactional

@@ -25,4 +25,7 @@ public interface BookService {
 
     void addQuantity(Integer number);
 
+    boolean changeBookCase(Integer bookId,Integer caseId);
+
+
 }

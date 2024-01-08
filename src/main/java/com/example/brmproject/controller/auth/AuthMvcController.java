@@ -171,6 +171,7 @@ public class AuthMvcController {
     newCustomer.setPhone(signupRequest.getPhone());
     newCustomer.setUserId(userId);
     newCustomer.setUserByUserId(user);
+    newCustomer.setDebit(0.0);
     customerEntityRepository.save(newCustomer);
    
     return "redirect:/login";

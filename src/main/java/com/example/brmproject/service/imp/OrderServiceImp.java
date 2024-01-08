@@ -1,5 +1,6 @@
 package com.example.brmproject.service.imp;
 
+import com.example.brmproject.controller.auth.AuthenticationHelper;
 import com.example.brmproject.domain.dto.BookDetailDTO;
 import com.example.brmproject.domain.dto.CustomerDTO;
 import com.example.brmproject.domain.dto.OrderDetailDTO;
@@ -28,15 +29,17 @@ public class OrderServiceImp implements OrderService {
    private OrderDetailEntityRepository ODRepository;
    private BookEntityRepository bookRepository;
    private BookDetailEntityRepository bookDetailRepository;
+    private AuthenticationHelper authenticationHelper;
 
     private ModelMapper modelMapper;
     @Autowired
-    public OrderServiceImp(OrdersEntityRepository orderRepository, CustomerEntityRepository customerRepostory, OrderDetailEntityRepository ODRepository, BookEntityRepository bookRepository, BookDetailEntityRepository bookDetailRepository, ModelMapper modelMapper) {
+    public OrderServiceImp(OrdersEntityRepository orderRepository, CustomerEntityRepository customerRepostory, OrderDetailEntityRepository ODRepository, BookEntityRepository bookRepository, BookDetailEntityRepository bookDetailRepository, AuthenticationHelper authenticationHelper, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
         this.customerRepostory = customerRepostory;
         this.ODRepository = ODRepository;
         this.bookRepository = bookRepository;
         this.bookDetailRepository = bookDetailRepository;
+        this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
     }
 
@@ -118,6 +121,9 @@ public class OrderServiceImp implements OrderService {
 
         OrdersEntity order= orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Order","id",String.valueOf(orderId)));
 //        OrdersDTO ordersDTO= mapToDTO(order);
+             int userId = authenticationHelper.getUserIdFromAuthentication();
+             order.setEmployeeId(userId);
+
             DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime bookingDateTime = LocalDateTime.now();
             String formattedNow = bookingDateTime.format(formatter);

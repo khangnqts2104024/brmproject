@@ -2,8 +2,11 @@ package com.example.brmproject.service.imp;
 
 import com.example.brmproject.domain.dto.BookDTO;
 import com.example.brmproject.domain.entities.BookEntity;
+import com.example.brmproject.domain.entities.BookshelfCaseEntity;
 import com.example.brmproject.exception.ResourceNotFoundException;
+import com.example.brmproject.repositories.BookDetailEntityRepository;
 import com.example.brmproject.repositories.BookEntityRepository;
+import com.example.brmproject.repositories.BookshelfCaseEntityRepository;
 import com.example.brmproject.service.BookService;
 import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import org.modelmapper.ModelMapper;
@@ -24,10 +27,14 @@ public class BookServiceImp  implements BookService {
     ModelMapper modelMapper;
     BookEntityRepository bookRepo;
 
+    BookDetailEntityRepository bookDetailRepo;
+    BookshelfCaseEntityRepository caseEntityRepository;
     @Autowired
-    public BookServiceImp(ModelMapper modelMapper, BookEntityRepository bookRepo) {
+    public BookServiceImp(ModelMapper modelMapper, BookEntityRepository bookRepo, BookDetailEntityRepository bookDetailRepo, BookshelfCaseEntityRepository caseEntityRepository) {
         this.modelMapper = modelMapper;
         this.bookRepo = bookRepo;
+        this.bookDetailRepo = bookDetailRepo;
+        this.caseEntityRepository = caseEntityRepository;
     }
 
     @Override
@@ -89,6 +96,19 @@ public class BookServiceImp  implements BookService {
 
     }
 
+    @Override
+    public boolean changeBookCase(Integer bookId, Integer caseId) {
+       BookEntity book= bookRepo.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book","id",String.valueOf(bookId)));
+        BookshelfCaseEntity myCase=caseEntityRepository.findById(caseId).orElseThrow(()->new ResourceNotFoundException("Case","id",String.valueOf(caseId)));
+        if(myCase!=null) {
+            book.setBookshelfCaseByBookshelfId(myCase);
+            bookRepo.save(book);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public BookDTO mapToDTO(BookEntity book) {
         BookDTO bookDTO = modelMapper.map(book, BookDTO.class);

@@ -1,16 +1,11 @@
 package com.example.brmproject.controller.staff;
 
-import com.example.brmproject.domain.dto.BookDTO;
-import com.example.brmproject.domain.dto.BookDetailDTO;
-import com.example.brmproject.domain.dto.CategoryBookDTO;
-import com.example.brmproject.domain.dto.CategoryDTO;
-import com.example.brmproject.service.BookDetailService;
-import com.example.brmproject.service.BookService;
-import com.example.brmproject.service.CategoryBookService;
-import com.example.brmproject.service.CategoryService;
+import com.example.brmproject.domain.dto.*;
+import com.example.brmproject.service.*;
 import com.example.brmproject.ultilities.SD.BookDetailStatus;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -28,17 +22,21 @@ import java.util.stream.IntStream;
 @RequestMapping("/staff")
 public class BookStaffController {
 
-    @Autowired
+
     private BookService bookService;
-
-    @Autowired
     private CategoryService categoryService;
-
-    @Autowired
     private CategoryBookService categoryBookService;
-
-    @Autowired
     private BookDetailService bookDetailService;
+
+    private BookShelfService bookShelfService;
+    @Autowired
+    public BookStaffController(BookService bookService, CategoryService categoryService, CategoryBookService categoryBookService, BookDetailService bookDetailService, BookShelfService bookShelfService) {
+        this.bookService = bookService;
+        this.categoryService = categoryService;
+        this.categoryBookService = categoryBookService;
+        this.bookDetailService = bookDetailService;
+        this.bookShelfService = bookShelfService;
+    }
 
     @GetMapping("/books/new")
     public String getCreateBookPage(Model model) {
@@ -52,7 +50,6 @@ public class BookStaffController {
             return "/error";
         }
     }
-
 
     @PostMapping("/books/new")
     public String createNewBook(@ModelAttribute("book") @Valid BookDTO bookDTO,
@@ -186,5 +183,30 @@ public class BookStaffController {
             return "/error";
         }
     }
+
+//change bookshelf
+    @GetMapping("/books/detail/{bookId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
+    public String showDetail(Model model,@PathVariable Integer bookId) {
+            BookDTO bookDTO=bookService.findBookById(bookId);
+            List<BookshelfCaseDTO> list=bookShelfService.findBlankCase(bookDTO.getExistBook());
+            model.addAttribute("bookDTO",bookDTO);
+            model.addAttribute("list",list);
+
+        return "adminTemplate/books/change-bookshelf";
+    }
+
+    @PostMapping("/books/change-case")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
+    public String changeCase(Model model,@ModelAttribute BookDTO bookDTO)
+    {
+        bookService.changeBookCase(bookDTO.getId(),bookDTO.getBookshelfId());
+
+        return "redirect:/staff/books";
+    }
+
+
+
+
 }
 
