@@ -21,4 +21,6 @@ public interface BookDetailService {
 
     List<BookDetailDTO> getAllBooks(Integer bookId);
 
+    List<BookDetailDTO> findAllBookDetail(Integer bookId);
+
 }

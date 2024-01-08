@@ -205,6 +205,14 @@ public class BookStaffController {
         return "redirect:/staff/books";
     }
 
+    @GetMapping("/books/showBookDetail/{bookId}")
+    public String showBookDetail(@PathVariable Integer bookId, Model model) {
+        List<BookDetailDTO> bookDetails = bookDetailService.findAllBookDetail(bookId);
+        model.addAttribute("bookDetails", bookDetails);
+        System.out.println(bookDetails);
+        return "adminTemplate/books/bookDetail";
+    }
+
 
 
 

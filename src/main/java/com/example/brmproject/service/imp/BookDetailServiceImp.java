@@ -82,6 +82,30 @@ public class BookDetailServiceImp implements BookDetailService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<BookDetailDTO> findAllBookDetail(Integer bookId) {
+
+        List<BookDetailEntity> list = bookDetailRepo.findByBookId(bookId);
+
+        List<BookDetailDTO> bookDetailDTOList =  list.stream()
+                .map(book -> mapToDTO(book)).collect(Collectors.toList());
+
+//        List<BookDetailDTO> list1 = new ArrayList<>();
+//
+//        for (BookDetailEntity entity :list) {
+//            BookDetailDTO bookDetailDTO = new BookDetailDTO();
+//
+//            bookDetailDTO.setId(entity.getId());
+//            bookDetailDTO.setStatus(entity.getStatus());
+//            bookDetailDTO.setBookId(entity.getBookId());
+//            bookDetailDTO.setImportDate(entity.getImportDate());
+//
+//            list1.add(bookDetailDTO);
+//        }
+//        return list1;
+        return bookDetailDTOList;
+    }
+
 
     public BookDetailDTO mapToDTO(BookDetailEntity bookDetail) {
         BookDetailDTO bookDetailDTO = modelMapper.map(bookDetail, BookDetailDTO.class);
