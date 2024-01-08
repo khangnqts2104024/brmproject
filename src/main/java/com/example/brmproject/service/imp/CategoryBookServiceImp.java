@@ -56,6 +56,15 @@ public class CategoryBookServiceImp implements CategoryBookService {
         categoryBookEntityRepository.updateCategoryBook(categoryBookId, categoryId);
     }
 
+    @Override
+    public List<CategoryBookDTO> findByBookId(Integer bookId) {
+        List<CategoryBookEntity> categoryBookEntity = categoryBookEntityRepository.findByBookId(bookId);
+        return categoryBookEntity
+                .stream()
+                .map(categoryBook -> mapToDTO(categoryBook))
+                .collect(Collectors.toList());
+    }
+
     public CategoryBookDTO mapToDTO(CategoryBookEntity categoryBookEntity) {
         return modelMapper.map(categoryBookEntity, CategoryBookDTO.class);
     }

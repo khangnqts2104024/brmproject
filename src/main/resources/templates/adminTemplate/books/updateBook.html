@@ -51,21 +51,11 @@
                                     name="author"
                             />
                         </div>
-                        <div class="mb-3">
-                            <label for="quantityBooks" class="form-label">Add quantity of books</label>
-                            <input
-                                    th:value="${book.getQuantityBooks()}"
-                                    type="number"
-                                    class="form-control"
-                                    id="quantityBooks"
-                                    name="quantityBooks"
-                            />
-                        </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="preview" class="form-label">Preview content</label>
                             <textarea
-                                    th:value="${book.getPreview()}"
+                                    th:text="${book.getPreview()}"
                                     class="form-control"
                                     id="preview"
                                     name="preview"
@@ -85,26 +75,27 @@
                         </div>
                         <div></div>
                         <div class="mb-3">
-                            <label for="categories" class="form-label">Category</label>
-                            <select name="categoriesId"
-                                    class="form-select"
-                                    data-placeholder="Choose category"
-                                    id="categories"
-                                    multiple>
-                                <option th:each="category : ${categories}"
-                                        th:value="${category.getId()}"
-                                        th:text="${category.getName()}">
-                                </option>
-                            </select>
+                            <label class="form-label">Category</label>
+                            <div th:each="category : ${categories}" class="form-check">
+                                <input name="categoriesId" class="form-check-input" type="checkbox"
+                                       th:value="${category.getId()}"
+                                       th:text="${category.getName()}">
+                            </div>
                         </div>
                         <div></div>
                         <div class="mb-3">
                             <label for="photo" class="form-label">Image</label>
                             <input th:value="${book.getPhoto()}" name="photo" class="form-control" type="text" id="photo">
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Update book</button>
+                        <div>
+                            <div class="d-flex justify-content-start">
+                                <a  th:href="@{/staff/books}" type="button" class="btn btn-primary">Return</a>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Update book</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

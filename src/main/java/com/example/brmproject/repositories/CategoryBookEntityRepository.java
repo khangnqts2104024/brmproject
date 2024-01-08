@@ -19,8 +19,11 @@ public interface CategoryBookEntityRepository extends JpaRepository<CategoryBook
 
     List<CategoryBookEntity> findByCategoryId(Integer categoryId);
 
+    List<CategoryBookEntity> findByBookId(Integer bookId);
+
     @Modifying
     @Query("UPDATE CategoryBookEntity cb SET cb.categoryId = :categoryId WHERE cb.id = :categoryBookId")
     void updateCategoryBook(@Param("categoryBookId") Integer categoryBookId,
                                   @Param("categoryId") Integer categoryId);
+
 }
