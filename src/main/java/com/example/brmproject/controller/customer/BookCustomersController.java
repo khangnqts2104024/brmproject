@@ -104,7 +104,11 @@ public class BookCustomersController {
         ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
         BookDTO bookDTO = bookService.findBookById(bookId);
         double avrRating = reviewRatingDTO.getAvrRating();
-        bookDTO.setRating(avrRating);
+        if (avrRating == 0.0) {
+            bookDTO.setRating(5);
+        } else {
+            bookDTO.setRating(avrRating);
+        }
 
 
         List<UserReviewDTO> listUserReviews = reviewRatingDTO.getListReview();

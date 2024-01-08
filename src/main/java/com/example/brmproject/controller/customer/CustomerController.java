@@ -61,4 +61,9 @@ public class CustomerController {
         // model.addAttribute("customers",list);
         return "adminTemplate/test";
     }
+
+    @GetMapping("/")
+    public String homePage() {
+        return "redirect:/customers/books";
+    }
 }

@@ -98,6 +98,7 @@
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
+                                                            <span class="ms-1">5</span>
                                                         </th:block>
                                                             <!--correct-->
                                                         <th:block th:if="${book.getRating() != 0.0}" th:each="starNumber : ${#numbers.sequence(1, 5)}">
@@ -112,7 +113,7 @@
                                                             </th:block>
                                                         </th:block>
                                                     </th:block>
-                                                    <span class="ms-1" th:text="${book.getRating()}"></span>
+                                                    <span class="ms-1" th:if="${book.getRating() != 0.0}" th:text="${book.getRating()}"></span>
                                                 </div>
                                             </div>
 
@@ -120,7 +121,7 @@
                                         </div>
                                         <div class="col-xl-3 col-md-3 col-sm-5">
                                             <div class="d-flex flex-row align-items-center mb-1">
-                                                <h4 class="mb-1 me-1" th:text="${book.getPricePerDay()}"></h4>
+                                                <h4 class="mb-1 me-1" th:text="'$' + ${book.getPricePerDay()}"></h4>
                                             </div>
                                             <h6 class="text-success">Available stock: <p th:text="${book.getAvailableBook()}"></p></h6>
                                             <div class="mt-4">

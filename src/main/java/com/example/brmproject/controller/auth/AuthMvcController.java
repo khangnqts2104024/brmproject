@@ -110,13 +110,13 @@ public class AuthMvcController {
           if (roles.stream().anyMatch(role -> role.equalsIgnoreCase("STAFF") || role.equalsIgnoreCase("ADMIN"))) {
             StaffEntity staff = staffEntityRepository.findByUserId(userDetails.getId()).get();
             userId = staff.getId();
-            url = "redirect:/login";
+            url = "redirect:/staff/dashboard";
 
             
           } else {
               CustomerEntity customer = customerEntityRepository.findByUserId(userDetails.getId()).get();
               userId = customer.getId();
-            url = "redirect:/login";
+            url = "redirect:/";
           }
   
           Cookie cookieJwt = createCookie("jwtToken", jwt);
@@ -232,7 +232,7 @@ public class AuthMvcController {
     return cookie;
 }
 
-@GetMapping("/staff/logout")
+@GetMapping("/mylogout")
   public String logout(HttpServletRequest request, HttpServletResponse response){
   Cookie[] cookies = request.getCookies();
 
