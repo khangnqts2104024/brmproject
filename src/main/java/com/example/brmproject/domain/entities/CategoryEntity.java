@@ -26,32 +26,9 @@ public class CategoryEntity {
     @Basic
     @Column(name = "description", nullable = true, length = 225)
     private String description;
-    @OneToMany(mappedBy = "categoryByBookId")
+    @OneToMany(mappedBy = "categoryByBookId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<CategoryBookEntity> categoryBooksById;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public boolean equals(Object o) {

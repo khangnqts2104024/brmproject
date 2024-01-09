@@ -1,9 +1,7 @@
 package com.example.brmproject.domain.dto;
 
-import com.example.brmproject.domain.entities.BookEntity;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +16,35 @@ import java.util.Collection;
 public class BookshelfCaseDTO {
     private int id;
 
+    @Pattern(regexp = "^BS-[A-Z]-\\d{2}$", message = "Invalid format. Should be BS-A-01 (A is a letter and 01 is a number)")
+    @NotBlank
     private String bookshelfCode;
 
     private Integer caseNumber;
-
     private Integer capacity;
 
     private Integer availableBlank;
+    private Collection<BookDTO> booksById;
 
-//    private Collection<BookDTO> booksById;
+    public Integer getAvailableBlank() {
+        return countAvailableBlank();
+    }
+
+    public Integer countAvailableBlank()
+    {
+        if(booksById!=null){
+        Long count= 0L;
+        for (BookDTO book:booksById)
+        {
+            if(book!=null)
+            {
+             count+=book.getExistBook();
+            }
+        }
+            return capacity-count.intValue();
+        }
+        return capacity;
+    }
+
+
 }

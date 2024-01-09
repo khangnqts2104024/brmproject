@@ -1,15 +1,11 @@
 package com.example.brmproject.domain.dto;
 
-import com.example.brmproject.domain.entities.CategoryBookEntity;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Collection;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
@@ -17,7 +13,13 @@ import java.util.Collection;
 @NoArgsConstructor
 public class CategoryDTO {
     private int id;
+
+    @NotBlank(message = "Category name is required")
+    @Length(max = 100, message = "Max title is 100 letters")
     private String name;
+
+    @NotBlank(message = "Category description is required")
+    @Length(max = 225, message = "Max title is 225 letters")
     private String description;
 //    private Collection<CategoryBookDTO> categoryBooksById;
 

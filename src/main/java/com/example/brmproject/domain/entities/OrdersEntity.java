@@ -1,5 +1,4 @@
 package com.example.brmproject.domain.entities;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Collection;
 import java.util.Objects;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,91 +36,19 @@ public class OrdersEntity {
     @Column(name = "total_amount", nullable = true, precision = 2)
     private Double totalAmount;
     @Basic
-    @Column(name = "employee_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "employee_id", nullable = true)
     private Integer employeeId;
     @Basic
-    @Column(name = "customer_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "customer_id", nullable = true)
     private Integer customerId;
-    @OneToMany(mappedBy = "ordersByOrderId")
+    @OneToMany(mappedBy = "ordersByOrderId",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     private Collection<OrderDetailEntity> orderDetailsById;
-    @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", insertable = false, updatable = false)
     private StaffEntity staffByEmployeeId;
     @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
     private CustomerEntity customerByCustomerId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRentDate() {
-        return rentDate;
-    }
-
-    public void setRentDate(String rentDate) {
-        this.rentDate = rentDate;
-    }
-
-    public String getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(String bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public Integer getRentDayAmount() {
-        return rentDayAmount;
-    }
-
-    public void setRentDayAmount(Integer rentDayAmount) {
-        this.rentDayAmount = rentDayAmount;
-    }
-
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
 
     @Override
     public boolean equals(Object o) {

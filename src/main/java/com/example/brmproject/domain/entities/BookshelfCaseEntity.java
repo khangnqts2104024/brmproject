@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -32,7 +31,7 @@ public class BookshelfCaseEntity {
     @Basic
     @Column(name = "available_blank", nullable = true)
     private Integer availableBlank;
-    @OneToMany(mappedBy = "bookshelfCaseByBookshelfId")
+    @OneToMany(mappedBy = "bookshelfCaseByBookshelfId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<BookEntity> booksById;
 
 

@@ -3,6 +3,7 @@ package com.example.brmproject.domain.dto;
 import com.example.brmproject.domain.entities.CustomerEntity;
 import com.example.brmproject.domain.entities.OrderDetailEntity;
 import com.example.brmproject.domain.entities.StaffEntity;
+import com.example.brmproject.ultilities.SD.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,8 @@ public class OrdersDTO {
 
     private String bookingDate;
 
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     private String returnDate;
 
@@ -39,4 +41,14 @@ public class OrdersDTO {
     private StaffDTO staffByEmployeeId;
 
     private CustomerDTO customerByCustomerId;
+
+    public void addOrderDetailDTO(OrderDetailDTO orderDetail) {
+        orderDetailsById.add(orderDetail);
+        orderDetail.setOrdersByOrderId(this);
+    }
+
+    public void removeOrderDetail(OrderDetailDTO orderDetail) {
+        orderDetailsById.remove(orderDetail);
+        orderDetail.setOrdersByOrderId(null);
+    }
 }

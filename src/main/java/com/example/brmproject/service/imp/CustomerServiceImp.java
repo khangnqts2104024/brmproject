@@ -6,6 +6,7 @@ import com.example.brmproject.exception.ResourceNotFoundException;
 import com.example.brmproject.repositories.CustomerEntityRepository;
 import com.example.brmproject.service.CustomerService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CustomerServiceImp implements CustomerService {
     private ModelMapper modelMapper;
     //DI here ...add inteface
     private CustomerEntityRepository customerRepository;
-
+    @Autowired
     public CustomerServiceImp(ModelMapper modelMapper, CustomerEntityRepository customerRepository) {
         this.modelMapper = modelMapper;
         this.customerRepository = customerRepository;
@@ -41,6 +42,24 @@ public class CustomerServiceImp implements CustomerService {
         return list;
     }
 
+    @Override
+    public CustomerDTO updateDebit(Integer customerId ,Double newDebit) {
+        CustomerEntity customer=customerRepository.findById(customerId).orElseThrow(()->new ResourceNotFoundException("customer","id", String.valueOf(customerId)));
+        if(customer!=null)
+        {
+            customer.setDebit(newDebit);
+            customerRepository.save(customer);
+        }
+
+        return mapToDTO(customer);
+    }
+
+    @Override
+    public CustomerDTO findOne(Integer customerId) {
+         CustomerEntity customer =   customerRepository.findById(customerId).orElseThrow(()->new ResourceNotFoundException("Customer","id",String.valueOf(customerId)));
+
+        return mapToDTO(customer);
+    }
 
 
     //map to dto

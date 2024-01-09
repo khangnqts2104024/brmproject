@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -37,82 +35,15 @@ public class CustomerEntity {
     @Column(name = "debit", nullable = true, precision = 2)
     private Double debit;
     @Basic
-    @Column(name = "user_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "user_id", nullable = true)
     private Integer userId;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id",insertable = false, updatable = false)
     private UserEntity userByUserId;
-    @OneToMany(mappedBy = "customerByCustomerId")
+    @OneToMany(mappedBy = "customerByCustomerId",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private Collection<OrdersEntity> ordersById;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Double getDebit() {
-        return debit;
-    }
-
-    public void setDebit(Double debit) {
-        this.debit = debit;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CustomerEntity that = (CustomerEntity) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(debit, that.debit) && Objects.equals(userId, that.userId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, phone, address, email, debit, userId);
-    }
 
     public UserEntity getUserByUserId() {
         return userByUserId;

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -32,43 +31,13 @@ public class StaffEntity {
     @Basic
     @Column(name = "user_id", nullable = true, insertable = false, updatable = false)
     private Integer userId;
-    @OneToMany(mappedBy = "staffByEmployeeId")
+    @OneToMany(mappedBy = "staffByEmployeeId",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<OrdersEntity> ordersById;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userByUserId;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmployeeCode() {
-        return employeeCode;
-    }
-
-    public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = employeeCode;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public Integer getUserId() {
         return userId;
@@ -78,32 +47,5 @@ public class StaffEntity {
         this.userId = userId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StaffEntity that = (StaffEntity) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(employeeCode, that.employeeCode) && Objects.equals(email, that.email) && Objects.equals(userId, that.userId);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, employeeCode, email, userId);
-    }
-
-    public Collection<OrdersEntity> getOrdersById() {
-        return ordersById;
-    }
-
-    public void setOrdersById(Collection<OrdersEntity> ordersById) {
-        this.ordersById = ordersById;
-    }
-
-    public UserEntity getUserByUserId() {
-        return userByUserId;
-    }
-
-    public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
-    }
 }
