@@ -23,9 +23,9 @@ public class BookShelfControler {
     public BookShelfControler(BookShelfService bookShelfService) {
         this.bookShelfService = bookShelfService;
     }
-    @GetMapping("/bookshelf/search/{bookId}")
+    @PostMapping("/bookshelf/search-bookId")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
-    public String searchByBookId(Model model,@PathVariable Integer bookId,RedirectAttributes redirectAttributes)
+    public String searchByBookId(Model model,@RequestParam(name = "bookId") Integer bookId,RedirectAttributes redirectAttributes)
         {
             try {
                 BookshelfCaseDTO caseDTO = bookShelfService.searchByBookId(bookId);
@@ -37,6 +37,21 @@ public class BookShelfControler {
                 return "redirect:/staff/bookshelf/show-all";
             }
         }
+
+    @GetMapping("/bookshelf/detail/{bookshelfId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
+    public String detail(Model model,@PathVariable Integer bookshelfId,RedirectAttributes redirectAttributes)
+    {
+        try {
+            BookshelfCaseDTO detail=bookShelfService.findById(bookshelfId);
+            model.addAttribute("case",detail);
+            return "adminTemplate/bookShelf/bookshelf-detail";
+        }catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("alertError",e.getMessage());
+            return "redirect:/staff/bookshelf/show-all";
+        }
+    }
 
     @PostMapping("/bookshelf/search-blank-case")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
