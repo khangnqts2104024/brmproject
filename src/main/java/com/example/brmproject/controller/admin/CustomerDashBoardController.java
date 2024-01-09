@@ -64,7 +64,7 @@ public class CustomerDashBoardController {
         }catch (Exception e)
         {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
 
