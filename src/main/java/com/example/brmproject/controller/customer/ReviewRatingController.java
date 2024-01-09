@@ -24,17 +24,8 @@ public class ReviewRatingController {
         model.addAttribute("orderDetailId", orderDetailId);
         model.addAttribute("reviewObj", new OrderDetailDTO());
         model.addAttribute("orderId", orderId);
-        int bookId = 1;
-        ReviewRatingDTO reviewRatingDTO = reviewRatingService.getReviewRatingByBook(bookId);
 
-        System.out.println(reviewRatingDTO.getAvrRating());
-        reviewRatingDTO.getListReview().forEach(review -> {
-            System.out.println(review.getReview());
-            System.out.println(review.getRating());
-            System.out.println(review.getUsername());
-        });
-
-        return "/customerTemplate/review/reviewBook";
+        return "customerTemplate/review/reviewBook";
     }
 
     @PostMapping("/review/{orderId}/{orderDetailId}")

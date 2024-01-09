@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface OrdersEntityRepository extends JpaRepository<OrdersEntity, Integer> {
     @Query("SELECT o FROM OrdersEntity o WHERE o.orderStatus LIKE :orderStatus")
     List<OrdersEntity> findByorderStatus(@Param("orderStatus") String orderStatus);
-    @Query("SELECT o FROM OrdersEntity o WHERE o.customerId = :userId")
+    @Query("SELECT o FROM OrdersEntity o WHERE o.customerId = :userId" )
     List<OrdersEntity> findAllByUserId(int userId);
 
     Optional<OrdersEntity> findByIdAndCustomerId(int id, int customerId);

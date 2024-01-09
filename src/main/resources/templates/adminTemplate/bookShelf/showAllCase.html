@@ -24,6 +24,11 @@
                         <input type="text" id="searchQuery" name="num" placeholder="Enter number of blank space.">
                         <input  class="btn-primary" type="submit" value="Search">
                     </form>
+                    <form th:action="@{/staff/bookshelf/search-bookId}" method="post">
+                        <label for="searchQuery">Search By Book Id:</label>
+                        <input type="text" id="" name="bookId" placeholder="Enter Book id">
+                        <input  class="btn-primary" type="submit" value="Search">
+                    </form>
                     <br>
                     <div class="col-6 offset-3"><a class="btn btn-primary" th:href="@{/staff/bookshelf/create}">Create</a></div>
 
@@ -38,7 +43,7 @@
                             <th>Case Number</th>
                             <th> Available Blank</th>
                             <th> Capacity</th>
-                            <th>Action:</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -48,9 +53,7 @@
                             <td th:text="${c.getCaseNumber()}"></td>
                             <td th:text="${c.getAvailableBlank()}"></td>
                             <td th:text="${c.getCapacity()}"></td>
-                            <td>
-                                <a th:href="@{/staff/bookshelf/search/{bookId}(bookId=${c.getId()})}" class="btn btn-primary">Detail</a>
-                            </td>
+
                         </tr>
                         </tbody>
                     </table>
