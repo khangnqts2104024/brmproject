@@ -128,22 +128,16 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a th:href="@{/staff/materials}" class="nav-link">
+                                    <a th:href="@{/staff/books}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Book </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a th:href="@{/staff/materials/showAll}" class="nav-link">
+                                    <a th:href="@{/staff/categories}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Category </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a th:href="@{/staff/orders/showall}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Import Book</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -164,11 +158,17 @@
                                        <p>Employees</p>
                                    </a>
                                </li>
+                               <li class="nav-item">
+                                   <a th:href="@{/staff/customers/getAll}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Customers</p>
+                                   </a>
+                               </li>
                             </th:block>
                         </ul>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a th:href="@{/staff/logout}" class="nav-link">
+                        <a href="/mylogout" class="nav-link">
                             <i class="nav-icon far fa-plus-square"></i>
                             <p>
                                 Logout

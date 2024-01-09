@@ -26,17 +26,37 @@ public class BookShelfControler {
     @PostMapping("/bookshelf/search-bookId")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     public String searchByBookId(Model model,@RequestParam(name = "bookId") Integer bookId,RedirectAttributes redirectAttributes)
-        {
-            try {
-                BookshelfCaseDTO caseDTO = bookShelfService.searchByBookId(bookId);
-                model.addAttribute("case", caseDTO);
-                return "adminTemplate/bookShelf/bookshelf-detail";
-            }catch (Exception e)
+    {
+        try {
+            BookshelfCaseDTO caseDTO = bookShelfService.searchByBookId(bookId);
+            if(caseDTO==null)
             {
-                redirectAttributes.addFlashAttribute("alertError",e.getMessage());
+                redirectAttributes.addFlashAttribute("alertError","Can't find book shelf for this book!");
                 return "redirect:/staff/bookshelf/show-all";
             }
+            model.addAttribute("case", caseDTO);
+            return "adminTemplate/bookShelf/bookshelf-detail";
+        }catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("alertError",e.getMessage());
+            return "redirect:/staff/bookshelf/show-all";
         }
+    }
+
+    @GetMapping("/bookshelf/detail/{bookshelfId}")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
+    public String detail(Model model,@PathVariable Integer bookshelfId,RedirectAttributes redirectAttributes)
+    {
+        try {
+            BookshelfCaseDTO detail=bookShelfService.findById(bookshelfId);
+            model.addAttribute("case",detail);
+            return "adminTemplate/bookShelf/bookshelf-detail";
+        }catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("alertError",e.getMessage());
+            return "redirect:/staff/bookshelf/show-all";
+        }
+    }
 
     @GetMapping("/bookshelf/detail/{bookshelfId}")
     @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")

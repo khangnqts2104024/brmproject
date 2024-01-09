@@ -53,13 +53,18 @@
                                         <h4 class="mb-1 me-1" th:text="${'Price: $' + order.getBookByBookId().getPricePerDay()}">$34,50</h4>
                                     </div>
                                     <div class="mt-4">
-                                        <a th:unless="${order.isRated()}"
+                                        <a th:unless="${order.isRated() or order.getOrdersByOrderId().getOrderStatus().toString() == 'BOOKING'}"
                                              th:href="${'/customers/review/' + orderId +'/'+ order.getId()}"
                                            class="btn btn-primary"
-                                           type="button">Review</a>
+                                           type="button"
+                                        >Review</a>
                                         <button th:if="${order.isRated()}"
                                                 class="btn btn-secondary" disabled
                                                 type="button">Reviewed</button>
+
+                                        <button th:if="${order.getOrdersByOrderId().getOrderStatus().toString() == 'BOOKING'}"
+                                                class="btn btn-secondary" disabled
+                                                type="button">Booking</button>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,7 @@
 package com.example.brmproject.controller.auth;
 
 
+import com.example.brmproject.domain.dto.CustomerDTO;
 import com.example.brmproject.domain.dto.LoginRequestDTO;
 import com.example.brmproject.domain.dto.SignupRequestDTO;
 import com.example.brmproject.domain.entities.*;
@@ -97,7 +98,8 @@ public class AuthMvcController {
 
           Authentication authentication = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-  
+
+
           SecurityContextHolder.getContext().setAuthentication(authentication);
           UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
           String jwt = jwtUtils.generateJwtToken(authentication);
@@ -110,15 +112,14 @@ public class AuthMvcController {
           if (roles.stream().anyMatch(role -> role.equalsIgnoreCase("STAFF") || role.equalsIgnoreCase("ADMIN"))) {
             StaffEntity staff = staffEntityRepository.findByUserId(userDetails.getId()).get();
             userId = staff.getId();
-            url = "redirect:/login";
-
-            
+            url = "redirect:/staff/dashboard";
           } else {
               CustomerEntity customer = customerEntityRepository.findByUserId(userDetails.getId()).get();
               userId = customer.getId();
-            url = "redirect:/login";
+
+            url = "redirect:/";
           }
-  
+
           Cookie cookieJwt = createCookie("jwtToken", jwt);
           Cookie cookieInfo = createCookie("userId", Integer.toString(userId));
 
@@ -232,7 +233,7 @@ public class AuthMvcController {
     return cookie;
 }
 
-@GetMapping("/staff/logout")
+@GetMapping("/mylogout")
   public String logout(HttpServletRequest request, HttpServletResponse response){
   Cookie[] cookies = request.getCookies();
 

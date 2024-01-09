@@ -3,10 +3,7 @@ package com.example.brmproject.controller.customer;
 
 import com.example.brmproject.controller.auth.AuthenticationHelper;
 import com.example.brmproject.domain.dto.*;
-import com.example.brmproject.service.BookDetailService;
-import com.example.brmproject.service.BookService;
-import com.example.brmproject.service.OrderDetailService;
-import com.example.brmproject.service.OrderService;
+import com.example.brmproject.service.*;
 import com.example.brmproject.ultilities.StaticFunction;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +28,22 @@ public class OrderController {
     private BookDetailService bdService;
     private BookService bookService;
     private AuthenticationHelper authenticationHelper;
+    private CustomerService customerService;
 
     @Autowired
     public OrderController(OrderService service,
                            BookDetailService bdService,
                            OrderDetailService odService,
                            BookService bookService,
-                           AuthenticationHelper authenticationHelper
+                           AuthenticationHelper authenticationHelper,
+                            CustomerService customerService
     ) {
         this.service = service;
         this.odService = odService;
         this.bdService = bdService;
         this.bookService = bookService;
         this.authenticationHelper = authenticationHelper;
+        this.customerService=customerService;
     }
 
     @ModelAttribute("session")
@@ -131,11 +131,14 @@ public class OrderController {
                            @ModelAttribute("alertError") String alertError) {
 
         StaticFunction.showAlert(model,alertMessage,alertError);
-
         List<Integer> bookIds = session.getBookIdList();
         List<BookDTO> list = bookService.getListBookByBookId(bookIds);
         model.addAttribute("books", list);
         model.addAttribute("orderForm", new OrderFormDTO());
+
+        int userId = authenticationHelper.getUserIdFromAuthentication();
+        double customerDebit = customerService.findOne(userId).getDebit();
+        model.addAttribute("debit", customerDebit);
         return "customerTemplate/orders/cart";
     }
 
@@ -214,7 +217,7 @@ public class OrderController {
         model.addAttribute("orders", orderList);
         model.addAttribute("amount", orderList.size());
 
-        return "/customerTemplate/orders/orderList";
+        return "customerTemplate/orders/orderList";
     }
 
     @PreAuthorize("hasAuthority('CUSTOMER')")
@@ -227,6 +230,6 @@ public class OrderController {
         int order = orderDetailList.get(0).getOrderId();
         model.addAttribute("orderId", order);
 
-        return "/customerTemplate/orders/orderDetail";
+        return "customerTemplate/orders/orderDetail";
     }
 }

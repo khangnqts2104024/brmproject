@@ -132,6 +132,7 @@ public class OrderServiceImp implements OrderService {
             //keep $20.
         if(order.getOrderStatus().equals(OrderStatus.BOOKING.toString()) && (debit-order.getTotalAmount()>=20))
         {
+            updateBookDetailRent(mapToDTO(order));
             order.setOrderStatus(OrderStatus.RENT.toString());
             updateBookDetailRent(ordersDTO);
             order.setRentDate(formattedNow);
@@ -264,6 +265,8 @@ public class OrderServiceImp implements OrderService {
                 }
         }
     }
+
+
     //CHECK STOCK
 
 ///
