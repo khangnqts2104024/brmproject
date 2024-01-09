@@ -43,7 +43,7 @@ public class AdminOrderController {
             return "redirect:/staff/orders/show-all";
         }catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
 
@@ -59,7 +59,7 @@ public class AdminOrderController {
                  return "redirect:/staff/orders/show-all";
         }catch ( Exception e) {
                 model.addAttribute("message",e.getMessage());
-        return "/error";
+        return "error";
         }
     }
 
@@ -76,7 +76,7 @@ public class AdminOrderController {
             return "adminTemplate/order/order-show";
         }catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
     @GetMapping("/show-by-status/{status}")
@@ -92,7 +92,7 @@ public class AdminOrderController {
 
         }catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
     @GetMapping("/order-detail/{orderId}")
@@ -109,7 +109,7 @@ public class AdminOrderController {
             return "adminTemplate/order/order-detail";
             }catch (Exception e) {
                  model.addAttribute("message",e.getMessage());
-                 return "/error";
+                 return "error";
              }
     }
 }
