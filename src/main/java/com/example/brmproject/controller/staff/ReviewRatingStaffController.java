@@ -34,7 +34,7 @@ public class ReviewRatingStaffController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
 
-        return "/adminTemplate/reviewManage/reviewManage";
+        return "adminTemplate/reviewManage/reviewManage";
     }
 
     @GetMapping("/update-review-rating")
