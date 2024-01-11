@@ -130,7 +130,7 @@ public class BookStaffController {
             return "adminTemplate/books/showAllBook";
         } catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
 
@@ -151,7 +151,7 @@ public class BookStaffController {
             return "adminTemplate/books/updateBook";
         } catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
 
@@ -180,7 +180,7 @@ public class BookStaffController {
             return "redirect:/staff/books";
         } catch ( Exception e) {
             model.addAttribute("message",e.getMessage());
-            return "/error";
+            return "error";
         }
     }
 

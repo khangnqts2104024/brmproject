@@ -83,7 +83,7 @@ public class AuthMvcController {
 
   @GetMapping("/forbidden")
   public String forbidden(){
-    return "/forbidden";
+    return "forbidden";
   }
 
   @PostMapping("/login")
